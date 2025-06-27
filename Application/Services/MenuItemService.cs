@@ -12,12 +12,12 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 {
     #region Injection
     
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly ICategoryService _categoryService;
 
-    public MenuItemService(IMapper mapper,IMenuItemRepository menuItemRepository, ICategoryRepository categoryRepository)
+    public MenuItemService(IMapper mapper,IMenuItemRepository menuItemRepository, ICategoryService categoryService)
         : base(mapper, menuItemRepository)
     {
-        _categoryRepository = categoryRepository;
+        _categoryService = categoryService;
     }
 
     #endregion
@@ -26,10 +26,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
     public async Task<IEnumerable<CategoryDto>> GetMenuItemsAsync()
     {
-        var queryable = _categoryRepository.GetQueryable();
-        var query = queryable.Include(c => c.Sections).ThenInclude(s => s.MenuItems)
-;
-        var result = await query.ProjectTo<CategoryDto>(Mapper.ConfigurationProvider).ToListAsync();
+        var result = await _categoryService.GetAllProjectedAsync<CategoryDto>();
         return result;
     }
 
