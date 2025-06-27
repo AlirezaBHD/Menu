@@ -1,6 +1,6 @@
 namespace Domain.Entities;
 
-public class Section
+public class Section: BaseEntity
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = default!;
