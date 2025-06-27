@@ -1,3 +1,4 @@
+using Application.Dto.Category;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -15,4 +16,14 @@ public class CategoryService : Service<Category>, ICategoryService
     }
 
     #endregion
+
+    public async Task<CategoryResponse> CreateCategory(Guid restaurantId, CreateCategoryRequest createCategoryRequest)
+    {
+        var entity = Mapper.Map<CreateCategoryRequest, Category>(createCategoryRequest);
+        entity.RestaurantId = restaurantId;
+        await Repository.AddAsync(entity);
+        await Repository.SaveAsync();
+        var response = Mapper.Map<Category, CategoryResponse>(entity);
+        return response;
+    }
 }
