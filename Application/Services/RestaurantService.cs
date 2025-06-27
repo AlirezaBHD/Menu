@@ -1,21 +1,18 @@
 using Application.Services.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 using Domain.RepositoryInterfaces;
 
 namespace Application.Services;
 
 
-public class RestaurantService : IRestaurantService
+public class RestaurantService :Service<Restaurant>, IRestaurantService
 {
     #region Injection
 
-    private readonly IRestaurantRepository _restaurantRepository;
-    private readonly IMapper _mapper;
-
-    public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper)
+    public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper) 
+        : base(mapper, restaurantRepository)
     {
-        _restaurantRepository = restaurantRepository;
-        _mapper = mapper;
     }
 
     #endregion

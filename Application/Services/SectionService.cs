@@ -1,20 +1,17 @@
 using Application.Services.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 using Domain.RepositoryInterfaces;
 
 namespace Application.Services;
 
-public class SectionService : ISectionService
+public class SectionService : Service<Section>, ISectionService
 {
     #region Injection
 
-    private readonly ISectionRepository _sectionRepository;
-    private readonly IMapper _mapper;
-
-    public SectionService(ISectionRepository sectionRepository, IMapper mapper)
+    public SectionService(ISectionRepository sectionRepository, IMapper mapper) 
+        : base(mapper, sectionRepository)
     {
-        _sectionRepository = sectionRepository;
-        _mapper = mapper;
     }
 
     #endregion

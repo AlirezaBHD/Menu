@@ -1,6 +1,7 @@
+using Domain.Entities;
+
 namespace Application.Services.Interfaces;
 
-public interface IRestaurantService
+public interface IRestaurantService : IService<Restaurant>
 {
-    
 }

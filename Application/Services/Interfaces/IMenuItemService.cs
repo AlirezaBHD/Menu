@@ -1,6 +1,8 @@
+using Domain.Entities;
+
 namespace Application.Services.Interfaces;
 
-public interface IMenuItemService
+public interface IMenuItemService: IService<MenuItem>
 {
     
 }
