@@ -5,7 +5,6 @@ namespace Domain.Entities;
 [DisplayName("رستوران")]
 public class Restaurant: BaseEntity
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = default!;
     public Guid OwnerId { get; set; }
     public string Address { get; set; } = default!;

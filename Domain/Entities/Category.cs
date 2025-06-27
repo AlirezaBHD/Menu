@@ -5,7 +5,6 @@ namespace Domain.Entities;
 [DisplayName("دسته بندی")]
 public class Category: BaseEntity
 {
-    public Guid Id { get; set; }
     public string Title { get; set; } = default!;
     public Guid RestaurantId { get; set; }
 

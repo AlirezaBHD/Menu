@@ -1,12 +1,13 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities;
 
 [DisplayName("آیتم منو")]
 public class MenuItem: BaseEntity
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; } = default!;
+    [MaxLength(50)]
+    public required string Title { get; set; }
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public string? ImagePath { get; set; }
