@@ -14,16 +14,16 @@ public class Service<T> : IService<T> where T : class
 {
     #region Injections
 
-    private readonly IMapper _mapper;
-    private readonly IRepository<T> _repository;
-    private readonly IQueryable<T> _queryable;
+    protected readonly IMapper Mapper;
+    protected readonly IRepository<T> Repository;
+    protected readonly IQueryable<T> Queryable;
     private readonly string _displayName;
 
     public Service(IMapper mapper, IRepository<T> repository)
     {
-        _mapper = mapper;
-        _repository = repository;
-        _queryable = repository.GetQueryable();
+        Mapper = mapper;
+        Repository = repository;
+        Queryable = repository.GetQueryable();
         _displayName = typeof(T)
             .GetCustomAttributes(typeof(DisplayNameAttribute), true)
             .OfType<DisplayNameAttribute>()
@@ -41,7 +41,7 @@ public class Service<T> : IService<T> where T : class
         bool orderByNewest = true,
         IQueryable<T>? query = null)
     {
-        query ??= _queryable;
+        query ??= Queryable;
 
         if (orderByNewest)
         {
@@ -74,7 +74,7 @@ public class Service<T> : IService<T> where T : class
                 break;
         }
 
-        var result = await query.ProjectTo<TDto>(_mapper.ConfigurationProvider).ToListAsync();
+        var result = await query.ProjectTo<TDto>(Mapper.ConfigurationProvider).ToListAsync();
         return result;
     }
 
@@ -89,7 +89,7 @@ public class Service<T> : IService<T> where T : class
         TrackingBehavior trackingBehavior = TrackingBehavior.Default,
         IQueryable<T>? query = null)
     {
-        query ??= _queryable;
+        query ??= Queryable;
 
         if (includes != null)
             foreach (var include in includes)
@@ -115,7 +115,7 @@ public class Service<T> : IService<T> where T : class
                 break;
         }
 
-        var obj = await query.ProjectTo<TDto>(_mapper.ConfigurationProvider)
+        var obj = await query.ProjectTo<TDto>(Mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(e => EF.Property<Guid>(e!, "Id") == id);
         
         if (obj == null)
@@ -133,7 +133,7 @@ public class Service<T> : IService<T> where T : class
         Expression<Func<T, object>>[]? includes = null,
         IQueryable<T>? query = null)
     {
-        query ??= _queryable;
+        query ??= Queryable;
 
         if (predicate != null)
         {
