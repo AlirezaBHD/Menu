@@ -24,6 +24,22 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         return base.SaveChangesAsync(cancellationToken);
     }
     
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        var baseEntityType = typeof(BaseEntity);
+        var entityTypes = modelBuilder.Model.GetEntityTypes()
+            .Where(t => t.ClrType is { IsClass: true, IsAbstract: false } && baseEntityType.IsAssignableFrom(t.ClrType));
+
+        foreach (var entityType in entityTypes)
+        {
+            modelBuilder.Entity(entityType.ClrType)
+                .Property(nameof(BaseEntity.Id))
+                .HasDefaultValueSql("gen_random_uuid()");
+        }
+    }
+    
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Section> Sections => Set<Section>();
