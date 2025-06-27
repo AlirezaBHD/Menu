@@ -1,11 +1,13 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities;
 
 [DisplayName("دسته بندی")]
 public class Category: BaseEntity
 {
-    public string Title { get; set; } = default!;
+    [MaxLength(50)]
+    public required string Title { get; set; }
     public Guid RestaurantId { get; set; }
 
     public Restaurant? Restaurant { get; set; }

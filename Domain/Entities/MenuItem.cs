@@ -8,11 +8,11 @@ public class MenuItem: BaseEntity
 {
     [MaxLength(50)]
     public required string Title { get; set; }
+    [MaxLength(300)]
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public string? ImagePath { get; set; }
     public bool IsAvailable { get; set; } = true;
     public Guid SectionId { get; set; }
-
     public Section? Section { get; set; }
 }
