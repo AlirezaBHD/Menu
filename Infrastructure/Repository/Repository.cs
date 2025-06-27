@@ -57,10 +57,10 @@ namespace Infrastructure.Repository;
 
         #region Get Queryable
 
-        public Task<IQueryable<T>> GetQueryable()
+        public IQueryable<T> GetQueryable()
         {
             var query = _context.Set<T>().AsQueryable();
-            return Task.FromResult(query);
+            return query;
         }
 
         #endregion

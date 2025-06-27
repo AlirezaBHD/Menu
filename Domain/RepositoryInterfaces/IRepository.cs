@@ -41,7 +41,7 @@ public interface IRepository<T> where T : class
 
     #region Get IQuaryable
 
-    Task<IQueryable<T>> GetQueryable();
+    IQueryable<T> GetQueryable();
 
     #endregion
 }
