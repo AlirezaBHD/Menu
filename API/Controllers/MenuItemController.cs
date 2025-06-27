@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Restaurant/{restaurantId}/[controller]")]
 public class MenuItemController : ControllerBase
 {
     private readonly IMenuItemService _menuItemService;
@@ -14,9 +14,9 @@ public class MenuItemController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromRoute] Guid restaurantId)
     {
-        var menus = await _menuItemService.GetMenuItemsAsync();
+        var menus = await _menuItemService.GetMenuItemsAsync(restaurantId);
         return Ok(menus);
     }
 }
