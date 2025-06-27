@@ -1,5 +1,8 @@
+using System.ComponentModel;
+
 namespace Domain.Entities;
 
+[DisplayName("دسته بندی")]
 public class Category: BaseEntity
 {
     public Guid Id { get; set; }

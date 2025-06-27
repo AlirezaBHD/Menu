@@ -1,5 +1,8 @@
+using System.ComponentModel;
+
 namespace Domain.Entities;
 
+[DisplayName("رستوران")]
 public class Restaurant: BaseEntity
 {
     public Guid Id { get; set; }

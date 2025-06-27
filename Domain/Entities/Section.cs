@@ -1,5 +1,8 @@
+using System.ComponentModel;
+
 namespace Domain.Entities;
 
+[DisplayName("بخش")]
 public class Section: BaseEntity
 {
     public Guid Id { get; set; }

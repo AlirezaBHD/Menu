@@ -1,5 +1,8 @@
+using System.ComponentModel;
+
 namespace Domain.Entities;
 
+[DisplayName("آیتم منو")]
 public class MenuItem: BaseEntity
 {
     public Guid Id { get; set; }
