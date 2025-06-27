@@ -1,3 +1,5 @@
+using Application;
+using Application.Services.Interfaces;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         .UseSnakeCaseNamingConvention());
 
 builder.Services.AddAutoMapper(typeof(IMenuItemService).Assembly);
+
+builder.Services.AddApplicationServices();
+builder.Services.AddApplicationRepositories();
 
 var app = builder.Build();
 
