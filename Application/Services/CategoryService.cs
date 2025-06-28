@@ -26,4 +26,10 @@ public class CategoryService : Service<Category>, ICategoryService
         var response = Mapper.Map<Category, CategoryResponse>(entity);
         return response;
     }
+    
+    public async Task<CategoryResponse> GetCategoryById(Guid categoryId)
+    {
+        var response =await GetByIdProjectedAsync<CategoryResponse>(categoryId, trackingBehavior:TrackingBehavior.AsNoTracking);
+        return response;
+    }
 }
