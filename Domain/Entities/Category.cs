@@ -6,6 +6,7 @@ namespace Domain.Entities;
 [DisplayName("دسته بندی")]
 public class Category: BaseEntity
 {
+    [Display(Name = "عنوان")]
     [MaxLength(50)]
     public required string Title { get; set; }
     public Guid RestaurantId { get; set; }
