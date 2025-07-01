@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/Restaurant/{restaurantId}/[controller]")]
+[Route("api/[controller]")]
 public class CategoryController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
@@ -16,7 +16,7 @@ public class CategoryController : ControllerBase
         _categoryService = categoryService;
     }
 
-    [HttpPost]
+    [HttpPost("/Restaurant/{restaurantId}/[controller]")]
     public async Task<IActionResult> CreateCategory([FromRoute] Guid restaurantId,
         [FromBody] CreateCategoryRequest createCategoryRequest)
     {
@@ -31,4 +31,12 @@ public class CategoryController : ControllerBase
         var category = await _categoryService.GetCategoryById(categoryId: id);
         return Ok(category);
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteCategoryById(Guid id)
+    {
+        await _categoryService.DeleteCategoryAsync(id: id);
+        return NoContent();
+    }
+
 }

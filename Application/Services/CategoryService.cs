@@ -32,4 +32,11 @@ public class CategoryService : Service<Category>, ICategoryService
         var response =await GetByIdProjectedAsync<CategoryResponse>(categoryId, trackingBehavior:TrackingBehavior.AsNoTracking);
         return response;
     }
+
+    public async Task DeleteCategoryAsync(Guid id)
+    {
+        var category = await Repository.GetByIdAsync(id);
+        Repository.Remove(category);
+        await Repository.SaveAsync();
+    }
 }
