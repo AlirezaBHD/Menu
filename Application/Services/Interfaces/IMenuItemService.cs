@@ -5,5 +5,5 @@ namespace Application.Services.Interfaces;
 
 public interface IMenuItemService: IService<MenuItem>
 {
-    Task<IEnumerable<CategoryDto>> GetMenuItemsAsync(Guid restaurantId);
+    Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(Guid restaurantId);
 }

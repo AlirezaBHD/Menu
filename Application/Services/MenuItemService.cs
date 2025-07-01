@@ -20,11 +20,11 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
     #endregion
 
-    #region Get Menu Items
+    #region Get Restaurant Menu Async
 
-    public async Task<IEnumerable<CategoryDto>> GetMenuItemsAsync(Guid restaurantId)
+    public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(Guid restaurantId)
     {
-        var result = await _categoryService.GetAllProjectedAsync<CategoryDto>(
+        var result = await _categoryService.GetAllProjectedAsync<RestaurantMenuDto>(
             predicate: c => c.RestaurantId == restaurantId);
         return result;
     }
