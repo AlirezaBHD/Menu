@@ -53,4 +53,11 @@ public class MenuItemController : ControllerBase
             createMenuItemRequest: createMenuItemRequest);
         return Ok(menuItem);
     }
-}
+    
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteMenuItemById([FromRoute] Guid id)
+    {
+        await _menuItemService.DeleteMenuItemAsync(id: id);
+        return NoContent();
+    }}

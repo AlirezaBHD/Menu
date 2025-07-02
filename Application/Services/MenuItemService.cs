@@ -14,7 +14,8 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     private readonly ICategoryService _categoryService;
     private readonly IFileService _fileService;
 
-    public MenuItemService(IMapper mapper, IMenuItemRepository menuItemRepository, ICategoryService categoryService, IFileService fileService)
+    public MenuItemService(IMapper mapper, IMenuItemRepository menuItemRepository, ICategoryService categoryService,
+        IFileService fileService)
         : base(mapper, menuItemRepository)
     {
         _categoryService = categoryService;
@@ -45,5 +46,12 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         await Repository.SaveAsync();
         var response = Mapper.Map<MenuItem, MenuItemResponse>(entity);
         return response;
+    }
+
+    public async Task DeleteMenuItemAsync(Guid id)
+    {
+        var section = await Repository.GetByIdAsync(id);
+        Repository.Remove(section);
+        await Repository.SaveAsync();
     }
 }
