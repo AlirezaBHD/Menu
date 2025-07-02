@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services;
 
@@ -10,14 +11,17 @@ public class CategoryService : Service<Category>, ICategoryService
 {
     #region Injection
 
-    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
+    private readonly ISectionRepository _sectionRepository;
+
+    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository)
         : base(mapper, categoryRepository)
     {
+        _sectionRepository = sectionRepository;
     }
 
     #endregion
 
-    public async Task<CategoryResponse> CreateCategory(Guid restaurantId, CreateCategoryRequest createCategoryRequest)
+    public async Task<CategoryResponse> CreateCategoryAsync(Guid restaurantId, CreateCategoryRequest createCategoryRequest)
     {
         var entity = Mapper.Map<CreateCategoryRequest, Category>(createCategoryRequest);
         entity.RestaurantId = restaurantId;
@@ -38,6 +42,23 @@ public class CategoryService : Service<Category>, ICategoryService
     {
         var category = await Repository.GetByIdAsync(id);
         Repository.Remove(category);
+        await Repository.SaveAsync();
+    }
+
+    public async Task UpdateCategoryAsync(Guid id, UpdateCategoryRequest dto)
+    {
+        var category = await Repository.GetByIdAsync(id);
+        category = Mapper.Map(dto, category);
+        
+        var sectionIds = dto.SectionIds?.Distinct().ToList() ?? [];
+
+        var sections = await _sectionRepository.GetQueryable()
+            .Where(s => sectionIds.Contains(s.Id))
+            .ToListAsync();
+        
+        category.Sections = sections;
+
+        Repository.Update(category);
         await Repository.SaveAsync();
     }
 }

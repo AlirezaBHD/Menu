@@ -37,4 +37,13 @@ public class CategoryController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCategory([FromRoute] Guid id,
+        [FromBody] UpdateCategoryRequest updateCategoryDto)
+    {
+        await _categoryService.UpdateCategoryAsync(id: id, dto: updateCategoryDto);
+        return NoContent();
+    }
+
+
 }
