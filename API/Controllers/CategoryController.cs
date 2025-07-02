@@ -10,17 +10,16 @@ public class CategoryController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
 
-
     public CategoryController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
     }
 
-    [HttpPost("/Restaurant/{restaurantId}/[controller]")]
+    [HttpPost("/api/restaurant/{restaurantId}/[controller]")]
     public async Task<IActionResult> CreateCategory([FromRoute] Guid restaurantId,
         [FromBody] CreateCategoryRequest createCategoryRequest)
     {
-        var category = await _categoryService.CreateCategory(restaurantId: restaurantId,
+        var category = await _categoryService.CreateCategoryAsync(restaurantId: restaurantId,
             createCategoryRequest: createCategoryRequest);
         return Ok(category);
     }
