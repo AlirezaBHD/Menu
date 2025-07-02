@@ -5,7 +5,7 @@ namespace Application.Services.Interfaces;
 
 public interface ICategoryService : IService<Category>
 {
-    Task<CategoryResponse> CreateCategory(Guid restaurantId, CreateCategoryRequest createCategoryRequest);
     Task<CategoryResponse> GetCategoryById(Guid categoryId);
     Task DeleteCategoryAsync(Guid id);
+    Task UpdateCategoryAsync(Guid id, UpdateCategoryRequest dto);
 }
