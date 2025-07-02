@@ -1,3 +1,4 @@
+using Application.Dto.MenuItem;
 using Application.Services.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,7 @@ public class MenuItemController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpGet("/api/[controller]/CRestaurant/{restaurantId}")]
+    [HttpGet("/api/[controller]/restaurant/{restaurantId}")]
     public async Task<IActionResult> GetAll([FromRoute] Guid restaurantId)
     {
         var menus = await _menuItemService.GetRestaurantMenuAsync(restaurantId);
@@ -42,5 +43,14 @@ public class MenuItemController : ControllerBase
             return Ok(new { message = "User created successfully", userId = user.Id });
 
         return BadRequest(result.Errors);
+    }
+    
+    [HttpPost("/api/section/{sectionId}/[controller]")]
+    public async Task<IActionResult> CreateMenuItem([FromRoute] Guid sectionId,
+        [FromBody] CreateMenuItemRequest createMenuItemRequest)
+    {
+        var menuItem = await _menuItemService.CreateMenuItemAsync(sectionId: sectionId,
+            createMenuItemRequest: createMenuItemRequest);
+        return Ok(menuItem);
     }
 }
