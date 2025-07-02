@@ -1,3 +1,4 @@
+using Application.Dto.Section;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -15,4 +16,14 @@ public class SectionService : Service<Section>, ISectionService
     }
 
     #endregion
+
+    public async Task<SectionResponse> CreateSectionAsync(Guid categoryId, CreateSectionRequest createSectionRequest)
+    {
+        var entity = Mapper.Map<CreateSectionRequest, Section>(createSectionRequest);
+        entity.CategoryId = categoryId;
+        await Repository.AddAsync(entity);
+        await Repository.SaveAsync();
+        var response = Mapper.Map<Section, SectionResponse>(entity);
+        return response;
+    }
 }
