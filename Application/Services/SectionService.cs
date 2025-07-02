@@ -52,11 +52,11 @@ public class SectionService : Service<Section>, ISectionService
 
         var sectionIds = dto.MenuItemIds?.Distinct().ToList() ?? [];
 
-        var MenuItems = await _menuItemRepository.GetQueryable()
+        var menuItems = await _menuItemRepository.GetQueryable()
             .Where(s => sectionIds.Contains(s.Id))
             .ToListAsync();
 
-        section.MenuItems = MenuItems;
+        section.MenuItems = menuItems;
 
         Repository.Update(section);
         await Repository.SaveAsync();
