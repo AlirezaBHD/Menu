@@ -6,7 +6,9 @@ using Domain.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +19,14 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryRequestValidator>();
 
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+});
+
+builder.Services.AddFluentValidationRulesToSwagger();
+
 builder.Services.AddControllers(options =>
 {
     options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseParameterTransformer()));
