@@ -7,10 +7,11 @@ namespace Application.Extensions;
 
 public static class ValidationExtensions
 {
-    public static IRuleBuilder<T, string> ApplyLengthValidation<T>(
-        this IRuleBuilderInitial<T, string> ruleBuilder,
+    public static IRuleBuilderOptions<T, string> ApplyLengthValidation<T>(
+        this IRuleBuilder<T, string> ruleBuilder,
         Expression<Func<T, string>> expression,
-        Type entityType
+        Type entityType,
+        bool blank = false
     )
     {
         var propertyName = GetPropertyName(expression);
@@ -20,8 +21,13 @@ public static class ValidationExtensions
 
         var maxLengthAttr = prop?.GetCustomAttribute<MaxLengthAttribute>();
 
-        var rule = ruleBuilder.NotEmpty()
-            .WithMessage($"{displayName} نباید خالی باشد");
+        var rule = ruleBuilder.NotEmpty().When(x => false); //just a placeholder
+        if (!blank)
+        {
+            rule = rule.NotEmpty()
+                .WithMessage($"{displayName} نباید خالی باشد")
+                .NotNull().WithMessage($"{displayName} الزامی است");
+        }
 
         if (maxLengthAttr != null)
         {
