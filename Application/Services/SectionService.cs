@@ -33,4 +33,10 @@ public class SectionService : Service<Section>, ISectionService
             await GetByIdProjectedAsync<SectionResponse>(sectionId, trackingBehavior: TrackingBehavior.AsNoTracking);
         return response;
     }
+
+    public async Task DeleteSectionAsync(Guid id)
+    {
+        var section = await Repository.GetByIdAsync(id);
+        Repository.Remove(section);
+        await Repository.SaveAsync();    }
 }

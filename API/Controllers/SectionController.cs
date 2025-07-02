@@ -30,4 +30,11 @@ public class SectionController : ControllerBase
         var section = await _sectionService.GetSectionByIdAsync(sectionId: id);
         return Ok(section);
     }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteSectionById([FromRoute] Guid id)
+    {
+        await _sectionService.DeleteSectionAsync(id: id);
+        return NoContent();
+    }
 }
