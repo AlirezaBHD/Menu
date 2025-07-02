@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services;
 
@@ -10,9 +11,12 @@ public class SectionService : Service<Section>, ISectionService
 {
     #region Injection
 
-    public SectionService(ISectionRepository sectionRepository, IMapper mapper) 
+    private readonly IMenuItemRepository _menuItemRepository;
+
+    public SectionService(ISectionRepository sectionRepository, IMapper mapper, IMenuItemRepository menuItemRepository)
         : base(mapper, sectionRepository)
     {
+        _menuItemRepository = menuItemRepository;
     }
 
     #endregion
@@ -38,5 +42,23 @@ public class SectionService : Service<Section>, ISectionService
     {
         var section = await Repository.GetByIdAsync(id);
         Repository.Remove(section);
-        await Repository.SaveAsync();    }
+        await Repository.SaveAsync();
+    }
+
+    public async Task UpdateSectionAsync(Guid id, UpdateSectionRequest dto)
+    {
+        var section = await Repository.GetByIdAsync(id);
+        section = Mapper.Map(dto, section);
+
+        var sectionIds = dto.MenuItemIds?.Distinct().ToList() ?? [];
+
+        var MenuItems = await _menuItemRepository.GetQueryable()
+            .Where(s => sectionIds.Contains(s.Id))
+            .ToListAsync();
+
+        section.MenuItems = MenuItems;
+
+        Repository.Update(section);
+        await Repository.SaveAsync();
+    }
 }

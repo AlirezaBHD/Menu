@@ -37,4 +37,12 @@ public class SectionController : ControllerBase
         await _sectionService.DeleteSectionAsync(id: id);
         return NoContent();
     }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateSection([FromRoute] Guid id,
+        [FromBody] UpdateSectionRequest updateSectionRequest)
+    {
+        await _sectionService.UpdateSectionAsync(id: id, dto: updateSectionRequest);
+        return NoContent();
+    }
 }

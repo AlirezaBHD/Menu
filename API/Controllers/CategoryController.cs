@@ -45,6 +45,4 @@ public class CategoryController : ControllerBase
         await _categoryService.UpdateCategoryAsync(id: id, dto: updateCategoryDto);
         return NoContent();
     }
-
-
 }
