@@ -10,5 +10,7 @@ public class MenuItemProfile : Profile
     {
         CreateMap<MenuItem, MenuItemDto>();
         CreateMap<MenuItem, MenuItemResponse>();
+        CreateMap<CreateMenuItemRequest, MenuItem>();
+        CreateMap<UpdateMenuItemRequest, MenuItem>();
     }
 }
