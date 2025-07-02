@@ -23,4 +23,11 @@ public class SectionController : ControllerBase
             createSectionRequest: createSectionRequest);
         return Ok(section);
     }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSectionById([FromRoute] Guid id)
+    {
+        var section = await _sectionService.GetSectionByIdAsync(sectionId: id);
+        return Ok(section);
+    }
 }

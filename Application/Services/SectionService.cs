@@ -26,4 +26,11 @@ public class SectionService : Service<Section>, ISectionService
         var response = Mapper.Map<Section, SectionResponse>(entity);
         return response;
     }
+
+    public async Task<SectionResponse> GetSectionByIdAsync(Guid sectionId)
+    {
+        var response =
+            await GetByIdProjectedAsync<SectionResponse>(sectionId, trackingBehavior: TrackingBehavior.AsNoTracking);
+        return response;
+    }
 }
