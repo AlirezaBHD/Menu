@@ -47,7 +47,7 @@ public class MenuItemController : ControllerBase
     
     [HttpPost("/api/section/{sectionId}/[controller]")]
     public async Task<IActionResult> CreateMenuItem([FromRoute] Guid sectionId,
-        [FromBody] CreateMenuItemRequest createMenuItemRequest)
+        [FromForm] CreateMenuItemRequest createMenuItemRequest)
     {
         var menuItem = await _menuItemService.CreateMenuItemAsync(sectionId: sectionId,
             createMenuItemRequest: createMenuItemRequest);
@@ -64,7 +64,7 @@ public class MenuItemController : ControllerBase
     
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMenuItem([FromRoute] Guid id,
-        [FromBody] UpdateMenuItemRequest updateMenuItemRequest)
+        [FromForm] UpdateMenuItemRequest updateMenuItemRequest)
     {
         await _menuItemService.UpdateMenuItemAsync(id: id, dto: updateMenuItemRequest);
         return NoContent();
