@@ -1,4 +1,5 @@
 using Application;
+using Application.Extensions;
 using Application.Services.Interfaces;
 using Application.Validations.Category;
 using Domain.Entities;
@@ -17,6 +18,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryRequestValida
 
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseParameterTransformer()));
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
