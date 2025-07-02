@@ -8,9 +8,11 @@ public class SectionProfile : Profile
 {
     public SectionProfile()
     {
-        CreateMap<Section, SectionDto>()
+        CreateMap<Section, AvailableMenuItemSectionDto>()
             .ForMember(dest => dest.MenuItems, opt =>
             opt.MapFrom(src => src.MenuItems
                 .Where(mi => mi.IsAvailable)));
+
+        CreateMap<Section, SectionDto>();
     }
 }
