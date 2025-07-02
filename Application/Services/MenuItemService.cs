@@ -54,4 +54,19 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         Repository.Remove(section);
         await Repository.SaveAsync();
     }
+
+    public async Task UpdateMenuItemAsync(Guid id, UpdateMenuItemRequest dto)
+    {
+        var menuItem = await Repository.GetByIdAsync(id);
+        menuItem = Mapper.Map(dto, menuItem);
+
+        if (dto.ImageFile != null)
+        {
+            var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "MenuItem");
+            menuItem.ImagePath = imagePath;
+        }
+
+        Repository.Update(menuItem);
+        await Repository.SaveAsync();    
+    }
 }

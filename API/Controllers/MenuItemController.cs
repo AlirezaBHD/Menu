@@ -60,4 +60,13 @@ public class MenuItemController : ControllerBase
     {
         await _menuItemService.DeleteMenuItemAsync(id: id);
         return NoContent();
-    }}
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateMenuItem([FromRoute] Guid id,
+        [FromBody] UpdateMenuItemRequest updateMenuItemRequest)
+    {
+        await _menuItemService.UpdateMenuItemAsync(id: id, dto: updateMenuItemRequest);
+        return NoContent();
+    }
+}
