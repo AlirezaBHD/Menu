@@ -18,7 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         foreach (var entry in entries)
         {
-            entry.Entity.ModifiedOn = DateTime.Now;
+            entry.Entity.ModifiedOn = DateTime.UtcNow;
         }
 
         return base.SaveChangesAsync(cancellationToken);
