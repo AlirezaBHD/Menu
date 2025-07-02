@@ -24,10 +24,9 @@ public class CategoryController : ControllerBase
         return Ok(category);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetCategoryById([FromRoute] Guid restaurantId, Guid id)
+    public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
     {
-        var category = await _categoryService.GetCategoryById(categoryId: id);
+        var category = await _categoryService.GetCategoryByIdAsync(categoryId: id);
         return Ok(category);
     }
 
