@@ -9,5 +9,6 @@ public class MenuItemProfile : Profile
     public MenuItemProfile()
     {
         CreateMap<MenuItem, MenuItemDto>();
+        CreateMap<MenuItem, MenuItemResponse>();
     }
 }
