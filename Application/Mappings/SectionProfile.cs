@@ -16,5 +16,6 @@ public class SectionProfile : Profile
         CreateMap<Section, SectionDto>();
         CreateMap<CreateSectionRequest, Section>();
         CreateMap<Section, SectionResponse>();
+        CreateMap<UpdateSectionRequest, Section>();
     }
 }
