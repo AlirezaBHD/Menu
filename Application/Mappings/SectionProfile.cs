@@ -14,5 +14,7 @@ public class SectionProfile : Profile
                 .Where(mi => mi.IsAvailable)));
 
         CreateMap<Section, SectionDto>();
+        CreateMap<CreateSectionRequest, Section>();
+        CreateMap<Section, SectionResponse>();
     }
 }
