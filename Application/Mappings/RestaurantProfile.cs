@@ -10,5 +10,6 @@ public class RestaurantProfile : Profile
     public RestaurantProfile()
     {
         CreateMap<CreateRestaurantRequest,Restaurant>();
+        CreateMap<UpdateRestaurantRequest,Restaurant>();
     }
 }
