@@ -47,7 +47,9 @@ public class CategoryService : Service<Category>, ICategoryService
 
     public async Task UpdateCategoryAsync(Guid id, UpdateCategoryRequest dto)
     {
-        var category = await Repository.GetByIdAsync(id);
+        var category = await Repository.GetQueryable().Include(c => c.Sections)
+            .FirstAsync(c => c.Id == id);
+        
         category = Mapper.Map(dto, category);
         
         var sectionIds = dto.SectionIds?.Distinct().ToList() ?? [];
