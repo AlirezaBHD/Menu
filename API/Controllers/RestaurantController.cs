@@ -22,4 +22,13 @@ public class RestaurantController : ControllerBase
         await _restaurantService.CreateRestaurantAsync(createRestaurantRequest: createRestaurantRequest);
         return NoContent();
     }
+
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateRestaurant([FromRoute] Guid id,
+        [FromForm] UpdateRestaurantRequest updateRestaurantRequest)
+    {
+        await _restaurantService.UpdateRestaurantAsync(id: id, dto: updateRestaurantRequest);
+        return NoContent();
+    }
 }
