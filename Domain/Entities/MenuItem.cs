@@ -10,7 +10,7 @@ public class MenuItem: BaseEntity
     [Display(Name = "عنوان")]
     public required string Title { get; set; }
     
-    [MaxLength(30)]
+    [MaxLength(300)]
     [Display(Name = "توضیحات")]
     public string? Description { get; set; }
     
@@ -22,6 +22,6 @@ public class MenuItem: BaseEntity
     
     [Display(Name = "فعال بودن")]
     public bool IsAvailable { get; set; } = true;
-    public Guid SectionId { get; set; }
+    public Guid? SectionId { get; set; }
     public Section? Section { get; set; }
 }
