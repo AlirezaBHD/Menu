@@ -11,6 +11,6 @@ public class CreateSectionRequestValidator : AbstractValidator<CreateSectionRequ
         var entityType = typeof(Domain.Entities.Section);
         
         RuleFor(c => c.Title)!
-            .ApplyLengthValidation(dto => dto.Title!, entityType);
+            .LengthValidationRule(dto => dto.Title!, entityType);
     }
 }

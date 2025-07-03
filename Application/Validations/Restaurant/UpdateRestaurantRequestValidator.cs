@@ -11,14 +11,14 @@ public class UpdateRestaurantRequestValidator : AbstractValidator<UpdateRestaura
         var entityType = typeof(Domain.Entities.MenuItem);
 
         RuleFor(r => r.Name)!
-            .ApplyLengthValidation(dto => dto.Name, entityType);
+            .LengthValidationRule(dto => dto.Name, entityType);
 
         RuleFor(r => r.Description)!
-            .ApplyLengthValidation(dto => dto.Description!, entityType, blank: true);
+            .LengthValidationRule(dto => dto.Description!, entityType, blank: true);
 
         RuleFor(r => r.Address)!
-            .ApplyLengthValidation(dto => dto.Address, entityType);
+            .LengthValidationRule(dto => dto.Address, entityType);
 
-        RuleFor(r => r.LogoFile)!.ImageRule(blank: true);
+        RuleFor(r => r.LogoFile)!.ImageFileRule(blank: true);
     }
 }

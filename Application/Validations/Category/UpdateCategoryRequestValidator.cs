@@ -11,6 +11,6 @@ public class UpdateCategoryRequestValidator : AbstractValidator<UpdateCategoryRe
         var entityType = typeof(Domain.Entities.Category);
         
         RuleFor(c => c.Title)!
-            .ApplyLengthValidation(dto => dto.Title!, entityType);
+            .LengthValidationRule(dto => dto.Title!, entityType);
     }
 }
