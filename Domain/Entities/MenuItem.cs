@@ -23,5 +23,6 @@ public class MenuItem: BaseEntity
     [Display(Name = "فعال بودن")]
     public bool IsAvailable { get; set; } = true;
     public Guid? SectionId { get; set; }
+    
     public Section? Section { get; set; }
 }
