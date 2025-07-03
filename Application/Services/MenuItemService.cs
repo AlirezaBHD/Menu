@@ -62,7 +62,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
         if (dto.ImageFile != null)
         {
-            var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "MenuItem");
+            var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "menu-item");
             menuItem.ImagePath = imagePath;
         }
 

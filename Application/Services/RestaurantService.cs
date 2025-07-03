@@ -36,7 +36,7 @@ public class RestaurantService :Service<Restaurant>, IRestaurantService
 
         if (dto.LogoFile != null)
         {
-            var imagePath = await _fileService.SaveFileAsync(dto.LogoFile, "Restaurant");
+            var imagePath = await _fileService.SaveFileAsync(dto.LogoFile, "restaurant-logos");
             restaurant.LogoPath = imagePath;
         }
 

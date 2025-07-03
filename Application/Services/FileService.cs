@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
-public class FileService: IFileService
+public class FileService : IFileService
 {
     private readonly string _basePath;
 
     public FileService()
     {
-        _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets");
+        _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "uploads");
         if (!Directory.Exists(_basePath))
             Directory.CreateDirectory(_basePath);
     }
