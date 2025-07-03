@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Application.Extensions;
 
-public static class ValidationExtensions
+public static class FluentValidationHelpers
 {
     public static IRuleBuilderOptions<T, string> ApplyLengthValidation<T>(
         this IRuleBuilder<T, string> ruleBuilder,
