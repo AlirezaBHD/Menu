@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Routing;
 
-namespace Application.Extensions;
+namespace API.Utilities;
 
 public class KebabCaseParameterTransformer : IOutboundParameterTransformer
 {
