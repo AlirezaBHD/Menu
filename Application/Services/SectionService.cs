@@ -47,7 +47,9 @@ public class SectionService : Service<Section>, ISectionService
 
     public async Task UpdateSectionAsync(Guid id, UpdateSectionRequest dto)
     {
-        var section = await Repository.GetByIdAsync(id);
+        var section = await Repository.GetQueryable()
+            .Include(s => s.MenuItems).FirstAsync(s => s.Id == id);
+        
         section = Mapper.Map(dto, section);
 
         var sectionIds = dto.MenuItemIds?.Distinct().ToList() ?? [];
@@ -55,7 +57,7 @@ public class SectionService : Service<Section>, ISectionService
         var menuItems = await _menuItemRepository.GetQueryable()
             .Where(s => sectionIds.Contains(s.Id))
             .ToListAsync();
-
+        
         section.MenuItems = menuItems;
 
         Repository.Update(section);
