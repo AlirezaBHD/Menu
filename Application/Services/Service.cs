@@ -4,7 +4,7 @@ using Application.Exceptions;
 using Application.Services.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain.RepositoryInterfaces;
+using Domain.Interfaces.Repositories;
 using Infrastructure.QueryHelpers;
 using Microsoft.EntityFrameworkCore;
 

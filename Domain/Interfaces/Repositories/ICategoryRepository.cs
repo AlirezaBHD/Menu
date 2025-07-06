@@ -1,6 +1,6 @@
 using Domain.Entities;
 
-namespace Domain.RepositoryInterfaces;
+namespace Domain.Interfaces.Repositories;
 
 public interface ICategoryRepository: IRepository<Category>
 {

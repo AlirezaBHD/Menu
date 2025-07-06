@@ -2,7 +2,7 @@ using Application.Dto.Restaurant;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
-using Domain.RepositoryInterfaces;
+using Domain.Interfaces.Repositories;
 
 namespace Application.Services;
 

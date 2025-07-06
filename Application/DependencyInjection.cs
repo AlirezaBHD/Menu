@@ -1,6 +1,6 @@
 using Application.Services;
 using Application.Services.Interfaces;
-using Domain.RepositoryInterfaces;
+using Domain.Interfaces.Repositories;
 using Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
 

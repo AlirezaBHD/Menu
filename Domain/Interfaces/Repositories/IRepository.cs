@@ -1,4 +1,4 @@
-﻿namespace Domain.RepositoryInterfaces;
+﻿namespace Domain.Interfaces.Repositories;
 
 public enum TrackingBehavior
 {

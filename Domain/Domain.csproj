@@ -10,4 +10,8 @@
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Interfaces\Services\" />
+    </ItemGroup>
+
 </Project>

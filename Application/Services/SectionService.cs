@@ -2,7 +2,7 @@ using Application.Dto.Section;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
-using Domain.RepositoryInterfaces;
+using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services;
