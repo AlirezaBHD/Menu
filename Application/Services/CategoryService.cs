@@ -12,11 +12,13 @@ public class CategoryService : Service<Category>, ICategoryService
     #region Injection
 
     private readonly ISectionRepository _sectionRepository;
+    private readonly ICategoryRepository _repository;
 
-    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository)
+    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository, ICategoryRepository repository)
         : base(mapper, categoryRepository)
     {
         _sectionRepository = sectionRepository;
+        _repository = repository;
     }
 
     #endregion
@@ -31,6 +33,15 @@ public class CategoryService : Service<Category>, ICategoryService
         return response;
     }
 
+    private async Task<TDto> GetOwnedCategoryByIdAsync<TDto>(Guid categoryId)
+    {
+        
+        var ownedQuery = _repository.OwnedCategoriesQuery();
+        var response =
+            await GetByIdProjectedAsync<TDto>(categoryId, trackingBehavior: TrackingBehavior.AsNoTracking, query:ownedQuery);
+        return response;
+    }
+    
     public async Task<CategoryResponse> GetCategoryByIdAsync(Guid categoryId)
     {
         var response =

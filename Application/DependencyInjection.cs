@@ -1,6 +1,7 @@
 using Application.Services;
 using Application.Services.Interfaces;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
 using Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IMenuItemService, MenuItemService>();
         services.AddScoped<ISectionService, SectionService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
 
         return services;
     }

@@ -4,5 +4,5 @@ namespace Domain.Interfaces.Repositories;
 
 public interface ICategoryRepository: IRepository<Category>
 {
-    
+    IQueryable<Category> OwnedCategoriesQuery();
 }
