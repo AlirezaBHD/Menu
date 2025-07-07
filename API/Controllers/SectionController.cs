@@ -1,5 +1,6 @@
 using Application.Dto.Section;
 using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -24,6 +25,7 @@ public class SectionController : ControllerBase
         return Ok(section);
     }
     
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSectionById([FromRoute] Guid id)
     {

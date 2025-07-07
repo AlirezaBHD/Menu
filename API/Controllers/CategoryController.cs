@@ -1,5 +1,6 @@
 ﻿using Application.Dto.Category;
 using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -23,7 +24,8 @@ public class CategoryController : ControllerBase
             createCategoryRequest: createCategoryRequest);
         return Ok(category);
     }
-
+    
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
     {
