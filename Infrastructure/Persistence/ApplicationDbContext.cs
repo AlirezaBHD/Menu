@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +8,9 @@ namespace Infrastructure.Persistence;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options) {}
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker
             .Entries<BaseEntity>()
@@ -23,7 +23,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         return base.SaveChangesAsync(cancellationToken);
     }
-    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
