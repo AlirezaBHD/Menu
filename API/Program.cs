@@ -112,7 +112,12 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseStaticFiles();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Menu");
+        c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+    });
 }
 
 app.UseHttpsRedirection();
