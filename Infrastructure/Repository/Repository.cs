@@ -51,7 +51,7 @@ namespace Infrastructure.Repository;
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            var obj = await _entities.FindAsync(id);
+            var obj = await LimitedQuery.FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
             return obj!;
         }
 
