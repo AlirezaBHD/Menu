@@ -44,4 +44,10 @@ public interface IRepository<T> where T : class
     IQueryable<T> GetQueryable();
 
     #endregion
+    
+    #region Get Limited IQuaryable
+
+    IQueryable<T> GetLimitedQueryable();
+
+    #endregion
 }
