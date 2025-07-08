@@ -34,4 +34,12 @@ public class RestaurantController : ControllerBase
         await _restaurantService.UpdateRestaurantAsync(id: id, dto: updateRestaurantRequest);
         return NoContent();
     }
+    
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetRestaurantById([FromRoute] Guid id)
+    {
+        var result = await _restaurantService.GetRestaurantByIdAsync(id: id);
+        return Ok(result);
+    }
 }

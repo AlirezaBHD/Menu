@@ -6,14 +6,13 @@ using Domain.Interfaces.Repositories;
 
 namespace Application.Services;
 
-
-public class RestaurantService :Service<Restaurant>, IRestaurantService
+public class RestaurantService : Service<Restaurant>, IRestaurantService
 {
     #region Injection
-    
+
     private readonly IFileService _fileService;
 
-    public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper, IFileService fileService) 
+    public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper, IFileService fileService)
         : base(mapper, restaurantRepository)
     {
         _fileService = fileService;
@@ -27,8 +26,8 @@ public class RestaurantService :Service<Restaurant>, IRestaurantService
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
     }
-    
-    
+
+
     public async Task UpdateRestaurantAsync(Guid id, UpdateRestaurantRequest dto)
     {
         var restaurant = await Repository.GetByIdAsync(id);
@@ -41,6 +40,13 @@ public class RestaurantService :Service<Restaurant>, IRestaurantService
         }
 
         Repository.Update(restaurant);
-        await Repository.SaveAsync();    
+        await Repository.SaveAsync();
+    }
+
+    public async Task<RestaurantResponse> GetRestaurantByIdAsync(Guid id)
+    {
+        var result =
+            await GetByIdProjectedAsync<RestaurantResponse>(id, trackingBehavior: TrackingBehavior.AsNoTracking);
+        return result;
     }
 }

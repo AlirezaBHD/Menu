@@ -11,5 +11,6 @@ public class RestaurantProfile : Profile
     {
         CreateMap<CreateRestaurantRequest,Restaurant>();
         CreateMap<UpdateRestaurantRequest,Restaurant>();
+        CreateMap<Restaurant,RestaurantResponse>();
     }
 }
