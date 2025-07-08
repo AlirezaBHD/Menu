@@ -13,12 +13,24 @@ public class MenuItemRepository : Repository<MenuItem>, IMenuItemRepository
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
 
-    protected override IQueryable<MenuItem> LimitedQuery =>
-        base.LimitedQuery
-            .Include(m => m.Section)
-            .ThenInclude(s => s!.Category)
-            .ThenInclude(c => c!.Restaurant)
-            .Where(m => m.Section!.Category!.Restaurant!.OwnerId == _currentUser.UserId);
+    protected override IQueryable<MenuItem> LimitedQuery
+    {
+        get
+        {
+            IQueryable<MenuItem> query = base.LimitedQuery;
+
+            if (_currentUser.UserId.HasValue)
+            {
+                query = query
+                    .Include(m => m.Section)
+                    .ThenInclude(s => s!.Category)
+                    .ThenInclude(c => c!.Restaurant)
+                    .Where(m => m.Section!.Category!.Restaurant!.OwnerId == _currentUser.UserId);
+            }
+
+            return query;
+        }
+    }
 
     public MenuItemRepository(ApplicationDbContext context, ICurrentUser currentUser) : base(context)
     {

@@ -8,17 +8,33 @@ namespace Infrastructure.Repository;
 
 public class CategoryRepository : Repository<Category>, ICategoryRepository
 {
+    #region Injection
+
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
 
-    protected override IQueryable<Category> LimitedQuery =>
-        base.LimitedQuery
-            .Include(c => c.Restaurant)
-            .Where(c => c.Restaurant!.OwnerId == _currentUser.UserId);
+    protected override IQueryable<Category> LimitedQuery
+    {
+        get
+        {
+            IQueryable<Category> query = base.LimitedQuery;
 
+            if (_currentUser.UserId.HasValue)
+            {
+                query = query
+                    .Include(c => c!.Restaurant)
+                    .Where(c => c.Restaurant!.OwnerId == _currentUser.UserId);
+            }
+
+            return query;
+        }
+    }
+    
     public CategoryRepository(ApplicationDbContext context, ICurrentUser currentUser) : base(context)
     {
         _context = context;
         _currentUser = currentUser;
     }
+    
+    #endregion
 }

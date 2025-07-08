@@ -12,11 +12,23 @@ public class SectionRepository:Repository<Section>, ISectionRepository
     
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
-    protected override IQueryable<Section> LimitedQuery =>
-        base.LimitedQuery
-            .Include(s => s.Category)
-            .ThenInclude(c => c!.Restaurant)
-            .Where(s => s.Category!.Restaurant!.OwnerId == _currentUser.UserId);
+    protected override IQueryable<Section> LimitedQuery
+    {
+        get
+        {
+            IQueryable<Section> query = base.LimitedQuery;
+
+            if (_currentUser.UserId.HasValue)
+            {
+                query = query
+                    .Include(s => s.Category)
+                    .ThenInclude(c => c!.Restaurant)
+                    .Where(s => s.Category!.Restaurant!.OwnerId == _currentUser.UserId);
+            }
+
+            return query;
+        }
+    }
 
     public SectionRepository(ApplicationDbContext context, ICurrentUser currentUser) : base(context)
     {
