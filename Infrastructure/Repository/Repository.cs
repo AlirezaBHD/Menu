@@ -10,6 +10,7 @@ namespace Infrastructure.Repository;
 
         private readonly ApplicationDbContext _context;
         private readonly DbSet<T> _entities;
+        protected virtual IQueryable<T> LimitedQuery => _entities.AsQueryable();
 
         public Repository(ApplicationDbContext context)
         {
