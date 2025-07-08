@@ -5,5 +5,5 @@ namespace Application.Dto.Category;
 public class RestaurantMenuDto
 {
     public string Title { get; set; }
-    public ICollection<SectionDto> Sections { get; set; }
+    public ICollection<AvailableMenuItemSectionDto> Sections { get; set; }
 }

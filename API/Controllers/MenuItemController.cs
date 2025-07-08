@@ -21,7 +21,7 @@ public class MenuItemController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpGet("/api/[controller]/restaurant/{restaurantId}")]
+    [HttpGet("/api/restaurant/{restaurantId}/[controller]")]
     public async Task<IActionResult> GetAll([FromRoute] Guid restaurantId)
     {
         var menus = await _menuItemService.GetRestaurantMenuAsync(restaurantId);
