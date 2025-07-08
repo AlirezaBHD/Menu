@@ -6,6 +6,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Controllers;
 
@@ -25,7 +26,8 @@ public class AuthController : ControllerBase
         _config = config;
         _signInManager = signInManager;
     }
-
+    
+    [SwaggerResponse(200, "Successful Login", typeof(LoginResponse))]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
@@ -41,7 +43,7 @@ public class AuthController : ControllerBase
         return Ok(token);
     }
 
-    private LoginResponse GenerateJwtToken(ApplicationUser user)
+    private LoginResponse GenerateJwtToken(ApplicationUser user) //Todo
     {
         var claims = new[]
         {

@@ -1,7 +1,9 @@
 ﻿using Application.Dto.Category;
+using Application.Dto.Section;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Controllers;
 
@@ -17,6 +19,7 @@ public class CategoryController : ControllerBase
     }
 
     [Authorize]
+    [SwaggerResponse(200, "Category created Successfully", typeof(CategoryResponse))]
     [HttpPost("/api/restaurant/{restaurantId}/[controller]")]
     public async Task<IActionResult> CreateCategory([FromRoute] Guid restaurantId,
         [FromBody] CreateCategoryRequest createCategoryRequest)

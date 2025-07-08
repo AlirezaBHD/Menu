@@ -2,6 +2,7 @@ using Application.Dto.Section;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Controllers;
 
@@ -17,6 +18,7 @@ public class SectionController : ControllerBase
     }
 
     [Authorize]
+    [SwaggerResponse(200, "Section created successfully", typeof(SectionResponse))]
     [HttpPost("/api/category/{categoryId}/[controller]")]
     public async Task<IActionResult> CreateSection([FromRoute] Guid categoryId,
         [FromBody] CreateSectionRequest createSectionRequest)
@@ -27,6 +29,7 @@ public class SectionController : ControllerBase
     }
     
     [Authorize]
+    [SwaggerResponse(200, "Section information", typeof(SectionResponse))]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSectionById([FromRoute] Guid id)
     {
@@ -35,6 +38,7 @@ public class SectionController : ControllerBase
     }
     
     [Authorize]
+    [SwaggerResponse(201, "Section deleted successfully")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteSectionById([FromRoute] Guid id)
     {
@@ -43,6 +47,7 @@ public class SectionController : ControllerBase
     }
     
     [Authorize]
+    [SwaggerResponse(201, "Section updated successfully")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateSection([FromRoute] Guid id,
         [FromBody] UpdateSectionRequest updateSectionRequest)

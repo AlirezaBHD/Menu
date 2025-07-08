@@ -3,6 +3,7 @@ using Application.Dto.Restaurant;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Controllers;
 
@@ -18,6 +19,7 @@ public class RestaurantController : ControllerBase
     }
 
     [Authorize]
+    [SwaggerResponse(201, "Restaurant created successfully")]
     [HttpPost]
     public async Task<IActionResult> CreateRestaurant([FromForm] CreateRestaurantRequest createRestaurantRequest)
     {
@@ -27,6 +29,7 @@ public class RestaurantController : ControllerBase
 
 
     [Authorize]
+    [SwaggerResponse(201, "Restaurant updated successfully")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRestaurant([FromRoute] Guid id,
         [FromForm] UpdateRestaurantRequest updateRestaurantRequest)
@@ -36,6 +39,7 @@ public class RestaurantController : ControllerBase
     }
     
     [Authorize]
+    [SwaggerResponse(200, "Restaurant's information", typeof(RestaurantResponse))]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetRestaurantById([FromRoute] Guid id)
     {

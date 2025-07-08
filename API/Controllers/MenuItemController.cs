@@ -1,9 +1,12 @@
+using Application.Dto.Authentication;
+using Application.Dto.Category;
 using Application.Dto.MenuItem;
 using Application.Services.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Controllers;
 
@@ -21,6 +24,7 @@ public class MenuItemController : ControllerBase
         _userManager = userManager;
     }
 
+    [SwaggerResponse(200, "Restaurant's all items", typeof(RestaurantMenuDto))]
     [HttpGet("/api/restaurant/{restaurantId}/[controller]")]
     public async Task<IActionResult> GetAll([FromRoute] Guid restaurantId)
     {
@@ -48,6 +52,7 @@ public class MenuItemController : ControllerBase
     }
     
     [Authorize]
+    [SwaggerResponse(200, "menu-item created successfully", typeof(MenuItemResponse))]
     [HttpPost("/api/section/{sectionId}/[controller]")]
     public async Task<IActionResult> CreateMenuItem([FromRoute] Guid sectionId,
         [FromForm] CreateMenuItemRequest createMenuItemRequest)
@@ -58,6 +63,7 @@ public class MenuItemController : ControllerBase
     }
     
     [Authorize]
+    [SwaggerResponse(201, "menu-item deleted successfully")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMenuItemById([FromRoute] Guid id)
     {
@@ -66,6 +72,7 @@ public class MenuItemController : ControllerBase
     }
     
     [Authorize]
+    [SwaggerResponse(201, "menu-item updated successfully")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMenuItem([FromRoute] Guid id,
         [FromForm] UpdateMenuItemRequest updateMenuItemRequest)
