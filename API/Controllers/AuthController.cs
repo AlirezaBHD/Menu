@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var user = await _userManager.FindByNameAsync(request.UserName);
+        var user = await _userManager.FindByNameAsync(request.Username);
         if (user == null)
             return Unauthorized("نام کاربری یا رمز عبور اشتباه است");
 

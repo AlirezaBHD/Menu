@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Application.Dto.MenuItem;
 
 public class MenuItemDto
 {
     public Guid Id { get; set; }
-    public string Title { get; set; } = default!;
+    [Required]
+    public string Title { get; set; }
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public string? ImagePath { get; set; }
