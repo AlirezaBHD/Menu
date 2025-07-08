@@ -1,6 +1,7 @@
 using Application.Dto.Category;
 using Application.Dto.Restaurant;
 using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,6 +17,7 @@ public class RestaurantController : ControllerBase
         _restaurantService = restaurantService;
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateRestaurant([FromForm] CreateRestaurantRequest createRestaurantRequest)
     {
@@ -24,6 +26,7 @@ public class RestaurantController : ControllerBase
     }
 
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRestaurant([FromRoute] Guid id,
         [FromForm] UpdateRestaurantRequest updateRestaurantRequest)

@@ -16,6 +16,7 @@ public class CategoryController : ControllerBase
         _categoryService = categoryService;
     }
 
+    [Authorize]
     [HttpPost("/api/restaurant/{restaurantId}/[controller]")]
     public async Task<IActionResult> CreateCategory([FromRoute] Guid restaurantId,
         [FromBody] CreateCategoryRequest createCategoryRequest)
@@ -33,6 +34,7 @@ public class CategoryController : ControllerBase
         return Ok(category);
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCategoryById([FromRoute] Guid id)
     {
@@ -40,6 +42,7 @@ public class CategoryController : ControllerBase
         return NoContent();
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCategory([FromRoute] Guid id,
         [FromBody] UpdateCategoryRequest updateCategoryDto)

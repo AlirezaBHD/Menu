@@ -1,6 +1,7 @@
 using Application.Dto.MenuItem;
 using Application.Services.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,7 @@ public class MenuItemController : ControllerBase
         return BadRequest(result.Errors);
     }
     
+    [Authorize]
     [HttpPost("/api/section/{sectionId}/[controller]")]
     public async Task<IActionResult> CreateMenuItem([FromRoute] Guid sectionId,
         [FromForm] CreateMenuItemRequest createMenuItemRequest)
@@ -55,7 +57,7 @@ public class MenuItemController : ControllerBase
         return Ok(menuItem);
     }
     
-    
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMenuItemById([FromRoute] Guid id)
     {
@@ -63,6 +65,7 @@ public class MenuItemController : ControllerBase
         return NoContent();
     }
     
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMenuItem([FromRoute] Guid id,
         [FromForm] UpdateMenuItemRequest updateMenuItemRequest)

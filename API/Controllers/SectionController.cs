@@ -16,6 +16,7 @@ public class SectionController : ControllerBase
         _sectionService = sectionService;
     }
 
+    [Authorize]
     [HttpPost("/api/category/{categoryId}/[controller]")]
     public async Task<IActionResult> CreateSection([FromRoute] Guid categoryId,
         [FromBody] CreateSectionRequest createSectionRequest)
@@ -33,6 +34,7 @@ public class SectionController : ControllerBase
         return Ok(section);
     }
     
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteSectionById([FromRoute] Guid id)
     {
@@ -40,6 +42,7 @@ public class SectionController : ControllerBase
         return NoContent();
     }
     
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateSection([FromRoute] Guid id,
         [FromBody] UpdateSectionRequest updateSectionRequest)
