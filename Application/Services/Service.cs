@@ -23,7 +23,7 @@ public class Service<T> : IService<T> where T : class
     {
         Mapper = mapper;
         Repository = repository;
-        Queryable = repository.GetQueryable();
+        Queryable = repository.GetLimitedQueryable();
         _displayName = typeof(T)
             .GetCustomAttributes(typeof(DisplayNameAttribute), true)
             .OfType<DisplayNameAttribute>()
