@@ -67,4 +67,13 @@ namespace Infrastructure.Repository;
 
         #endregion
         
+        #region Get Limited IQuaryable
+
+        public IQueryable<T> GetLimitedQueryable()
+        {
+            return LimitedQuery;
+        }
+
+        #endregion
+        
     }
