@@ -32,7 +32,8 @@ public class MenuItemController : ControllerBase
     {
         var user = new ApplicationUser
         {
-            UserName = "owner1",
+            UserName = "owner3",
+            // UserName = "owner1",
             Email = "owner1@example.com",
             EmailConfirmed = true
         };
