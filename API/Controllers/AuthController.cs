@@ -2,10 +2,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.Dto.Authentication;
+using Application.Services.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Controllers;
 
@@ -14,18 +17,30 @@ namespace API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IAuthService _authService;
     private readonly IConfiguration _config;
     private readonly SignInManager<ApplicationUser> _signInManager;
 
     public AuthController(UserManager<ApplicationUser> userManager,
         IConfiguration config,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager, IAuthService authService)
     {
         _userManager = userManager;
         _config = config;
         _signInManager = signInManager;
+        _authService = authService;
     }
 
+
+    [Authorize(Roles = "SuperAdmin, Moderator")]
+    [SwaggerResponse(201, "admin created successfully")]
+    [HttpPost]
+    public async Task<IActionResult> CreateAdmin(RegisterAdminRequest request)
+    {
+        await _authService.CreateAdminAsync(request);
+        return NoContent();
+    }
+    
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
