@@ -1,6 +1,6 @@
-![Capture](https://github.com/user-attachments/assets/234a267c-1efc-496a-9c0d-f042d704e4a7)
-
 ## 🍽️ Restaurant Menu Management System (Multi-Restaurant)
+
+<img width="1520" height="1351" alt="Screenshot 2025-07-10 at 17-01-00 Swagger UI" src="https://github.com/user-attachments/assets/01a691bc-deec-40b8-9293-aaba763dc4a2" />
 
 In this project, I've designed and implemented a scalable and secure multi-restaurant menu management system, built with high precision and flexibility for real-world commercial use.
 
