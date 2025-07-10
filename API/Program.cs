@@ -150,4 +150,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseMiddleware<UserIdEnricherMiddleware>();
+
 app.Run();
