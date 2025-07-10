@@ -1,4 +1,5 @@
 using System.Text;
+using API.Middlewares;
 using API.Utilities;
 using Application;
 using Application.Services;
@@ -16,6 +17,8 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -105,6 +108,26 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddAuthorization();
 
+#region Logging
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File(
+        new CompactJsonFormatter(),
+        "Logs/log-.json",
+        rollingInterval: RollingInterval.Day,
+        fileSizeLimitBytes: 10 * 1024 * 1024,
+        rollOnFileSizeLimit: true,
+        retainedFileCountLimit: 30,
+        shared: true
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+#endregion
 
 var app = builder.Build();
 
