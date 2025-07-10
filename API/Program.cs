@@ -71,6 +71,7 @@ builder.Services.AddControllers(options =>
     options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseParameterTransformer()));
 });
 
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
         .UseSnakeCaseNamingConvention());
@@ -111,9 +112,8 @@ builder.Services.AddAuthorization();
 #region Logging
 
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
+    .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
-    .WriteTo.Console()
     .WriteTo.File(
         new CompactJsonFormatter(),
         Path.Combine("..", "Logs", "log-.json"),
