@@ -1,8 +1,8 @@
 ## 🍽️ Restaurant Menu Management System (Multi-Restaurant)
 
-<img width="1520" height="1351" alt="Screenshot 2025-07-10 at 17-01-00 Swagger UI" src="https://github.com/user-attachments/assets/01a691bc-deec-40b8-9293-aaba763dc4a2" />
-
 In this project, I've designed and implemented a scalable and secure multi-restaurant menu management system, built with high precision and flexibility for real-world commercial use.
+
+<img width="1520" height="1298" alt="2025-07-10 17 05 37 localhost 532e71cf9141" src="https://github.com/user-attachments/assets/003037b7-b982-4b5f-b8b0-5e385e402d96" />
 
 ### 🛠️ Technologies & Tools
 
@@ -12,6 +12,7 @@ In this project, I've designed and implemented a scalable and secure multi-resta
 - **FluentValidation** + **Swagger Integration**
 - **Custom Access Control** to restrict users to their own restaurant's data
 - **Clean Routing** with Kebab-case URL Convention
+- **Security Headers** middleware for XSS, clickjacking, MIME sniffing protection
 
 ### 🚀 Key Features
 
@@ -21,6 +22,8 @@ In this project, I've designed and implemented a scalable and secure multi-resta
 - Full implementation of authentication and authorization with support for multiple roles (Admin, Owner, etc.)
 - Dynamic validation extensions based on entity Data Annotations
 - File management system (e.g., food images) built as a separate service following SOLID principles
+- Structured and filterable **JSON logging** (Serilog) with per-user context, log levels, and rotation
+- **Rate limiting** with configurable request caps per IP
 
 ### Prerequisites
 - .NET 9 SDK
