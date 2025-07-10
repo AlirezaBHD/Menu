@@ -73,7 +73,10 @@ builder.Services.AddControllers(options =>
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options.UseNpgsql(
+            builder.Configuration.GetConnectionString("DefaultConnection"),
+            npgsqlOptions => npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+        )
         .UseSnakeCaseNamingConvention());
 
 builder.Services.AddAutoMapper(typeof(IMenuItemService).Assembly);
