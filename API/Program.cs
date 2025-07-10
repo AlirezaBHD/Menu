@@ -169,6 +169,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await IdentitySeeder.SeedRolesAsync(services);
+}
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
