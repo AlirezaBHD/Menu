@@ -4,6 +4,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -15,8 +16,8 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     private readonly IFileService _fileService;
 
     public MenuItemService(IMapper mapper, IMenuItemRepository menuItemRepository, ICategoryService categoryService,
-        IFileService fileService)
-        : base(mapper, menuItemRepository)
+        IFileService fileService, ILogger<MenuItem> logger)
+        : base(mapper, menuItemRepository, logger)
     {
         _categoryService = categoryService;
         _fileService = fileService;

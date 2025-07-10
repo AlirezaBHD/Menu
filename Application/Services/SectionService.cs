@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -13,8 +14,9 @@ public class SectionService : Service<Section>, ISectionService
 
     private readonly IMenuItemRepository _menuItemRepository;
 
-    public SectionService(ISectionRepository sectionRepository, IMapper mapper, IMenuItemRepository menuItemRepository)
-        : base(mapper, sectionRepository)
+    public SectionService(ISectionRepository sectionRepository, IMapper mapper, IMenuItemRepository menuItemRepository
+        , ILogger<Section> logger)
+        : base(mapper, sectionRepository, logger)
     {
         _menuItemRepository = menuItemRepository;
     }
@@ -49,7 +51,7 @@ public class SectionService : Service<Section>, ISectionService
     {
         var section = await Repository.GetQueryable()
             .Include(s => s.MenuItems).FirstAsync(s => s.Id == id);
-        
+
         section = Mapper.Map(dto, section);
 
         var sectionIds = dto.MenuItemIds?.Distinct().ToList() ?? [];
@@ -57,7 +59,7 @@ public class SectionService : Service<Section>, ISectionService
         var menuItems = await _menuItemRepository.GetQueryable()
             .Where(s => sectionIds.Contains(s.Id))
             .ToListAsync();
-        
+
         section.MenuItems = menuItems;
 
         Repository.Update(section);

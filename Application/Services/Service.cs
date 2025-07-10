@@ -7,6 +7,7 @@ using AutoMapper.QueryableExtensions;
 using Domain.Interfaces.Repositories;
 using Infrastructure.QueryHelpers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -17,12 +18,14 @@ public class Service<T> : IService<T> where T : class
     protected readonly IMapper Mapper;
     protected readonly IRepository<T> Repository;
     protected readonly IQueryable<T> Queryable;
+    protected readonly ILogger<T> Logger;
     private readonly string _displayName;
 
-    public Service(IMapper mapper, IRepository<T> repository)
+    public Service(IMapper mapper, IRepository<T> repository, ILogger<T> logger)
     {
         Mapper = mapper;
         Repository = repository;
+        Logger = logger;
         Queryable = repository.GetLimitedQueryable();
         _displayName = typeof(T)
             .GetCustomAttributes(typeof(DisplayNameAttribute), true)

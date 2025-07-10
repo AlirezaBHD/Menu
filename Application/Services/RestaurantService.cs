@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -12,8 +13,9 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
     private readonly IFileService _fileService;
 
-    public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper, IFileService fileService)
-        : base(mapper, restaurantRepository)
+    public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper, IFileService fileService
+        , ILogger<Restaurant> logger)
+        : base(mapper, restaurantRepository, logger)
     {
         _fileService = fileService;
     }

@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -13,8 +14,8 @@ public class CategoryService : Service<Category>, ICategoryService
 
     private readonly ISectionRepository _sectionRepository;
 
-    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository)
-        : base(mapper, categoryRepository)
+    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository, ILogger<Category> logger)
+        : base(mapper, categoryRepository, logger)
     {
         _sectionRepository = sectionRepository;
     }
