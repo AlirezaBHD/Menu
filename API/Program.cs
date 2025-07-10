@@ -186,6 +186,7 @@ app.MapControllers();
 app.UseRateLimiter();
 
 app.UseMiddleware<UserIdEnricherMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Use(async (context, next) =>
 {
