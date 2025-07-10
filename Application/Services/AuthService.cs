@@ -64,18 +64,22 @@ public class AuthService: IAuthService
             throw new ValidationException("نام کاربری یا رمز عبور اشتباه است");
         }
 
-        var token = GenerateJwtToken(user);
+        var token = await GenerateJwtToken(user);
         return token;
     }
     
-    private LoginResponse GenerateJwtToken(ApplicationUser user)
+    private async Task<LoginResponse> GenerateJwtToken(ApplicationUser user)
     {
-        var claims = new[]
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.UserName!)
         };
-
+        foreach (var role in userRoles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
