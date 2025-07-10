@@ -27,6 +27,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         var entity = Mapper.Map<CreateRestaurantRequest, Restaurant>(createRestaurantRequest);
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
+        Logger.LogInformation("Created new restaurant: {@Restaurant}", entity);
     }
 
 
@@ -43,6 +44,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
         Repository.Update(restaurant);
         await Repository.SaveAsync();
+        Logger.LogInformation("Updated restaurant with ID: {Id}. Data: {@UpdateData}", id, restaurant);
     }
 
     public async Task<RestaurantResponse> GetRestaurantByIdAsync(Guid id)
