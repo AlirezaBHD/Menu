@@ -30,6 +30,8 @@ public class SectionService : Service<Section>, ISectionService
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         var response = Mapper.Map<Section, SectionResponse>(entity);
+        Logger.LogInformation("Created new section in category {CategoryId}. Data: {@UpdateData}", categoryId, entity);
+
         return response;
     }
 
@@ -45,6 +47,7 @@ public class SectionService : Service<Section>, ISectionService
         var section = await Repository.GetByIdAsync(id);
         Repository.Remove(section);
         await Repository.SaveAsync();
+        Logger.LogInformation("Deleted section with ID: {Id}", id);
     }
 
     public async Task UpdateSectionAsync(Guid id, UpdateSectionRequest dto)
@@ -64,5 +67,7 @@ public class SectionService : Service<Section>, ISectionService
 
         Repository.Update(section);
         await Repository.SaveAsync();
+        Logger.LogInformation("Updated section with ID {Id}. Data: {@UpdateData}", id, section);
+
     }
 }
