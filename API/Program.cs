@@ -116,7 +116,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File(
         new CompactJsonFormatter(),
-        "Logs/log-.json",
+        Path.Combine("..", "Logs", "log-.json"),
         rollingInterval: RollingInterval.Day,
         fileSizeLimitBytes: 10 * 1024 * 1024,
         rollOnFileSizeLimit: true,
