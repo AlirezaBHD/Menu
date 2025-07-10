@@ -155,4 +155,12 @@ app.MapControllers();
 
 app.UseMiddleware<UserIdEnricherMiddleware>();
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
+    await next();
+});
+
 app.Run();
