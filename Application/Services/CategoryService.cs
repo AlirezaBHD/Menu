@@ -29,6 +29,7 @@ public class CategoryService : Service<Category>, ICategoryService
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         var response = Mapper.Map<Category, CategoryResponse>(entity);
+        Logger.LogInformation("Created new category: {@Category}", response);
         return response;
     }
     
@@ -44,6 +45,7 @@ public class CategoryService : Service<Category>, ICategoryService
         var category = await Repository.GetByIdAsync(id);
         Repository.Remove(category);
         await Repository.SaveAsync();
+        Logger.LogInformation("Deleting category: {@Category}", category);
     }
 
     public async Task UpdateCategoryAsync(Guid id, UpdateCategoryRequest dto)
@@ -63,5 +65,6 @@ public class CategoryService : Service<Category>, ICategoryService
 
         Repository.Update(category);
         await Repository.SaveAsync();
+        Logger.LogInformation("Updated category with ID: {Id}. Data: {@UpdateData}", id, category);
     }
 }
