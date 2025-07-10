@@ -18,7 +18,7 @@ public static class CommonValidationExtensions
         bool blank = false)
     {
         allowedExtensions ??= new[] { ".webp", ".png", ".jpg", ".jpeg" };
-        var maxSizeMb = maxSize * 1048576;
+        var maxSizeBytes = maxSize * 1024 * 1024;
 
         if (!blank)
         {
@@ -37,21 +37,56 @@ public static class CommonValidationExtensions
                 }
 
                 return true;
-            }).WithMessage($" تصویر معتبر نیست. پسوند های معتبر: {string.Join(", ", allowedExtensions)}")
+            }).WithMessage($"تصویر معتبر نیست. پسوندهای مجاز: {string.Join(", ", allowedExtensions)}")
+
             .Must(file =>
             {
                 if (file != null)
                 {
-                    return file.Length <= maxSizeMb;
+                    return file.Length <= maxSizeBytes;
                 }
 
                 return true;
-            }).WithMessage($".حجم تصویر نمیتواند بیشتر از {maxSizeMb} مگابایت باشد");
+            }).WithMessage($"حجم تصویر نمی‌تواند بیشتر از {maxSize} مگابایت باشد.")
+
+            .Must(file =>
+            {
+                if (file != null)
+                {
+                    try
+                    {
+                        using var stream = file.OpenReadStream();
+                        Span<byte> header = stackalloc byte[8];
+                        stream.Read(header);
+
+                        // jpg
+                        if (header[0] == 0xFF && header[1] == 0xD8)
+                            return true;
+
+                        // png
+                        if (header[0] == 0x89 && header[1] == 0x50 && header[2] == 0x4E)
+                            return true;
+
+                        // webp/webm
+                        if (header[0] == 0x52 && header[1] == 0x49 && header[2] == 0x46)
+                            return true;
+
+                        return false;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }).WithMessage("محتوای فایل تصویر معتبر نیست.");
     }
 
     #endregion
-    
+
     #region Length Validation Rule
+
     public static IRuleBuilderOptions<T, string> LengthValidationRule<T>(
         this IRuleBuilder<T, string> ruleBuilder,
         Expression<Func<T, string>> expression,
@@ -93,6 +128,6 @@ public static class CommonValidationExtensions
 
         throw new ArgumentException("Expression must be a member expression");
     }
-    
+
     #endregion
 }
