@@ -1,4 +1,3 @@
-using Application.Dto.Category;
 using Application.Dto.Restaurant;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +12,19 @@ public class RestaurantController : ControllerBase
 {
     private readonly IRestaurantService _restaurantService;
 
-    public RestaurantController(IRestaurantService restaurantService)
+    public RestaurantController(IRestaurantService restaurantService, IMenuItemService menuItemService)
     {
         _restaurantService = restaurantService;
     }
 
+    [SwaggerResponse(200, "Restaurant's all items", typeof(RestaurantMenuDto))]
+    [HttpGet("{restaurantId}/menu-items")]
+    public async Task<IActionResult> GetRestaurantMenuAsync([FromRoute] Guid restaurantId)
+    {
+        var menus = await _restaurantService.GetRestaurantMenuAsync(restaurantId);
+        return Ok(menus);
+    }
+    
     [Authorize]
     [SwaggerResponse(201, "Restaurant created successfully")]
     [HttpPost]
