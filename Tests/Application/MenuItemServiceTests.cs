@@ -15,7 +15,6 @@ namespace Tests.Application;
 public class MenuItemServiceTests
 {
     private readonly Mock<IMenuItemRepository> _repoMock;
-    private readonly Mock<ICategoryService> _categoryServiceMock;
     private readonly Mock<IFileService> _fileServiceMock;
     private readonly Mock<IMapper> _mapperMock;
     private readonly Mock<ILogger<MenuItem>> _loggerMock;
@@ -24,7 +23,6 @@ public class MenuItemServiceTests
     public MenuItemServiceTests()
     {
         _repoMock = new Mock<IMenuItemRepository>();
-        _categoryServiceMock = new Mock<ICategoryService>();
         _fileServiceMock = new Mock<IFileService>();
         _mapperMock = new Mock<IMapper>();
         _loggerMock = new Mock<ILogger<MenuItem>>();
@@ -32,7 +30,6 @@ public class MenuItemServiceTests
         _service = new MenuItemService(
             _mapperMock.Object,
             _repoMock.Object,
-            _categoryServiceMock.Object,
             _fileServiceMock.Object,
             _loggerMock.Object
         );
