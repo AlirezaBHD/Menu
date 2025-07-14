@@ -8,7 +8,7 @@ public class CategoryProfile : Profile
 {
     public CategoryProfile()
     {
-        CreateMap<Category, RestaurantMenuDto>();
+        CreateMap<Category, CategoryDto>();
         CreateMap<CreateCategoryRequest, Category>();
         CreateMap<Category, CategoryResponse>();
         CreateMap<UpdateCategoryRequest, Category>();
