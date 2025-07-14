@@ -9,7 +9,7 @@ using MockQueryable;
 using Moq;
 using Xunit;
 
-namespace Tests.Application.Category;
+namespace Tests.Application;
 
 public class CategoryServiceTests
 {
