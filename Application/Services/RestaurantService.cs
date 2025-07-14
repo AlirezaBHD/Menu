@@ -53,4 +53,15 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
             await GetByIdProjectedAsync<RestaurantResponse>(id, trackingBehavior: TrackingBehavior.AsNoTracking);
         return result;
     }
+
+    #region Get Restaurant Menu Async
+
+    public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(Guid restaurantId)
+    {
+        var result = await GetAllProjectedAsync<RestaurantMenuDto>(
+            predicate: r => r.Id == restaurantId);
+        return result;
+    }
+
+    #endregion
 }
