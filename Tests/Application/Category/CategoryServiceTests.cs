@@ -94,30 +94,39 @@ public class CategoryServiceTests
     public async Task UpdateCategoryAsync_ShouldUpdateCategoryAndSections()
     {
         var categoryId = Guid.NewGuid();
-        var sectionId1 = Guid.NewGuid();
-        var sectionId2 = Guid.NewGuid();
+        var oldSectionId = Guid.NewGuid();
+        var fixedSectionId = Guid.NewGuid();
+        var newSectionId = Guid.NewGuid();
 
+        var oldSections = new List<Section>
+        {
+            new Section { Id = oldSectionId, Title = "Old Section" },
+            new Section { Id = fixedSectionId, Title = "Fixed Section"}
+        };
+        
+        var newSections = new List<Section>
+        {
+            new Section { Id = newSectionId, Title = "New Section" }
+        };
+        
         var existingCategory = new Domain.Entities.Category
         {
             Id = categoryId,
             Title = "Old Name",
-            Sections = []
+            Sections = oldSections
         };
 
         var updateRequest = new UpdateCategoryRequest
         {
             Title = "New Name",
-            SectionIds = new List<Guid> { sectionId1, sectionId2 }
+            SectionIds = [fixedSectionId, newSectionId]
         };
 
-        var sections = new List<Section>
-        {
-            new Section { Id = sectionId1, Title = "Section A" },
-            new Section { Id = sectionId2, Title = "Section B" }
-        };
 
-        var queryableCategory = new List<Domain.Entities.Category> { existingCategory }.AsQueryable().BuildMock(); // با Moq.EntityFrameworkCore
-        var queryableSections = sections.AsQueryable().BuildMock();
+        var allSections = oldSections.Union(newSections).ToList();
+        
+        var queryableCategory = new List<Domain.Entities.Category> { existingCategory }.AsQueryable().BuildMock();
+        var queryableSections = allSections.AsQueryable().BuildMock();
 
         _repoMock.Setup(r => r.GetQueryable())
             .Returns(queryableCategory);
@@ -134,10 +143,12 @@ public class CategoryServiceTests
 
         await _service.UpdateCategoryAsync(categoryId, updateRequest);
 
+        var expectedIds = new[] { fixedSectionId, newSectionId };
+        
         _repoMock.Verify(r => r.Update(It.Is<Domain.Entities.Category>(c =>
             c.Title == "New Name" &&
             c.Sections.Count == 2 &&
-            c.Sections.Any(s => s.Id == sectionId1)
+            expectedIds.All(id => c.Sections.Any(s => s.Id == id))
         )), Times.Once);
     }
 }
