@@ -23,33 +23,6 @@ public class MenuItemController : ControllerBase
         _menuItemService = menuItemService;
         _userManager = userManager;
     }
-
-    [SwaggerResponse(200, "Restaurant's all items", typeof(RestaurantMenuDto))]
-    [HttpGet("/api/restaurant/{restaurantId}/[controller]")]
-    public async Task<IActionResult> GetAll([FromRoute] Guid restaurantId)
-    {
-        var menus = await _menuItemService.GetRestaurantMenuAsync(restaurantId);
-        return Ok(menus);
-    }
-    
-    [HttpPost("create-test-user")]
-    public async Task<IActionResult> CreateTestUser()
-    {
-        var user = new ApplicationUser
-        {
-            UserName = "owner3",
-            // UserName = "owner1",
-            Email = "owner1@example.com",
-            EmailConfirmed = true
-        };
-
-        var result = await _userManager.CreateAsync(user, "StrongPassword123!");
-
-        if (result.Succeeded)
-            return Ok(new { message = "User created successfully", userId = user.Id });
-
-        return BadRequest(result.Errors);
-    }
     
     [Authorize]
     [SwaggerResponse(200, "menu-item created successfully", typeof(MenuItemResponse))]
