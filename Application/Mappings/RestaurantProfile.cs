@@ -1,4 +1,3 @@
-using Application.Dto.Category;
 using Application.Dto.Restaurant;
 using AutoMapper;
 using Domain.Entities;
@@ -9,6 +8,7 @@ public class RestaurantProfile : Profile
 {
     public RestaurantProfile()
     {
+        CreateMap<Restaurant,RestaurantMenuDto>();
         CreateMap<CreateRestaurantRequest,Restaurant>();
         CreateMap<UpdateRestaurantRequest,Restaurant>();
         CreateMap<Restaurant,RestaurantResponse>();
