@@ -15,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IMenuItemService, MenuItemService>();
         services.AddScoped<ISectionService, SectionService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IRestaurantService, RestaurantService>();
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IAuthService, AuthService>();
 
@@ -27,9 +28,9 @@ public static class DependencyInjection
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
         services.AddScoped<ISectionRepository, SectionRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IRestaurantRepository, RestaurantRepository>();
         services.AddScoped<IFileService, FileService>();
         
         return services;
-
     }
 }
