@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Interfaces.Services;
+using Infrastructure.Persistence.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +37,18 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .Property(nameof(BaseEntity.Id))
                 .HasDefaultValueSql("gen_random_uuid()");
         }
+        
+        modelBuilder.Entity<Category>()
+            .OwnsOne(c => c.AvailabilityPeriod)
+            .ConfigureAvailabilityPeriod();
+
+        modelBuilder.Entity<Section>()
+            .OwnsOne(s => s.AvailabilityPeriod)
+            .ConfigureAvailabilityPeriod();
+
+        modelBuilder.Entity<MenuItem>()
+            .OwnsOne(m => m.AvailabilityPeriod)
+            .ConfigureAvailabilityPeriod();
     }
     
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
