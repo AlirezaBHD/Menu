@@ -11,7 +11,7 @@ public class SectionProfile : Profile
         CreateMap<Section, AvailableMenuItemSectionDto>()
             .ForMember(dest => dest.MenuItems, opt =>
             opt.MapFrom(src => src.MenuItems
-                .Where(mi => mi.IsAvailable)));
+                .Where(mi => mi.AvailabilityPeriod.IsAvailable)));
 
         CreateMap<Section, SectionDto>();
         CreateMap<CreateSectionRequest, Section>();
