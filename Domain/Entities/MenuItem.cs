@@ -20,9 +20,8 @@ public class MenuItem: BaseEntity
     [Display(Name = "مسیر عکس")]
     public string? ImagePath { get; set; }
     
-    [Display(Name = "فعال بودن")]
-    public bool IsAvailable { get; set; } = true;
+    public AvailabilityPeriod AvailabilityPeriod { get; set; } = new();
+
     public Guid? SectionId { get; set; }
-    
     public Section? Section { get; set; }
 }
