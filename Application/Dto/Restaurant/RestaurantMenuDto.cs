@@ -9,5 +9,5 @@ public class RestaurantMenuDto
     public  string Name { get; set; }
     [Required]
     public string LogoPath { get; set; }
-    public ICollection<CategoryDto> Categories { get; set; }
+    public ICollection<MenuCategoryDto> Categories { get; set; }
 }
