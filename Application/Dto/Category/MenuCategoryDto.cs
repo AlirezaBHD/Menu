@@ -3,9 +3,9 @@ using Application.Dto.Section;
 
 namespace Application.Dto.Category;
 
-public class CategoryDto
+public class MenuCategoryDto
 {
     [Required]
     public string Title { get; set; }
-    public ICollection<AvailableMenuItemSectionDto> Sections { get; set; }
+    public ICollection<MenuSectionDto> Sections { get; set; }
 }
