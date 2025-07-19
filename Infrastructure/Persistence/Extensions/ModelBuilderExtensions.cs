@@ -12,6 +12,6 @@ public static class ModelBuilderExtensions
         ap.Property(p => p.IsAvailable).HasColumnName("is_available");
         ap.Property(p => p.AvailabilityType).HasColumnName("availability_type");
         ap.Property(p => p.FromTime).HasColumnName("from_time");
-        ap.Property(p => p.ToTome).HasColumnName("to_time");
+        ap.Property(p => p.ToTime).HasColumnName("to_time");
     }
 }
