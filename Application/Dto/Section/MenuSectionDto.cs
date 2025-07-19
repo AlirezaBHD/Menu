@@ -3,7 +3,7 @@ using Application.Dto.MenuItem;
 
 namespace Application.Dto.Section;
 
-public class AvailableMenuItemSectionDto
+public class MenuSectionDto
 {
     [Required]
     public string Title { get; set; }
