@@ -11,10 +11,10 @@ public class AvailabilityPeriod
     public AvailabilityEnum AvailabilityType { get; set; } = AvailabilityEnum.Available;
     
     [Display(Name = "ساعت شروع")]
-    public TimeOnly FromTime { get; set; } = TimeOnly.MinValue;
+    public TimeSpan FromTime { get; set; } = TimeSpan.Zero;
     
     [Display(Name = "ساعت پایان")]
-    public TimeOnly ToTome { get; set; } = TimeOnly.MaxValue;
+    public TimeSpan ToTime { get; set; } = TimeSpan.FromHours(24);
 }
 
 public enum AvailabilityEnum
