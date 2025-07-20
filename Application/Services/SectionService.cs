@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Application.Dto.Section;
 using Application.Services.Interfaces;
 using AutoMapper;
@@ -19,6 +20,26 @@ public class SectionService : Service<Section>, ISectionService
         : base(mapper, sectionRepository, logger)
     {
         _menuItemRepository = menuItemRepository;
+    }
+
+    #endregion
+
+    #region Availability Expression
+
+    public static Expression<Func<Section, bool>> IsAvailable(TimeSpan nowTime)
+    {
+        return s =>
+            s.AvailabilityPeriod.IsAvailable && (
+                s.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.Unlimited ||
+                (
+                    (s.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.AvailablePeriod &&
+                     nowTime >= s.AvailabilityPeriod.FromTime &&
+                     nowTime <= s.AvailabilityPeriod.ToTime)
+                    ||
+                    (s.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.UnavailablePeriod &&
+                     (nowTime < s.AvailabilityPeriod.FromTime ||
+                      nowTime > s.AvailabilityPeriod.ToTime))
+                ));
     }
 
     #endregion
@@ -68,6 +89,5 @@ public class SectionService : Service<Section>, ISectionService
         Repository.Update(section);
         await Repository.SaveAsync();
         Logger.LogInformation("Updated section with ID {Id}. Data: {@UpdateData}", id, section);
-
     }
 }
