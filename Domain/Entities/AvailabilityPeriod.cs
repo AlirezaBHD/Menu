@@ -19,7 +19,12 @@ public class AvailabilityPeriod
 
 public enum AvailabilityEnum
 {
+    [Display(Name = "بدون محدودیت")]
     Unlimited = 0,
+    
+    [Display(Name = "بازه فعال بودن")]
     AvailablePeriod = 1,
+    
+    [Display(Name = "بازه غیرفعال بودن")]
     UnavailablePeriod = 2
 }
