@@ -9,5 +9,6 @@ public class CreateMenuItemRequest
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public IFormFile ImageFile { get; set; }
+    public bool IsAvailable { get; set; }
     public ActivityPeriodRequest ActivityPeriod { get; set; }
 }
