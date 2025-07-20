@@ -1,3 +1,4 @@
+using Application.Dto.AvailabilityPeriod;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Dto.MenuItem;
@@ -8,5 +9,5 @@ public class UpdateMenuItemRequest
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public IFormFile? ImageFile { get; set; }
-    public bool IsAvailable { get; set; }
+    public AvailabilityPeriodRequest AvailabilityPeriod { get; set; }
 }
