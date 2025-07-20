@@ -24,6 +24,7 @@ In this project, I've designed and implemented a scalable and secure multi-resta
 - File management system (e.g., food images) built as a separate service following SOLID principles
 - Structured and filterable **JSON logging** (Serilog) with per-user context, log levels, and rotation
 - **Rate limiting** with configurable request caps per IP
+- Time-based **availability engine** for categories, sections, and menu items — supports multi-range daily scheduling
 
 ### Prerequisites
 - .NET 9 SDK
