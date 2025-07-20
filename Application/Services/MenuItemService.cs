@@ -28,14 +28,14 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     public static Expression<Func<MenuItem, bool>> IsAvailable(TimeSpan nowTime)
     {
         return mi =>
-            mi.AvailabilityPeriod.IsAvailable && (
-                mi.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.Unlimited ||
+            mi.AvailabilityPeriod.IsActive && (
+                mi.AvailabilityPeriod.ActivityType == ActivityEnum.Unlimited ||
                 (
-                    (mi.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.AvailablePeriod &&
+                    (mi.AvailabilityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
                      nowTime >= mi.AvailabilityPeriod.FromTime &&
                      nowTime <= mi.AvailabilityPeriod.ToTime)
                     ||
-                    (mi.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.UnavailablePeriod &&
+                    (mi.AvailabilityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
                      (nowTime < mi.AvailabilityPeriod.FromTime ||
                       nowTime > mi.AvailabilityPeriod.ToTime))
                 ));

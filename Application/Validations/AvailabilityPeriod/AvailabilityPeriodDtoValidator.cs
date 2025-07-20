@@ -13,9 +13,9 @@ public class AvailabilityPeriodDtoValidator : AbstractValidator<AvailabilityPeri
         RuleFor(ap => ap.IsAvailable)
             .NotNull().WithMessage("وضعیت فعال بودن الزامی است");
         
-        RuleFor(ap => ap.AvailabilityType)!.IsInEnum().WithMessage("مقدار وارد شده برای (وضعیت فعالیت) اشتباه است");
+        RuleFor(ap => ap.ActivatyEnum)!.IsInEnum().WithMessage("مقدار وارد شده برای (وضعیت فعالیت) اشتباه است");
         
-        When(ap => ap.AvailabilityType != AvailabilityEnum.Unlimited, () =>
+        When(ap => ap.ActivatyEnum != ActivityEnum.Unlimited, () =>
         {
             RuleFor(ap => ap.FromTime)
                 .NotNull().WithMessage("ساعت شروع بازه الزامی است")

@@ -5,10 +5,10 @@ namespace Domain.Entities;
 public class AvailabilityPeriod
 {
     [Display(Name = "فعال بودن")]
-    public bool IsAvailable { get; set; } = true;
+    public bool IsActive { get; set; } = true;
     
     [Display(Name = "وضعیت فعالیت")]
-    public AvailabilityEnum AvailabilityType { get; set; } = AvailabilityEnum.Unlimited;
+    public ActivityEnum ActivityType { get; set; } = ActivityEnum.Unlimited;
     
     [Display(Name = "ساعت شروع")]
     public TimeSpan FromTime { get; set; } = TimeSpan.Zero;
@@ -17,14 +17,14 @@ public class AvailabilityPeriod
     public TimeSpan ToTime { get; set; } = TimeSpan.FromHours(24);
 }
 
-public enum AvailabilityEnum
+public enum ActivityEnum
 {
     [Display(Name = "بدون محدودیت")]
     Unlimited = 0,
     
     [Display(Name = "بازه فعال بودن")]
-    AvailablePeriod = 1,
+    ActivePeriod = 1,
     
     [Display(Name = "بازه غیرفعال بودن")]
-    UnavailablePeriod = 2
+    InactivePeriod = 2
 }

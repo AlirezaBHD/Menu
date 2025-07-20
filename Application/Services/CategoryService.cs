@@ -28,14 +28,14 @@ public class CategoryService : Service<Category>, ICategoryService
     public static Expression<Func<Category, bool>> IsAvailable(TimeSpan nowTime)
     {
         return c =>
-            c.AvailabilityPeriod.IsAvailable && (
-                c.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.Unlimited ||
+            c.AvailabilityPeriod.IsActive && (
+                c.AvailabilityPeriod.ActivityType == ActivityEnum.Unlimited ||
                 (
-                    (c.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.AvailablePeriod &&
+                    (c.AvailabilityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
                      nowTime >= c.AvailabilityPeriod.FromTime &&
                      nowTime <= c.AvailabilityPeriod.ToTime)
                     ||
-                    (c.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.UnavailablePeriod &&
+                    (c.AvailabilityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
                      (nowTime < c.AvailabilityPeriod.FromTime ||
                       nowTime > c.AvailabilityPeriod.ToTime))
                 ));

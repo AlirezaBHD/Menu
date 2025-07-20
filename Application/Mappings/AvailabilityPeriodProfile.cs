@@ -12,6 +12,6 @@ public class AvailabilityPeriodProfile : Profile
         CreateMap<AvailabilityPeriodRequest, AvailabilityPeriod>();
         CreateMap<AvailabilityPeriod, AvailabilityPeriodResponse>()
             .ForMember(dest => dest.AvailabilityTypeName,
-                opt => opt.MapFrom(src => src.AvailabilityType.GetDisplayName()));
+                opt => opt.MapFrom(src => src.ActivityType.GetDisplayName()));
     }
 }

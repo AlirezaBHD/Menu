@@ -29,14 +29,14 @@ public class SectionService : Service<Section>, ISectionService
     public static Expression<Func<Section, bool>> IsAvailable(TimeSpan nowTime)
     {
         return s =>
-            s.AvailabilityPeriod.IsAvailable && (
-                s.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.Unlimited ||
+            s.AvailabilityPeriod.IsActive && (
+                s.AvailabilityPeriod.ActivityType == ActivityEnum.Unlimited ||
                 (
-                    (s.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.AvailablePeriod &&
+                    (s.AvailabilityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
                      nowTime >= s.AvailabilityPeriod.FromTime &&
                      nowTime <= s.AvailabilityPeriod.ToTime)
                     ||
-                    (s.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.UnavailablePeriod &&
+                    (s.AvailabilityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
                      (nowTime < s.AvailabilityPeriod.FromTime ||
                       nowTime > s.AvailabilityPeriod.ToTime))
                 ));
