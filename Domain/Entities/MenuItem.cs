@@ -19,6 +19,9 @@ public class MenuItem: BaseEntity
     
     [Display(Name = "مسیر عکس")]
     public string? ImagePath { get; set; }
+
+    [Display(Name = "دسترس بودن")] 
+    public bool IsAvailable { get; set; } = true;
     
     public ActivityPeriod ActivityPeriod { get; set; } = new();
 
