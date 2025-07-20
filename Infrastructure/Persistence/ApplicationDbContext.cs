@@ -55,4 +55,5 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
+    public DbSet<MenuItemVariant> MenuItemVariant => Set<MenuItemVariant>();
 }
