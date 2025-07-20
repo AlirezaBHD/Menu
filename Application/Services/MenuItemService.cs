@@ -1,5 +1,5 @@
+using System.Linq.Expressions;
 using Application.Dto.MenuItem;
-using Application.Dto.Restaurant;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -19,6 +19,26 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         : base(mapper, menuItemRepository, logger)
     {
         _fileService = fileService;
+    }
+
+    #endregion
+    
+    #region Availability Expression
+
+    public static Expression<Func<MenuItem, bool>> IsAvailable(TimeSpan nowTime)
+    {
+        return mi =>
+            mi.AvailabilityPeriod.IsAvailable && (
+                mi.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.Unlimited ||
+                (
+                    (mi.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.AvailablePeriod &&
+                     nowTime >= mi.AvailabilityPeriod.FromTime &&
+                     nowTime <= mi.AvailabilityPeriod.ToTime)
+                    ||
+                    (mi.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.UnavailablePeriod &&
+                     (nowTime < mi.AvailabilityPeriod.FromTime ||
+                      nowTime > mi.AvailabilityPeriod.ToTime))
+                ));
     }
 
     #endregion
