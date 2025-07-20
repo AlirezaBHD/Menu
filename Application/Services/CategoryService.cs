@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Application.Dto.Category;
 using Application.Services.Interfaces;
 using AutoMapper;
@@ -22,6 +23,26 @@ public class CategoryService : Service<Category>, ICategoryService
 
     #endregion
 
+    #region Availability Expression
+
+    public static Expression<Func<Category, bool>> IsAvailable(TimeSpan nowTime)
+    {
+        return c =>
+            c.AvailabilityPeriod.IsAvailable && (
+                c.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.Unlimited ||
+                (
+                    (c.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.AvailablePeriod &&
+                     nowTime >= c.AvailabilityPeriod.FromTime &&
+                     nowTime <= c.AvailabilityPeriod.ToTime)
+                    ||
+                    (c.AvailabilityPeriod.AvailabilityType == AvailabilityEnum.UnavailablePeriod &&
+                     (nowTime < c.AvailabilityPeriod.FromTime ||
+                      nowTime > c.AvailabilityPeriod.ToTime))
+                ));
+    }
+
+    #endregion
+    
     public async Task<CategoryResponse> CreateCategoryAsync(Guid restaurantId, CreateCategoryRequest createCategoryRequest)
     {
         var entity = Mapper.Map<CreateCategoryRequest, Category>(createCategoryRequest);
