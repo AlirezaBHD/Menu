@@ -25,6 +25,7 @@ public class MenuItem: BaseEntity
     
     public ActivityPeriod ActivityPeriod { get; set; } = new();
 
+    public List<MenuItemVariant> Variants { get; set; } = new();
     public Guid? SectionId { get; set; }
     public Section? Section { get; set; }
 }
