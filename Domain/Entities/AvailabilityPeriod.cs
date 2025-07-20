@@ -8,7 +8,7 @@ public class AvailabilityPeriod
     public bool IsAvailable { get; set; } = true;
     
     [Display(Name = "وضعیت فعالیت")]
-    public AvailabilityEnum AvailabilityType { get; set; } = AvailabilityEnum.Available;
+    public AvailabilityEnum AvailabilityType { get; set; } = AvailabilityEnum.Unlimited;
     
     [Display(Name = "ساعت شروع")]
     public TimeSpan FromTime { get; set; } = TimeSpan.Zero;
@@ -19,6 +19,7 @@ public class AvailabilityPeriod
 
 public enum AvailabilityEnum
 {
-    Available = 1,
-    Unavailable = 2
+    Unlimited = 0,
+    AvailablePeriod = 1,
+    UnavailablePeriod = 2
 }
