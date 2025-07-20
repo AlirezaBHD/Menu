@@ -1,5 +1,6 @@
 using Application.Dto.MenuItem;
 using Application.Extensions;
+using Application.Validations.AvailabilityPeriod;
 using FluentValidation;
 
 namespace Application.Validations.MenuItem;
@@ -22,5 +23,9 @@ public class CreateMenuItemRequestValidator : AbstractValidator<CreateMenuItemRe
             .PrecisionScale(18, 0, true).WithMessage("قیمت باید عددی صحیح باشد.");
 
         RuleFor(c => c.ImageFile).ImageFileRule();
+        
+        RuleFor(x => x.AvailabilityPeriod)
+            .NotNull().WithMessage("دوره دسترسی الزامی است")
+            .SetValidator(new AvailabilityPeriodDtoValidator());
     }
 }
