@@ -24,21 +24,21 @@ public class SectionService : Service<Section>, ISectionService
 
     #endregion
 
-    #region Availability Expression
+    #region Activity Expression
 
     public static Expression<Func<Section, bool>> IsAvailable(TimeSpan nowTime)
     {
         return s =>
-            s.AvailabilityPeriod.IsActive && (
-                s.AvailabilityPeriod.ActivityType == ActivityEnum.Unlimited ||
+            s.ActivityPeriod.IsActive && (
+                s.ActivityPeriod.ActivityType == ActivityEnum.Unlimited ||
                 (
-                    (s.AvailabilityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
-                     nowTime >= s.AvailabilityPeriod.FromTime &&
-                     nowTime <= s.AvailabilityPeriod.ToTime)
+                    (s.ActivityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
+                     nowTime >= s.ActivityPeriod.FromTime &&
+                     nowTime <= s.ActivityPeriod.ToTime)
                     ||
-                    (s.AvailabilityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
-                     (nowTime < s.AvailabilityPeriod.FromTime ||
-                      nowTime > s.AvailabilityPeriod.ToTime))
+                    (s.ActivityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
+                     (nowTime < s.ActivityPeriod.FromTime ||
+                      nowTime > s.ActivityPeriod.ToTime))
                 ));
     }
 

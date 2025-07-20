@@ -1,9 +1,9 @@
-using Application.Dto.AvailabilityPeriod;
+using Application.Dto.ActivityPeriod;
 
 namespace Application.Dto.Category;
 
 public class CreateCategoryRequest
 {
     public string Title { get; set; }
-    public AvailabilityPeriodRequest AvailabilityPeriod { get; set; }
+    public ActivityPeriodRequest ActivityPeriod { get; set; }
 }

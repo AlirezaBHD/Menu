@@ -6,7 +6,7 @@ namespace Infrastructure.Persistence.Extensions;
 
 public static class ModelBuilderExtensions
 {
-    public static void ConfigureAvailabilityPeriod<T>(this OwnedNavigationBuilder<T, AvailabilityPeriod> ap)
+    public static void ConfigureActivityPeriod<T>(this OwnedNavigationBuilder<T, ActivityPeriod> ap)
         where T : class
     {
         ap.Property(p => p.IsActive).HasColumnName("is_active");

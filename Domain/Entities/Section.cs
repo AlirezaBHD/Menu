@@ -9,7 +9,7 @@ public class Section: BaseEntity
     [MaxLength(50)]
     [Display(Name = "عنوان")]
     public required string Title { get; set; }
-    public AvailabilityPeriod AvailabilityPeriod { get; set; } = new();
+    public ActivityPeriod ActivityPeriod { get; set; } = new();
     public Guid? CategoryId { get; set; }
 
     public Category? Category { get; set; }

@@ -20,7 +20,7 @@ public class MenuItem: BaseEntity
     [Display(Name = "مسیر عکس")]
     public string? ImagePath { get; set; }
     
-    public AvailabilityPeriod AvailabilityPeriod { get; set; } = new();
+    public ActivityPeriod ActivityPeriod { get; set; } = new();
 
     public Guid? SectionId { get; set; }
     public Section? Section { get; set; }

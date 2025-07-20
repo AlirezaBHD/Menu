@@ -1,6 +1,6 @@
 using Application.Dto.MenuItem;
 using Application.Extensions;
-using Application.Validations.AvailabilityPeriod;
+using Application.Validations.ActivityPeriod;
 using FluentValidation;
 
 namespace Application.Validations.MenuItem;
@@ -24,8 +24,8 @@ public class UpdateMenuItemRequestValidator : AbstractValidator<UpdateMenuItemRe
 
         RuleFor(c => c.ImageFile)!.ImageFileRule(blank: true);
         
-        RuleFor(x => x.AvailabilityPeriod)
+        RuleFor(x => x.ActivityPeriod)
             .NotNull().WithMessage("دوره دسترسی الزامی است")
-            .SetValidator(new AvailabilityPeriodDtoValidator());
+            .SetValidator(new ActivityPeriodDtoValidator());
     }
 }

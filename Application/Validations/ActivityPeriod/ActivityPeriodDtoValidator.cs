@@ -1,21 +1,21 @@
-﻿using Application.Dto.AvailabilityPeriod;
+﻿using Application.Dto.ActivityPeriod;
 using Domain.Entities;
 using FluentValidation;
 
-namespace Application.Validations.AvailabilityPeriod;
+namespace Application.Validations.ActivityPeriod;
 
 
-public class AvailabilityPeriodDtoValidator : AbstractValidator<AvailabilityPeriodRequest>
+public class ActivityPeriodDtoValidator : AbstractValidator<ActivityPeriodRequest>
 {
-    public AvailabilityPeriodDtoValidator()
+    public ActivityPeriodDtoValidator()
     {
-        var entityType = typeof(Domain.Entities.AvailabilityPeriod);
+        var entityType = typeof(Domain.Entities.ActivityPeriod);
         RuleFor(ap => ap.IsAvailable)
             .NotNull().WithMessage("وضعیت فعال بودن الزامی است");
         
-        RuleFor(ap => ap.ActivatyEnum)!.IsInEnum().WithMessage("مقدار وارد شده برای (وضعیت فعالیت) اشتباه است");
+        RuleFor(ap => ap.ActivityEnum)!.IsInEnum().WithMessage("مقدار وارد شده برای (وضعیت فعالیت) اشتباه است");
         
-        When(ap => ap.ActivatyEnum != ActivityEnum.Unlimited, () =>
+        When(ap => ap.ActivityEnum != ActivityEnum.Unlimited, () =>
         {
             RuleFor(ap => ap.FromTime)
                 .NotNull().WithMessage("ساعت شروع بازه الزامی است")

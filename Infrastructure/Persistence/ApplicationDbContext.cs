@@ -39,16 +39,16 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
         }
         
         modelBuilder.Entity<Category>()
-            .OwnsOne(c => c.AvailabilityPeriod)
-            .ConfigureAvailabilityPeriod();
+            .OwnsOne(c => c.ActivityPeriod)
+            .ConfigureActivityPeriod();
 
         modelBuilder.Entity<Section>()
-            .OwnsOne(s => s.AvailabilityPeriod)
-            .ConfigureAvailabilityPeriod();
+            .OwnsOne(s => s.ActivityPeriod)
+            .ConfigureActivityPeriod();
 
         modelBuilder.Entity<MenuItem>()
-            .OwnsOne(m => m.AvailabilityPeriod)
-            .ConfigureAvailabilityPeriod();
+            .OwnsOne(m => m.ActivityPeriod)
+            .ConfigureActivityPeriod();
     }
     
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();

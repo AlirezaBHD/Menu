@@ -23,21 +23,21 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
     #endregion
     
-    #region Availability Expression
+    #region Activity Expression
 
     public static Expression<Func<MenuItem, bool>> IsAvailable(TimeSpan nowTime)
     {
         return mi =>
-            mi.AvailabilityPeriod.IsActive && (
-                mi.AvailabilityPeriod.ActivityType == ActivityEnum.Unlimited ||
+            mi.ActivityPeriod.IsActive && (
+                mi.ActivityPeriod.ActivityType == ActivityEnum.Unlimited ||
                 (
-                    (mi.AvailabilityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
-                     nowTime >= mi.AvailabilityPeriod.FromTime &&
-                     nowTime <= mi.AvailabilityPeriod.ToTime)
+                    (mi.ActivityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
+                     nowTime >= mi.ActivityPeriod.FromTime &&
+                     nowTime <= mi.ActivityPeriod.ToTime)
                     ||
-                    (mi.AvailabilityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
-                     (nowTime < mi.AvailabilityPeriod.FromTime ||
-                      nowTime > mi.AvailabilityPeriod.ToTime))
+                    (mi.ActivityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
+                     (nowTime < mi.ActivityPeriod.FromTime ||
+                      nowTime > mi.ActivityPeriod.ToTime))
                 ));
     }
 

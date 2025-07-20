@@ -1,6 +1,6 @@
 using Application.Dto.Section;
 using Application.Extensions;
-using Application.Validations.AvailabilityPeriod;
+using Application.Validations.ActivityPeriod;
 using FluentValidation;
 
 namespace Application.Validations.Section;
@@ -14,8 +14,8 @@ public class CreateSectionRequestValidator : AbstractValidator<CreateSectionRequ
         RuleFor(c => c.Title)!
             .LengthValidationRule(dto => dto.Title!, entityType);
         
-        RuleFor(x => x.AvailabilityPeriod)
+        RuleFor(x => x.ActivityPeriod)
             .NotNull().WithMessage("دوره دسترسی الزامی است")
-            .SetValidator(new AvailabilityPeriodDtoValidator());
+            .SetValidator(new ActivityPeriodDtoValidator());
     }
 }

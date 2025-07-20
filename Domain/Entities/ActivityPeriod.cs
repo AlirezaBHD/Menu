@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class AvailabilityPeriod
+public class ActivityPeriod
 {
     [Display(Name = "فعال بودن")]
     public bool IsActive { get; set; } = true;
