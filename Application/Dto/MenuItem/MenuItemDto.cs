@@ -5,7 +5,6 @@ namespace Application.Dto.MenuItem;
 
 public class MenuItemDto
 {
-    public Guid Id { get; set; }
     [Required]
     public string Title { get; set; }
     public string? Description { get; set; }
