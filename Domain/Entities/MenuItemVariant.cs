@@ -9,17 +9,13 @@ public class MenuItemVariant : BaseEntity
     public Guid MenuItemId { get; set; }
     public MenuItem MenuItem { get; set; } = null!;
 
-    [MaxLength(100)]
-    [Display(Name = "عنوان نوع")]
-    public string Title { get; set; } = "";
+    [MaxLength(150)]
+    [Display(Name = "جزئیات")]
+    public string Detail { get; set; }  = "";
 
-    [MaxLength(300)]
-    [Display(Name = "توضیحات")]
-    public string Description { get; set; }  = "";
-
-    [Display(Name = "قیمت")]
+    [Display(Name = "مبلغ")]
     public decimal Price { get; set; }
 
-    [Display(Name = "موجودی")]
+    [Display(Name = "قابل ارائه بودن")]
     public bool IsAvailable { get; set; } = true;
 }
