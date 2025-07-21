@@ -1,7 +1,6 @@
 using Application.Dto.ActivityPeriod;
 using Application.Dto.MenuItemVariant;
 using Application.Extensions;
-using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
