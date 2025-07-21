@@ -10,7 +10,7 @@ public class ActivityPeriodDtoValidator : AbstractValidator<ActivityPeriodReques
     public ActivityPeriodDtoValidator()
     {
         var entityType = typeof(Domain.Entities.ActivityPeriod);
-        RuleFor(ap => ap.IsAvailable)
+        RuleFor(ap => ap.IsActive)
             .NotNull().WithMessage("وضعیت فعال بودن الزامی است");
         
         RuleFor(ap => ap.ActivityEnum)!.IsInEnum().WithMessage("مقدار وارد شده برای (وضعیت فعالیت) اشتباه است");
