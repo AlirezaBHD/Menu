@@ -14,13 +14,10 @@ public class MenuItem: BaseEntity
     [Display(Name = "توضیحات")]
     public string? Description { get; set; }
     
-    [Display(Name = "مبلغ")]
-    public decimal Price { get; set; }
-    
     [Display(Name = "مسیر عکس")]
     public string? ImagePath { get; set; }
 
-    [Display(Name = "دسترس بودن")] 
+    [Display(Name = "قابل ارائه بودن")] 
     public bool IsAvailable { get; set; } = true;
     
     public ActivityPeriod ActivityPeriod { get; set; } = new();
