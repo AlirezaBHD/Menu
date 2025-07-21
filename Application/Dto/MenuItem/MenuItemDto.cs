@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Application.Dto.MenuItemVariant;
 
 namespace Application.Dto.MenuItem;
 
@@ -8,7 +9,7 @@ public class MenuItemDto
     [Required]
     public string Title { get; set; }
     public string? Description { get; set; }
-    public decimal Price { get; set; }
     public string? ImagePath { get; set; }
     public bool IsAvailable { get; set; }
+    public List<MenuItemVariantDto> Variants { get; set; }
 }
