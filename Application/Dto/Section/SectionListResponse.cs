@@ -8,5 +8,5 @@ public class SectionListResponse
     [Required]
     public string Title { get; set; }
     public int Order { get; set; }
-    public string CategoryName { get; set; }
+    public string CategoryTitle { get; set; }
 }
