@@ -47,7 +47,12 @@ public class SectionService : Service<Section>, ISectionService
     public async Task<SectionResponse> CreateSectionAsync(Guid categoryId, CreateSectionRequest createSectionRequest)
     {
         var entity = Mapper.Map<CreateSectionRequest, Section>(createSectionRequest);
+        
         entity.CategoryId = categoryId;
+        
+        var count = Queryable.Count();
+        entity.Order = count + 1;
+        
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         var response = Mapper.Map<Section, SectionResponse>(entity);
