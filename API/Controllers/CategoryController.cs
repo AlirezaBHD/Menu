@@ -1,4 +1,5 @@
 ﻿using Application.Dto.Category;
+using Application.Dto.Shared;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +55,7 @@ public class CategoryController : ControllerBase
     [Authorize]
     [SwaggerResponse(200, "List of Categories", typeof(IEnumerable<CategoryListResponse>))]
     [HttpGet]
-    public async Task<IActionResult> GetCategory()
+    public async Task<IActionResult> GetCategories()
     {
         var categories = await _categoryService.GetCategoryListAsync();
         return Ok(categories);
