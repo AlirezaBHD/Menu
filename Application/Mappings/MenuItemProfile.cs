@@ -12,5 +12,8 @@ public class MenuItemProfile : Profile
         CreateMap<MenuItem, MenuItemResponse>();
         CreateMap<CreateMenuItemRequest, MenuItem>();
         CreateMap<UpdateMenuItemRequest, MenuItem>();
+        CreateMap<MenuItem, MenuItemListResponse>().ForMember(dest => dest.SectionTitle, opt =>
+            opt.MapFrom(src =>
+                src.Section!.Title)); 
     }
 }
