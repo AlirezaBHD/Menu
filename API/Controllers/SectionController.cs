@@ -65,4 +65,13 @@ public class SectionController : ControllerBase
         var categories = await _sectionService.GetSectionListAsync();
         return Ok(categories);
     }
+
+    [Authorize]
+    [SwaggerResponse(204, "Section order updated successfully")]
+    [HttpPatch("order")]
+    public async Task<IActionResult> UpdateSectionOrder([FromBody] List<OrderDto> dto)
+    {
+        await _sectionService.UpdateSectionOrderAsync(dto);
+        return NoContent();
+    }
 }
