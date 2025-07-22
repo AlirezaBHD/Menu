@@ -104,4 +104,28 @@ public class SectionService : Service<Section>, ISectionService
         return  result.OrderBy(s => s.Order);
     }
 
+    public async Task UpdateSectionOrderAsync(List<OrderDto> dto)
+    {
+        var allSectionsCount = Queryable.Count();
+        if (allSectionsCount != dto.Count)
+            throw new ValidationException("تعداد آبجکت های ورودی با تعداد آبجکت های موجود مغایرت دارد");
+        
+        var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
+
+        var sectionIds = orderMap.Keys.ToList();
+        var sections = await Queryable
+            .Where(c => sectionIds.Contains(c.Id))
+            .ToListAsync();
+        
+        foreach (var section in sections)
+        {
+            if (!orderMap.TryGetValue(section.Id, out var newOrder)) continue;
+            if (section.Order != newOrder)
+            {
+                section.Order = newOrder;
+            }
+        }
+
+        await Repository.SaveAsync();
+    }
 }
