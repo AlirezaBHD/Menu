@@ -1,4 +1,5 @@
 using Application.Dto.Section;
+using Application.Dto.Shared;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,5 +55,14 @@ public class SectionController : ControllerBase
     {
         await _sectionService.UpdateSectionAsync(id: id, dto: updateSectionRequest);
         return NoContent();
+    }
+    
+    [Authorize]
+    [SwaggerResponse(200, "List of Sections", typeof(IEnumerable<SectionListResponse>))]
+    [HttpGet]
+    public async Task<IActionResult> GetSections()
+    {
+        var categories = await _sectionService.GetSectionListAsync();
+        return Ok(categories);
     }
 }
