@@ -1,5 +1,5 @@
 using Application.Dto.MenuItem;
-using Application.Dto.Restaurant;
+using Application.Dto.Shared;
 using Domain.Entities;
 
 namespace Application.Services.Interfaces;

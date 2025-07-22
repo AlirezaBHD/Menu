@@ -95,7 +95,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         return  result.OrderBy(s => s.Order);
     }
 
-    public async Task UpdateSectionOrderAsync(List<OrderDto> dto)
+    public async Task UpdateMenuItemOrderAsync(List<OrderDto> dto)
     {
         var allMenuItemCount = Queryable.Count();
         if (allMenuItemCount != dto.Count)
