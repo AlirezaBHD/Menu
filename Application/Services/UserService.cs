@@ -45,7 +45,7 @@ public class UserService : Service<ApplicationUser>, IUserService
 
     public async Task SetRestaurantIdInSessionAsync(Guid restaurantId)
     {
-        var isOwnedByUser = await Queryable
+        var isOwnedByUser = await _userRepository.GetQueryable()
             .Where(u => u.Id == _currentUser.UserId)
             .SelectMany(u => u.Restaurants)
             .AnyAsync(r => r.Id == restaurantId);
