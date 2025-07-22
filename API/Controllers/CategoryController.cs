@@ -1,5 +1,4 @@
 ﻿using Application.Dto.Category;
-using Application.Dto.Section;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,7 @@ public class CategoryController : ControllerBase
             createCategoryRequest: createCategoryRequest);
         return Ok(category);
     }
-    
+
     [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
@@ -52,5 +51,14 @@ public class CategoryController : ControllerBase
     {
         await _categoryService.UpdateCategoryAsync(id: id, dto: updateCategoryDto);
         return NoContent();
+    }
+
+    [Authorize]
+    [SwaggerResponse(200, "List of Categories", typeof(IEnumerable<CategoryListResponse>))]
+    [HttpGet]
+    public async Task<IActionResult> GetCategory()
+    {
+        var categories = await _categoryService.GetCategoryListAsync();
+        return Ok(categories);
     }
 }
