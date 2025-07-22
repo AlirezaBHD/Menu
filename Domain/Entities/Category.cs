@@ -10,6 +10,7 @@ public class Category: BaseEntity
     [Display(Name = "عنوان")]
     public required string Title { get; set; }
     public ActivityPeriod ActivityPeriod { get; set; } = new();
+    public int Order { get; set; }
     public Guid RestaurantId { get; set; }
 
     public Restaurant? Restaurant { get; set; }

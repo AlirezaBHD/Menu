@@ -21,6 +21,8 @@ public class MenuItem: BaseEntity
     public bool IsAvailable { get; set; } = true;
     
     public ActivityPeriod ActivityPeriod { get; set; } = new();
+    
+    public int Order { get; set; }
 
     public List<MenuItemVariant> Variants { get; set; } = new();
     public Guid? SectionId { get; set; }
