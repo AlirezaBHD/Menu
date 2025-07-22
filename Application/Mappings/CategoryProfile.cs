@@ -14,12 +14,13 @@ public class CategoryProfile : Profile
         CreateMap<Category, MenuCategoryDto>()
             .ForMember(dest => dest.Sections, opt =>
                 opt.MapFrom(src =>
-                    src.Sections.AsQueryable().Where(isAvailableExpr)
+                    src.Sections.AsQueryable().Where(isAvailableExpr).OrderByDescending(s => s.CreatedOn)
                 )
             );
 
         CreateMap<CreateCategoryRequest, Category>();
         CreateMap<Category, CategoryResponse>();
         CreateMap<UpdateCategoryRequest, Category>();
+        CreateMap<Category, CategoryListResponse>();
     }
 }
