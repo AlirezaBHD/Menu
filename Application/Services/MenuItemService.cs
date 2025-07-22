@@ -1,9 +1,12 @@
 using System.Linq.Expressions;
 using Application.Dto.MenuItem;
+using Application.Dto.Shared;
+using Application.Exceptions;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -78,5 +81,36 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         Repository.Update(menuItem);
         await Repository.SaveAsync();
         Logger.LogInformation("Updated menu item with ID {Id}. Data: {@UpdateData}", id, menuItem);
+    }
+    
+    public async Task<IEnumerable<MenuItemListResponse>> GetSectionListAsync()
+    {
+        var result =await GetAllProjectedAsync<MenuItemListResponse>(trackingBehavior:TrackingBehavior.AsNoTracking);
+        return  result.OrderBy(s => s.Order);
+    }
+
+    public async Task UpdateSectionOrderAsync(List<OrderDto> dto)
+    {
+        var allMenuItemCount = Queryable.Count();
+        if (allMenuItemCount != dto.Count)
+            throw new ValidationException("تعداد آبجکت های ورودی با تعداد آبجکت های موجود مغایرت دارد");
+        
+        var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
+
+        var menuItemIds = orderMap.Keys.ToList();
+        var menuItems = await Queryable
+            .Where(c => menuItemIds.Contains(c.Id))
+            .ToListAsync();
+        
+        foreach (var section in menuItems)
+        {
+            if (!orderMap.TryGetValue(section.Id, out var newOrder)) continue;
+            if (section.Order != newOrder)
+            {
+                section.Order = newOrder;
+            }
+        }
+
+        await Repository.SaveAsync();
     }
 }
