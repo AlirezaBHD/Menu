@@ -1,4 +1,4 @@
-﻿using Application.Dto.Restaurant;
+﻿using Application.Dto.User;
 using Domain.Entities;
 
 namespace Application.Services.Interfaces;
