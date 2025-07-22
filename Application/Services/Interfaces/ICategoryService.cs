@@ -9,4 +9,5 @@ public interface ICategoryService : IService<Category>
     Task<CategoryResponse> GetCategoryByIdAsync(Guid categoryId);
     Task DeleteCategoryAsync(Guid id);
     Task UpdateCategoryAsync(Guid id, UpdateCategoryRequest dto);
+    Task<IEnumerable<CategoryListResponse>> GetCategoryListAsync();
 }

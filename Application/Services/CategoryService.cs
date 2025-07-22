@@ -4,6 +4,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -14,11 +15,13 @@ public class CategoryService : Service<Category>, ICategoryService
     #region Injection
 
     private readonly ISectionRepository _sectionRepository;
+    private readonly ICurrentUser _user;
 
-    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository, ILogger<Category> logger)
+    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository, ILogger<Category> logger, ICurrentUser user)
         : base(mapper, categoryRepository, logger)
     {
         _sectionRepository = sectionRepository;
+        _user = user;
     }
 
     #endregion
@@ -87,5 +90,12 @@ public class CategoryService : Service<Category>, ICategoryService
         Repository.Update(category);
         await Repository.SaveAsync();
         Logger.LogInformation("Updated category with ID: {Id}. Data: {@UpdateData}", id, category);
+    }
+
+    public async Task<IEnumerable<CategoryListResponse>> GetCategoryListAsync()
+    {
+        var result =await GetAllProjectedAsync<CategoryListResponse>
+            (predicate:c => c.RestaurantId == _user.RestaurantId,trackingBehavior: TrackingBehavior.AsNoTracking);
+        return result.OrderBy(c => c.Order);
     }
 }
