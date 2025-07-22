@@ -19,12 +19,10 @@ public class CategoryController : ControllerBase
 
     [Authorize]
     [SwaggerResponse(200, "Category created Successfully", typeof(CategoryResponse))]
-    [HttpPost("/api/restaurant/{restaurantId}/[controller]")]
-    public async Task<IActionResult> CreateCategory([FromRoute] Guid restaurantId,
-        [FromBody] CreateCategoryRequest createCategoryRequest)
+    [HttpPost("[controller]")]
+    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest createCategoryRequest)
     {
-        var category = await _categoryService.CreateCategoryAsync(restaurantId: restaurantId,
-            createCategoryRequest: createCategoryRequest);
+        var category = await _categoryService.CreateCategoryAsync(createCategoryRequest: createCategoryRequest);
         return Ok(category);
     }
 

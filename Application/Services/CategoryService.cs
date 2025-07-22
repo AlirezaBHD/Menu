@@ -46,10 +46,10 @@ public class CategoryService : Service<Category>, ICategoryService
 
     #endregion
     
-    public async Task<CategoryResponse> CreateCategoryAsync(Guid restaurantId, CreateCategoryRequest createCategoryRequest)
+    public async Task<CategoryResponse> CreateCategoryAsync(CreateCategoryRequest createCategoryRequest)
     {
         var entity = Mapper.Map<CreateCategoryRequest, Category>(createCategoryRequest);
-        entity.RestaurantId = restaurantId;
+        entity.RestaurantId = _user.RestaurantId;
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         var response = Mapper.Map<Category, CategoryResponse>(entity);
