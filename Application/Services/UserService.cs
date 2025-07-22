@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -15,13 +16,15 @@ public class UserService : Service<ApplicationUser>, IUserService
 
     private readonly IUserRepository _userRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly IHttpContextAccessor _contextAccessor;
 
     public UserService(IMapper mapper, ILogger<ApplicationUser> logger, IUserRepository userRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser, IHttpContextAccessor contextAccessor)
         : base(mapper, userRepository, logger)
     {
         _userRepository = userRepository;
         _currentUser = currentUser;
+        _contextAccessor = contextAccessor;
     }
 
     #endregion
@@ -38,5 +41,18 @@ public class UserService : Service<ApplicationUser>, IUserService
                 })).AsNoTracking().ToListAsync();
 
         return result;
+    }
+
+    public async Task SetRestaurantIdInSessionAsync(Guid restaurantId)
+    {
+        var isOwnedByUser = await Queryable
+            .Where(u => u.Id == _currentUser.UserId)
+            .SelectMany(u => u.Restaurants)
+            .AnyAsync(r => r.Id == restaurantId);
+
+        if (isOwnedByUser)
+        {
+            _contextAccessor.HttpContext!.Session.SetString("CurrentRestaurantId", restaurantId.ToString());
+        }
     }
 }
