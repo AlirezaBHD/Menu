@@ -40,10 +40,15 @@ public class ExceptionHandlingMiddleware
                 statusCode = StatusCodes.Status400BadRequest;
                 response.Message = ve.Message;
                 break;
-
+            
             case NotFoundException nfe:
-                statusCode = StatusCodes.Status404NotFound;
+                statusCode = StatusCodes.Status403Forbidden;
                 response.Message = nfe.Message;
+                break;
+            
+            case ForbiddenException fe:
+                statusCode = StatusCodes.Status404NotFound;
+                response.Message = fe.Message;
                 break;
 
             default:
