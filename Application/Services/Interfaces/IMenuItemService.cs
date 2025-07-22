@@ -9,4 +9,6 @@ public interface IMenuItemService: IService<MenuItem>
     Task<MenuItemResponse> CreateMenuItemAsync(Guid sectionId, CreateMenuItemRequest createMenuItemRequest);
     Task DeleteMenuItemAsync(Guid id);
     Task UpdateMenuItemAsync(Guid id, UpdateMenuItemRequest dto);
+    Task<IEnumerable<MenuItemListResponse>> GetMenuItemListAsync();
+    Task UpdateMenuItemOrderAsync(List<OrderDto> dto);
 }

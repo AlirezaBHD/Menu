@@ -1,6 +1,7 @@
 using Application.Dto.Authentication;
 using Application.Dto.Category;
 using Application.Dto.MenuItem;
+using Application.Dto.Shared;
 using Application.Services.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -52,5 +53,14 @@ public class MenuItemController : ControllerBase
     {
         await _menuItemService.UpdateMenuItemAsync(id: id, dto: updateMenuItemRequest);
         return NoContent();
+    }
+    
+    [Authorize]
+    [SwaggerResponse(200, "List of Sections", typeof(IEnumerable<MenuItemListResponse>))]
+    [HttpGet]
+    public async Task<IActionResult> GetSections()
+    {
+        var categories = await _menuItemService.GetMenuItemListAsync();
+        return Ok(categories);
     }
 }

@@ -89,7 +89,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         Logger.LogInformation("Updated menu item with ID {Id}. Data: {@UpdateData}", id, menuItem);
     }
     
-    public async Task<IEnumerable<MenuItemListResponse>> GetSectionListAsync()
+    public async Task<IEnumerable<MenuItemListResponse>> GetMenuItemListAsync()
     {
         var result =await GetAllProjectedAsync<MenuItemListResponse>(trackingBehavior:TrackingBehavior.AsNoTracking);
         return  result.OrderBy(s => s.Order);
