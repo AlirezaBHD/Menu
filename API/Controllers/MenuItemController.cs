@@ -63,4 +63,13 @@ public class MenuItemController : ControllerBase
         var categories = await _menuItemService.GetMenuItemListAsync();
         return Ok(categories);
     }
+
+    [Authorize]
+    [SwaggerResponse(204, "Section order updated successfully")]
+    [HttpPatch("order")]
+    public async Task<IActionResult> UpdateSectionOrder([FromBody] List<OrderDto> dto)
+    {
+        await _menuItemService.UpdateMenuItemOrderAsync(dto);
+        return NoContent();
+    }
 }
