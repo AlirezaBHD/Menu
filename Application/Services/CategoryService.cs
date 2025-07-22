@@ -50,8 +50,14 @@ public class CategoryService : Service<Category>, ICategoryService
     
     public async Task<CategoryResponse> CreateCategoryAsync(CreateCategoryRequest createCategoryRequest)
     {
+        
         var entity = Mapper.Map<CreateCategoryRequest, Category>(createCategoryRequest);
+        
         entity.RestaurantId = _user.RestaurantId;
+        
+        var count = Queryable.Count();
+        entity.Order = count + 1;
+        
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         var response = Mapper.Map<Category, CategoryResponse>(entity);
