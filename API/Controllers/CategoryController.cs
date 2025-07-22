@@ -59,4 +59,13 @@ public class CategoryController : ControllerBase
         var categories = await _categoryService.GetCategoryListAsync();
         return Ok(categories);
     }
+
+    [Authorize]
+    [SwaggerResponse(204, "Category order updated successfully")]
+    [HttpPatch("order")]
+    public async Task<IActionResult> UpdateCategoryOrder([FromBody] List<OrderDto> dto)
+    {
+        await _categoryService.UpdateCategoryOrderAsync(dto);
+        return NoContent();
+    }
 }
