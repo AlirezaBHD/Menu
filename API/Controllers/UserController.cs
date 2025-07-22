@@ -19,11 +19,19 @@ public class UserController : ControllerBase
     
     [Authorize]
     [SwaggerResponse(200, "User's restaurants", typeof(IEnumerable<UserRestaurantsDto>))]
-    [HttpGet("restaurants")]
+    [HttpGet("restaurant")]
     public async Task<IActionResult> GetUsersRestaurants()
     {
         var result = await _userService.Restaurants();
         return Ok(result);
     }
     
+    [Authorize]
+    [SwaggerResponse(204, "Restaurant Id have been set in session")]
+    [HttpPost("restaurant/{Id}")]
+    public async Task<IActionResult> SetRestaurantIdInSession([FromRoute] Guid Id)
+    {
+        await _userService.SetRestaurantIdInSessionAsync(Id);
+        return NoContent();
+    }
 }
