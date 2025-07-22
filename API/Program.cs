@@ -155,6 +155,19 @@ builder.Services.AddRateLimiter(options =>
 
 #endregion
 
+#region Session
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromDays(1);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+#endregion
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -175,6 +188,7 @@ using (var scope = app.Services.CreateScope())
     await IdentitySeeder.SeedRolesAsync(services);
 }
 
+app.UseSession();
 
 app.UseHttpsRedirection();
 
