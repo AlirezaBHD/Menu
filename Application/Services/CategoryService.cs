@@ -1,5 +1,7 @@
 using System.Linq.Expressions;
 using Application.Dto.Category;
+using Application.Dto.Shared;
+using Application.Exceptions;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -97,5 +99,30 @@ public class CategoryService : Service<Category>, ICategoryService
         var result =await GetAllProjectedAsync<CategoryListResponse>
             (predicate:c => c.RestaurantId == _user.RestaurantId,trackingBehavior: TrackingBehavior.AsNoTracking);
         return result.OrderBy(c => c.Order);
+    }
+
+    public async Task UpdateCategoryOrderAsync(List<OrderDto> dto)
+    {
+        var allCategoriesCount = Queryable.Count();
+        if (allCategoriesCount != dto.Count)
+            throw new ValidationException("تعداد آبجکت های ورودی با تعداد آبجکت های موجود مغایرت دارد");
+        
+        var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
+
+        var categoryIds = orderMap.Keys.ToList();
+        var categories = await Queryable
+            .Where(c => categoryIds.Contains(c.Id))
+            .ToListAsync();
+        
+        foreach (var category in categories)
+        {
+            if (!orderMap.TryGetValue(category.Id, out var newOrder)) continue;
+            if (category.Order != newOrder)
+            {
+                category.Order = newOrder;
+            }
+        }
+
+        await Repository.SaveAsync();
     }
 }
