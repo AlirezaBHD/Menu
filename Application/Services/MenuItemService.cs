@@ -49,9 +49,15 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     public async Task<MenuItemResponse> CreateMenuItemAsync(Guid sectionId, CreateMenuItemRequest createMenuItemRequest)
     {
         var entity = Mapper.Map<CreateMenuItemRequest, MenuItem>(createMenuItemRequest);
+        
         entity.SectionId = sectionId;
+        
+        var count = Queryable.Count();
+        entity.Order = count + 1;
+        
         var imagePath = await _fileService.SaveFileAsync(createMenuItemRequest.ImageFile, "MenuItem");
         entity.ImagePath = imagePath;
+        
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         var response = Mapper.Map<MenuItem, MenuItemResponse>(entity);
