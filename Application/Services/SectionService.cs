@@ -1,5 +1,7 @@
 using System.Linq.Expressions;
 using Application.Dto.Section;
+using Application.Dto.Shared;
+using Application.Exceptions;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -95,4 +97,11 @@ public class SectionService : Service<Section>, ISectionService
         await Repository.SaveAsync();
         Logger.LogInformation("Updated section with ID {Id}. Data: {@UpdateData}", id, section);
     }
+
+    public async Task<IEnumerable<SectionListResponse>> GetSectionListAsync()
+    {
+        var result =await GetAllProjectedAsync<SectionListResponse>(trackingBehavior:TrackingBehavior.AsNoTracking);
+        return  result.OrderBy(s => s.Order);
+    }
+
 }
