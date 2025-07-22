@@ -19,22 +19,19 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
         {
             IQueryable<Category> query = base.LimitedQuery;
 
-            if (_currentUser.UserId.HasValue)
-            {
-                query = query
-                    .Include(c => c!.Restaurant)
-                    .Where(c => c.Restaurant!.OwnerId == _currentUser.UserId);
-            }
+            query = query
+                .Include(c => c!.Restaurant)
+                .Where(c => c.RestaurantId == _currentUser.RestaurantId);
 
             return query;
         }
     }
-    
+
     public CategoryRepository(ApplicationDbContext context, ICurrentUser currentUser) : base(context)
     {
         _context = context;
         _currentUser = currentUser;
     }
-    
+
     #endregion
 }

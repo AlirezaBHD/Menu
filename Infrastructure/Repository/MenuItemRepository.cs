@@ -19,14 +19,11 @@ public class MenuItemRepository : Repository<MenuItem>, IMenuItemRepository
         {
             IQueryable<MenuItem> query = base.LimitedQuery;
 
-            if (_currentUser.UserId.HasValue)
-            {
-                query = query
-                    .Include(m => m.Section)
-                    .ThenInclude(s => s!.Category)
-                    .ThenInclude(c => c!.Restaurant)
-                    .Where(m => m.Section!.Category!.Restaurant!.OwnerId == _currentUser.UserId);
-            }
+            query = query
+                .Include(m => m.Section)
+                .ThenInclude(s => s!.Category)
+                .ThenInclude(c => c!.Restaurant)
+                .Where(m => m.Section!.Category!.RestaurantId == _currentUser.RestaurantId);
 
             return query;
         }
@@ -37,6 +34,6 @@ public class MenuItemRepository : Repository<MenuItem>, IMenuItemRepository
         _context = context;
         _currentUser = currentUser;
     }
-    
+
     #endregion
 }
