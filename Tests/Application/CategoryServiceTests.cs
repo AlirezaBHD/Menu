@@ -3,6 +3,7 @@ using Application.Services;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using MockQueryable;
@@ -18,6 +19,7 @@ public class CategoryServiceTests
     private readonly Mock<IMapper> _mapperMock;
     private readonly Mock<ILogger<Domain.Entities.Category>> _loggerMock;
     private readonly CategoryService _service;
+    private readonly Mock<ICurrentUser> _user;
 
     public CategoryServiceTests()
     {
@@ -25,12 +27,14 @@ public class CategoryServiceTests
         _sectionRepoMock = new Mock<ISectionRepository>();
         _mapperMock = new Mock<IMapper>();
         _loggerMock = new Mock<ILogger<Domain.Entities.Category>>();
+        _user = new Mock<ICurrentUser>();
 
         _service = new CategoryService(
             _repoMock.Object,
             _mapperMock.Object,
             _sectionRepoMock.Object,
-            _loggerMock.Object
+            _loggerMock.Object,
+            _user.Object
         );
     }
 
