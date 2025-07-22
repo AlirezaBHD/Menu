@@ -22,5 +22,8 @@ public class SectionProfile : Profile
         CreateMap<CreateSectionRequest, Section>();
         CreateMap<Section, SectionResponse>();
         CreateMap<UpdateSectionRequest, Section>();
+        CreateMap<Section, SectionListResponse>().ForMember(dest => dest.CategoryName, opt =>
+            opt.MapFrom(src =>
+                src.Category!.Title)); 
     }
 }
