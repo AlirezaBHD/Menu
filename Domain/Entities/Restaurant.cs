@@ -26,7 +26,7 @@ public class Restaurant: BaseEntity
     [Display(Name = "ساعت های کاری مجموعه")]
     public Dictionary<string, string> OpeningHours { get; set; } = new();
     
-    public ApplicationUser? Owner { get; set; }
+    public User? Owner { get; set; }
     
     public ICollection<Category> Categories { get; set; } = new List<Category>();
 }
