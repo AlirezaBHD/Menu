@@ -65,7 +65,7 @@ public class MenuItemController : ControllerBase
     }
 
     [Authorize]
-    [SwaggerResponse(204, "Section order updated successfully")]
+    [SwaggerResponse(204, "MenuItem order updated successfully")]
     [HttpPatch("order")]
     public async Task<IActionResult> UpdateSectionOrder([FromBody] List<OrderDto> dto)
     {
