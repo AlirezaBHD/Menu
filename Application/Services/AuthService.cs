@@ -15,13 +15,13 @@ namespace Application.Services;
 
 public class AuthService: IAuthService
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly UserManager<User> _userManager;
     private readonly IConfiguration _config;
     private readonly IMapper _mapper;
     private readonly ILogger<AuthService> _logger;
     
-    public AuthService(UserManager<ApplicationUser> userManager, IMapper mapper, IConfiguration config, SignInManager<ApplicationUser> signInManager, ILogger<AuthService> logger)
+    public AuthService(UserManager<User> userManager, IMapper mapper, IConfiguration config, SignInManager<User> signInManager, ILogger<AuthService> logger)
     {
         _userManager = userManager;
         _mapper = mapper;
@@ -38,7 +38,7 @@ public class AuthService: IAuthService
         {
             throw new ValidationException("نام کاربری تکراری است");
         }
-        var user = _mapper.Map<ApplicationUser>(request);
+        var user = _mapper.Map<User>(request);
         var result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
         {
@@ -68,13 +68,13 @@ public class AuthService: IAuthService
         return token;
     }
     
-    private async Task<LoginResponse> GenerateJwtToken(ApplicationUser user)
+    private async Task<LoginResponse> GenerateJwtToken(User user)
     {
         var userRoles = await _userManager.GetRolesAsync(user);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName!)
+            new Claim(ClaimTypes.Name, user.Username!)
         };
         foreach (var role in userRoles)
         {
