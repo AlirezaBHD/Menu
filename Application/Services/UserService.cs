@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class UserService : Service<ApplicationUser>, IUserService
+public class UserService : Service<User>, IUserService
 {
     #region Injection
 
@@ -18,7 +18,7 @@ public class UserService : Service<ApplicationUser>, IUserService
     private readonly ICurrentUser _currentUser;
     private readonly IHttpContextAccessor _contextAccessor;
 
-    public UserService(IMapper mapper, ILogger<ApplicationUser> logger, IUserRepository userRepository,
+    public UserService(IMapper mapper, ILogger<User> logger, IUserRepository userRepository,
         ICurrentUser currentUser, IHttpContextAccessor contextAccessor)
         : base(mapper, userRepository, logger)
     {
