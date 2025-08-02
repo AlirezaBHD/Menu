@@ -7,4 +7,5 @@ public interface IUserService: IService<User>
 {
     Task<IEnumerable<UserRestaurantsDto>> Restaurants();
     Task SetRestaurantIdInSessionAsync(Guid restaurantId);
+    Task<UserCredentialsDto?> FindUserByUsernameOrEmailAsync(string username, string email);
 }
