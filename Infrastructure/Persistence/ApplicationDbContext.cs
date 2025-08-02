@@ -1,12 +1,10 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistence.Extensions;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
@@ -49,6 +47,32 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
         modelBuilder.Entity<MenuItem>()
             .OwnsOne(m => m.ActivityPeriod)
             .ConfigureActivityPeriod();
+        
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(u => u.Id);
+            entity.HasIndex(u => u.NormalizedUsername).IsUnique();
+            entity.HasIndex(u => u.NormalizedEmail).IsUnique();
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(r => r.Id);
+            entity.HasIndex(r => r.NormalizedName).IsUnique();
+        });
+
+        modelBuilder.Entity<UserRole>(entity =>
+        {
+            entity.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            entity.HasOne(ur => ur.User)
+                .WithMany(u => u.Roles)
+                .HasForeignKey(ur => ur.UserId);
+
+            entity.HasOne(ur => ur.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(ur => ur.RoleId);
+        });
     }
     
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
@@ -56,4 +80,7 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<MenuItemVariant> MenuItemVariant => Set<MenuItemVariant>();
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
 }
