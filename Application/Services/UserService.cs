@@ -55,4 +55,23 @@ public class UserService : Service<User>, IUserService
             _contextAccessor.HttpContext!.Session.SetString("CurrentRestaurantId", restaurantId.ToString());
         }
     }
+
+    public async Task<UserCredentialsDto?> FindUserByUsernameOrEmailAsync(string username, string email)
+    {
+        var normalizedUsername = username.ToUpperInvariant();
+        var normalizedEmail = email.ToUpperInvariant();
+
+
+        var userCredentials = Queryable.Where(u =>
+                u.NormalizedUsername == normalizedUsername ||
+                u.NormalizedEmail == normalizedEmail)
+            .AsNoTracking()
+            .Select(u => new UserCredentialsDto()
+            {
+                Username = username,
+                Email = email
+            }).FirstOrDefault();
+
+        return userCredentials;
+    }
 }
