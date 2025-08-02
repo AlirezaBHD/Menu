@@ -6,14 +6,12 @@ using Application;
 using Application.Services;
 using Application.Services.Interfaces;
 using Application.Validations.Category;
-using Domain.Entities;
 using Domain.Interfaces.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -85,10 +83,6 @@ builder.Services.AddAutoMapper(typeof(IMenuItemService).Assembly);
 builder.Services.AddApplicationServices();
 builder.Services.AddApplicationRepositories();
 
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options => {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
