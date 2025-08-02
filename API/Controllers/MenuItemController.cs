@@ -16,13 +16,11 @@ namespace API.Controllers;
 public class MenuItemController : ControllerBase
 {
     private readonly IMenuItemService _menuItemService;
-    private readonly UserManager<ApplicationUser> _userManager;
 
 
-    public MenuItemController(IMenuItemService menuItemService, UserManager<ApplicationUser> userManager)
+    public MenuItemController(IMenuItemService menuItemService)
     {
         _menuItemService = menuItemService;
-        _userManager = userManager;
     }
     
     [Authorize]
