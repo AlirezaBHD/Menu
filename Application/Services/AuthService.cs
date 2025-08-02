@@ -8,6 +8,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -15,50 +16,78 @@ namespace Application.Services;
 
 public class AuthService: IAuthService
 {
-    private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager;
+    private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
     private readonly IConfiguration _config;
     private readonly IMapper _mapper;
     private readonly ILogger<AuthService> _logger;
     
-    public AuthService(UserManager<User> userManager, IMapper mapper, IConfiguration config, SignInManager<User> signInManager, ILogger<AuthService> logger)
+    public AuthService(IMapper mapper, IConfiguration config, ILogger<AuthService> logger, IUserRepository userRepository, IUserService userService)
     {
-        _userManager = userManager;
         _mapper = mapper;
         _config = config;
-        _signInManager = signInManager;
         _logger = logger;
+        _userRepository = userRepository;
+        _userService = userService;
     }
 
     public async Task CreateAdminAsync(RegisterAdminRequest request)
     {
         _logger.LogInformation("Creating admin attempt for username: {Username}", request.Username);
-        var existingUser = await _userManager.FindByNameAsync(request.Username);
-        if (existingUser != null)
+        
+        var existingUser = await _userService.FindUserByUsernameOrEmailAsync(request.Username, request.Email);
+        
+        if (existingUser is not null)
         {
-            throw new ValidationException("نام کاربری تکراری است");
+            var duplicateFields = new List<string>();
+
+            if (existingUser.Email == request.Email)
+                duplicateFields.Add("ایمیل");
+
+            if (existingUser.Username == request.Username)
+                duplicateFields.Add("نام کاربری");
+
+            if (duplicateFields.Any())
+                throw new ValidationException($"{string.Join(" و ", duplicateFields)} تکراری است");
         }
-        var user = _mapper.Map<User>(request);
-        var result = await _userManager.CreateAsync(user, request.Password);
-        if (!result.Succeeded)
+        
+        var isCreatedSuccessfully = await CreateUserAsync(request);
+        if (!isCreatedSuccessfully)
         {
             throw new ValidationException("در فرایند ثبت ادمین خطایی رخ داد");
         }
         _logger.LogInformation("Admin created successfully. username: {Username}", request.Username);
     }
 
+    private async Task<bool> CreateUserAsync(RegisterAdminRequest request)
+    {
+        var user = _mapper.Map<User>(request);
+        
+        user.NormalizedEmail = request.Email.ToUpper();
+        user.NormalizedUsername = request.Username.ToUpper();
+
+        var passwordHasher = new PasswordHasher<User>();
+        var hashedPassword = passwordHasher.HashPassword(user, request.Password);
+        user.PasswordHash = hashedPassword;
+
+        var result = await _userRepository.AddUserAsync(user);
+
+        return result;
+    }
+
     public async Task<LoginResponse> LoginAsync(LoginRequest request)
     {
         _logger.LogInformation("Login attempt for username: {Username}", request.Username);
-        var user = await _userManager.FindByNameAsync(request.Username);
+        var user = await _userRepository.FindByUsernameAsync(request.Username);
         if (user == null)
         {
             _logger.LogWarning("Login failed. Username not found: {Username}", request.Username);
             throw new ValidationException("نام کاربری یا رمز عبور اشتباه است");
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-        if (!result.Succeeded)
+        var passwordHasher = new PasswordHasher<User>();
+        var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+        if (result != PasswordVerificationResult.Success)
         {
             _logger.LogWarning("Login failed. Wrong password for username: {Username}", request.Username);
             throw new ValidationException("نام کاربری یا رمز عبور اشتباه است");
@@ -70,7 +99,7 @@ public class AuthService: IAuthService
     
     private async Task<LoginResponse> GenerateJwtToken(User user)
     {
-        var userRoles = await _userManager.GetRolesAsync(user);
+        var userRoles = user.Roles.Select(r => r.Role.Name);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
