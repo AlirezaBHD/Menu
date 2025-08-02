@@ -5,7 +5,7 @@ using Infrastructure.Persistence;
 
 namespace Infrastructure.Repository;
 
-public class UserRepository:Repository<ApplicationUser>, IUserRepository
+public class UserRepository:Repository<User>, IUserRepository
 {
     #region Injection
     
