@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using Application.Exceptions;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
+using static System.Guid;
 
 namespace Application.Services;
 
@@ -15,7 +15,7 @@ public class CurrentUser : ICurrentUser
     }
 
     public Guid? UserId => 
-        Guid.TryParse(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier), out var id)
+        TryParse(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier), out var id)
             ? id
             : null;
 
@@ -23,8 +23,8 @@ public class CurrentUser : ICurrentUser
     private Guid GetCurrentRestaurantId()
     {
         var value = _httpContextAccessor.HttpContext?.Session.GetString("CurrentRestaurantId");
-        if (Guid.TryParse(value, out var restaurantId))
+        if (TryParse(value, out var restaurantId))
             return restaurantId;
-        throw new ForbiddenException();
+        return Empty;
     }
 }
