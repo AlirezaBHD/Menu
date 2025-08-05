@@ -58,7 +58,9 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
     public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(Guid restaurantId)
     {
+        var query = Repository.GetQueryable();
         var result = await GetAllProjectedAsync<RestaurantMenuDto>(
+            query:query,
             predicate: r => r.Id == restaurantId);
         return result;
     }
