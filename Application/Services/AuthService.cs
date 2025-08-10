@@ -47,7 +47,7 @@ public class AuthService: IAuthService
             if (existingUser.Username == request.Username)
                 duplicateFields.Add("نام کاربری");
 
-            if (duplicateFields.Any())
+            if (duplicateFields.Count != 0)
                 throw new ValidationException($"{string.Join(" و ", duplicateFields)} تکراری است");
         }
         
