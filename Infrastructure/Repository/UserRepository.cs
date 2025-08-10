@@ -29,7 +29,9 @@ public class UserRepository : Repository<User>, IUserRepository
     {
         var queryable = GetQueryable();
 
-        var user = await queryable.Include(u => u.Roles)
+        var user = await queryable
+            .Include(u => u.Roles)
+            .ThenInclude(ur => ur.Role)
             .FirstOrDefaultAsync(u => u.NormalizedUsername == requestUsername.ToUpper());
         return user;
     }
