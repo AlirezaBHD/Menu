@@ -20,5 +20,13 @@ public class RegisterAdminRequestValidator : AbstractValidator<RegisterAdminRequ
             .Matches("[a-z]").WithMessage("رمز عبور باید حداقل یک حرف کوچک داشته باشد.")
             .Matches("[0-9]").WithMessage("رمز عبور باید حداقل یک رقم داشته باشد.")
             .Matches("[^a-zA-Z0-9]").WithMessage("رمز عبور باید حداقل یک کاراکتر خاص داشته باشد.");
+        
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage("ایمیل الزامی است")
+            .EmailAddress().WithMessage("ایمیل معتبر نیست");
+        
+        RuleFor(x => x.PhoneNumber)
+            .NotEmpty().WithMessage("شماره موبایل الزامی است")
+            .Matches(@"^09\d{9}$").WithMessage("شماره موبایل باید با 09 شروع شود و 11 رقم باشد");
     }
 }
