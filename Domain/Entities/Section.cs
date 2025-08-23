@@ -14,5 +14,5 @@ public class Section: BaseEntity
     public Guid? CategoryId { get; set; }
 
     public Category? Category { get; set; }
-    public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
+    public ICollection<MenuItem.MenuItem> MenuItems { get; set; } = new List<MenuItem.MenuItem>();
 }

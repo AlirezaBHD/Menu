@@ -10,7 +10,7 @@ public class CreateMenuItemRequestValidator : AbstractValidator<CreateMenuItemRe
 {
     public CreateMenuItemRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.MenuItem);
+        var entityType = typeof(Domain.Entities.MenuItem.MenuItem);
 
         RuleFor(c => c.Title)!
             .LengthValidationRule(dto => dto.Title!, entityType);

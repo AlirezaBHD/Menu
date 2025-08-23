@@ -5,6 +5,7 @@ using Application.Exceptions;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.MenuItem;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

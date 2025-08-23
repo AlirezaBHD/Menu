@@ -2,6 +2,7 @@
 using Application.Services;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.MenuItem;
 using Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;

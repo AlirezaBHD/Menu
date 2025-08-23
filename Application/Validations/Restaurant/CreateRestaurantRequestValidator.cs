@@ -8,7 +8,7 @@ public class CreateRestaurantRequestValidator : AbstractValidator<CreateRestaura
 {
     public CreateRestaurantRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.MenuItem);
+        var entityType = typeof(Domain.Entities.MenuItem.MenuItem);
 
         RuleFor(r => r.Name)!
             .LengthValidationRule(dto => dto.Name, entityType);

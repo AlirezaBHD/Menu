@@ -7,7 +7,7 @@ namespace Domain.Entities;
 public class MenuItemVariant : BaseEntity
 {
     public Guid MenuItemId { get; set; }
-    public MenuItem MenuItem { get; set; } = null!;
+    public MenuItem.MenuItem MenuItem { get; set; } = null!;
 
     [MaxLength(150)]
     [Display(Name = "جزئیات")]

@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.MenuItem;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 

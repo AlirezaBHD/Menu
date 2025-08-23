@@ -3,6 +3,7 @@ using Application.Services;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.MenuItem;
 using Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;

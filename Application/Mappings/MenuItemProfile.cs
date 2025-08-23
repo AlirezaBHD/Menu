@@ -1,6 +1,7 @@
 using Application.Dto.MenuItem;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.MenuItem;
 
 namespace Application.Mappings;
 

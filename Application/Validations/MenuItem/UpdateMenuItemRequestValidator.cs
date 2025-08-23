@@ -9,7 +9,7 @@ public class UpdateMenuItemRequestValidator : AbstractValidator<UpdateMenuItemRe
 {
     public UpdateMenuItemRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.MenuItem);
+        var entityType = typeof(Domain.Entities.MenuItem.MenuItem);
 
         RuleFor(c => c.Title)!
             .LengthValidationRule(dto => dto.Title, entityType);

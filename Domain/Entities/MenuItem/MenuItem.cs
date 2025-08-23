@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities;
+namespace Domain.Entities.MenuItem;
 
 [DisplayName("آیتم منو")]
 public class MenuItem: BaseEntity

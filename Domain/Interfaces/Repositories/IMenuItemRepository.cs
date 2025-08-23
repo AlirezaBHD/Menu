@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Entities.MenuItem;
 
 namespace Domain.Interfaces.Repositories;
 
