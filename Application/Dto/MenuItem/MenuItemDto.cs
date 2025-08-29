@@ -6,6 +6,7 @@ namespace Application.Dto.MenuItem;
 public class MenuItemDto
 {
     [Required]
+    [MultiLanguagePropertyAttribute]
     public string Title { get; set; }
     public string? Description { get; set; }
     public string? ImagePath { get; set; }
