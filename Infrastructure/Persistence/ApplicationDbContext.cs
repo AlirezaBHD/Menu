@@ -45,9 +45,39 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
             .OwnsOne(s => s.ActivityPeriod)
             .ConfigureActivityPeriod();
 
+        modelBuilder.Entity<MenuItem>(entity =>
+        {
+            entity.HasMany(m => m.Variants)
+                .WithOne(v => v.MenuItem)
+                .HasForeignKey(v => v.MenuItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(m => m.Section)
+                .WithMany(s => s.MenuItems)
+                .HasForeignKey(m => m.SectionId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        
         modelBuilder.Entity<MenuItem>()
             .OwnsOne(m => m.ActivityPeriod)
             .ConfigureActivityPeriod();
+        
+        modelBuilder.Entity<MenuItemTranslation>(entity =>
+        {
+            entity.HasOne(mt => mt.MenuItem)
+                .WithMany(m => m.Translations)
+                .HasForeignKey(mt => mt.MenuItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(mt => mt.Language)
+                .WithMany()
+                .HasForeignKey(mt => mt.LanguageId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(mt => new { mt.MenuItemId, mt.LanguageId })
+                .IsUnique();
+        });
+        
         
         modelBuilder.Entity<User>(entity =>
         {
@@ -80,8 +110,10 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
+    public DbSet<MenuItemTranslation> MenuItemTranslations => Set<MenuItemTranslation>();
     public DbSet<MenuItemVariant> MenuItemVariant => Set<MenuItemVariant>();
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<Language> Languages { get; set; }
 }
