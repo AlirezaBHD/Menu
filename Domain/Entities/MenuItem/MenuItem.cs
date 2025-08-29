@@ -6,20 +6,13 @@ namespace Domain.Entities.MenuItem;
 [DisplayName("آیتم منو")]
 public class MenuItem: BaseEntity
 {
-    [MaxLength(50)]
-    [Display(Name = "عنوان")]
-    public required string Title { get; set; }
-    
-    [MaxLength(300)]
-    [Display(Name = "توضیحات")]
-    public string? Description { get; set; }
-    
     [Display(Name = "مسیر عکس")]
     public string? ImagePath { get; set; }
 
     [Display(Name = "قابل ارائه بودن")] 
     public bool IsAvailable { get; set; } = true;
     
+    public ICollection<MenuItemTranslation> Translations { get; set; } = new List<MenuItemTranslation>();
     public ActivityPeriod ActivityPeriod { get; set; } = new();
     
     public int Order { get; set; }
