@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -58,7 +59,9 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
     public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(Guid restaurantId)
     {
-        var query = Repository.GetQueryable();
+        var query = Repository.GetQueryable()
+            .Include(r => r.Categories).ThenInclude(c => c.Sections)
+            .ThenInclude(s => s.MenuItems).ThenInclude(m => m.Translations);
         var result = await GetAllProjectedAsync<RestaurantMenuDto>(
             query:query,
             predicate: r => r.Id == restaurantId);
