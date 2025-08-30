@@ -1,6 +1,7 @@
 ﻿using Application.Dto.MenuItemVariant;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.MenuItemVariants;
 
 namespace Application.Mappings;
 
