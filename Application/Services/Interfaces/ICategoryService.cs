@@ -1,6 +1,7 @@
 using Application.Dto.Category;
 using Application.Dto.Shared;
 using Domain.Entities;
+using Domain.Entities.Categories;
 
 namespace Application.Services.Interfaces;
 
