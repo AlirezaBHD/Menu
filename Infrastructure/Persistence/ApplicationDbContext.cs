@@ -34,7 +34,7 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
         {
             modelBuilder.Entity(entityType.ClrType)
                 .Property(nameof(BaseEntity.Id))
-                .HasDefaultValueSql("gen_random_uuid()");
+                .ValueGeneratedOnAdd();
         }
         
         modelBuilder.Entity<Category>()
