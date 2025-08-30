@@ -1,4 +1,4 @@
-namespace Application;
+namespace Domain.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class MultiLanguagePropertyAttribute : Attribute
