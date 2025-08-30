@@ -1,6 +1,7 @@
 using Application.Dto.Section;
 using Application.Dto.Shared;
 using Domain.Entities;
+using Domain.Entities.Sections;
 
 namespace Application.Services.Interfaces;
 
