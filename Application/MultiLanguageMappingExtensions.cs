@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Reflection;
 using AutoMapper;
+using Domain.Interfaces.Services;
 
 namespace Application;
 
 public static class MultiLanguageMappingExtensions
 {
+    private static ICurrentLanguage? _currentLanguage;
+
+    public static void Configure(ICurrentLanguage currentLanguage)
+    {
+        _currentLanguage = currentLanguage;
+    }
+
     public static IMappingExpression<TSource, TDestination> ForAllMultiLanguageMembers<TSource, TDestination>(
         this IMappingExpression<TSource, TDestination> map)
     {
@@ -17,20 +25,22 @@ public static class MultiLanguageMappingExtensions
 
         foreach (var prop in props)
         {
-            var translationPropertyName = prop.GetCustomAttribute<MultiLanguagePropertyAttribute>()?.TranslationPropertyName ?? prop.Name;
+            var translationPropertyName = prop
+                .GetCustomAttribute<MultiLanguagePropertyAttribute>()?
+                .TranslationPropertyName ?? prop.Name;
 
             map.ForMember(prop.Name, opt =>
             {
-                opt.MapFrom(src => GetFirstTranslationValue(src, translationPropertyName));
+                opt.MapFrom(src => GetTranslationValue(src, translationPropertyName));
             });
         }
 
         return map;
     }
 
-    private static object? GetFirstTranslationValue(object? src, string translationPropertyName)
+    private static object? GetTranslationValue(object? src, string translationPropertyName)
     {
-        if (src == null) return null;
+        if (src == null || _currentLanguage == null) return null;
 
         var translationsProp = src.GetType()
             .GetProperty("Translations", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
@@ -40,12 +50,31 @@ public static class MultiLanguageMappingExtensions
         var translationsObj = translationsProp.GetValue(src) as IEnumerable;
         if (translationsObj == null) return null;
 
+        var lang = _currentLanguage.GetLanguage();
+        
+        var match = translationsObj.Cast<object?>()
+            .FirstOrDefault(t =>
+            {
+                var codeProp = t?.GetType().GetProperty("LanguageCode", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                var code = codeProp?.GetValue(t)?.ToString();
+                return code != null && code.StartsWith(lang, StringComparison.OrdinalIgnoreCase);
+            });
+
+        if (match != null)
+        {
+            var translationProp = match.GetType().GetProperty(translationPropertyName,
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+            return translationProp?.GetValue(match);
+        }
+
         var firstTranslation = translationsObj.Cast<object?>().FirstOrDefault();
-        if (firstTranslation == null) return null;
+        if (firstTranslation != null)
+        {
+            var translationProp = firstTranslation.GetType().GetProperty(translationPropertyName,
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+            return translationProp?.GetValue(firstTranslation);
+        }
 
-        var translationProp = firstTranslation.GetType()
-            .GetProperty(translationPropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-
-        return translationProp?.GetValue(firstTranslation);
+        return null;
     }
 }
