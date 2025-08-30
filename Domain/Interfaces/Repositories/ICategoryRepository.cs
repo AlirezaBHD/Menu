@@ -1,4 +1,4 @@
-using Domain.Entities;
+using Domain.Entities.Categories;
 
 namespace Domain.Interfaces.Repositories;
 
