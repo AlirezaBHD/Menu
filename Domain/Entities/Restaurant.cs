@@ -10,7 +10,7 @@ public class Restaurant: BaseEntity
     [MaxLength(50)]
     public required string Name { get; set; }
     
-    public Guid OwnerId { get; set; }
+    public int OwnerId { get; set; }
     
     [Display(Name = "نشانی")]
     [MaxLength(500)]
