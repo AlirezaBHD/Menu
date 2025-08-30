@@ -10,9 +10,9 @@ public sealed class MenuItemTranslation : BaseEntity
     [MaxLength(300)]
     public string? Description { get; set; }
 
-    public Guid MenuItemId { get; set; }
+    public int MenuItemId { get; set; }
     public MenuItem MenuItem { get; set; } = default!;
     
-    public Guid LanguageId { get; set; }
+    public int LanguageId { get; set; }
     public Language Language { get; set; } = default!;
 }
