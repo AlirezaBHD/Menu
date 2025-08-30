@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Reflection;
 using AutoMapper;
+using Domain.Common.Attributes;
 using Domain.Interfaces.Services;
 
-namespace Application;
+namespace Application.Exceptions;
 
 public static class MultiLanguageMappingExtensions
 {
