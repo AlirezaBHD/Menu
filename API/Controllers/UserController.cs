@@ -29,7 +29,7 @@ public class UserController : ControllerBase
     [Authorize]
     [SwaggerResponse(204, "Restaurant Id have been set in session")]
     [HttpPost("restaurant/{Id}")]
-    public async Task<IActionResult> SetRestaurantIdInSession([FromRoute] Guid Id)
+    public async Task<IActionResult> SetRestaurantIdInSession([FromRoute] int Id)
     {
         await _userService.SetRestaurantIdInSessionAsync(Id);
         return NoContent();
