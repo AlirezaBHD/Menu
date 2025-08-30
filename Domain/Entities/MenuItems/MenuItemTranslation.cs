@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.MenuItem;
+namespace Domain.Entities.MenuItems;
 
 public sealed class MenuItemTranslation : BaseEntity
 {
