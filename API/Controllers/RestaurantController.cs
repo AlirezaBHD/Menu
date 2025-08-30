@@ -19,7 +19,7 @@ public class RestaurantController : ControllerBase
 
     [SwaggerResponse(200, "Restaurant's all items", typeof(RestaurantMenuDto))]
     [HttpGet("{restaurantId}/menu-items")]
-    public async Task<IActionResult> GetRestaurantMenuAsync([FromRoute] Guid restaurantId)
+    public async Task<IActionResult> GetRestaurantMenuAsync([FromRoute] int restaurantId)
     {
         var menus = await _restaurantService.GetRestaurantMenuAsync(restaurantId);
         return Ok(menus);
@@ -38,7 +38,7 @@ public class RestaurantController : ControllerBase
     [Authorize]
     [SwaggerResponse(201, "Restaurant updated successfully")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRestaurant([FromRoute] Guid id,
+    public async Task<IActionResult> UpdateRestaurant([FromRoute] int id,
         [FromForm] UpdateRestaurantRequest updateRestaurantRequest)
     {
         await _restaurantService.UpdateRestaurantAsync(id: id, dto: updateRestaurantRequest);
@@ -48,7 +48,7 @@ public class RestaurantController : ControllerBase
     [Authorize]
     [SwaggerResponse(200, "Restaurant's information", typeof(RestaurantResponse))]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetRestaurantById([FromRoute] Guid id)
+    public async Task<IActionResult> GetRestaurantById([FromRoute] int id)
     {
         var result = await _restaurantService.GetRestaurantByIdAsync(id: id);
         return Ok(result);
