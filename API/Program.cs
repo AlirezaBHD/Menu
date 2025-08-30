@@ -9,6 +9,7 @@ using Application.Services;
 using Application.Services.Interfaces;
 using Application.Validations.Category;
 using Domain.Interfaces.Services;
+using Domain.Localization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
@@ -170,8 +171,9 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var supportedCultures = new[] {"en-US","fa-IR", "fr" };
-    options.DefaultRequestCulture = new RequestCulture("en");
+    var supportedCultures = SupportedLanguages.All.Select(l => l.Code).ToArray();
+    
+    options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
     options.SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
     options.SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
 
