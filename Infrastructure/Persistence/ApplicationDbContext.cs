@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Entities.MenuItem;
+using Domain.Localization;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -109,6 +110,8 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .WithMany(r => r.Users)
                 .HasForeignKey(ur => ur.RoleId);
         });
+        
+        modelBuilder.Entity<Language>().HasData(SupportedLanguages.All);
     }
     
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
