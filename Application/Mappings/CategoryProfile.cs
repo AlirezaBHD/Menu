@@ -2,6 +2,7 @@ using Application.Dto.Category;
 using Application.Services;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Categories;
 
 namespace Application.Mappings;
 
