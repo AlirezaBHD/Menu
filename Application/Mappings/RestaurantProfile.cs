@@ -3,6 +3,7 @@ using Application.Extensions;
 using Application.Services;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Restaurants;
 
 namespace Application.Mappings;
 
