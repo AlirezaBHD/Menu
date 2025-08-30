@@ -43,7 +43,7 @@ public class UserService : Service<User>, IUserService
         return result;
     }
 
-    public async Task SetRestaurantIdInSessionAsync(Guid restaurantId)
+    public async Task SetRestaurantIdInSessionAsync(int restaurantId)
     {
         var isOwnedByUser = await _userRepository.GetQueryable()
             .Where(u => u.Id == _currentUser.UserId)
