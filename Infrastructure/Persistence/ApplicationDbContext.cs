@@ -58,6 +58,11 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .OnDelete(DeleteBehavior.Restrict);
         });
         
+        modelBuilder.Entity<Language>(entity =>
+        {
+            entity.HasKey(l => l.Code);
+        });
+        
         modelBuilder.Entity<MenuItem>()
             .OwnsOne(m => m.ActivityPeriod)
             .ConfigureActivityPeriod();
@@ -71,10 +76,10 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
 
             entity.HasOne(mt => mt.Language)
                 .WithMany()
-                .HasForeignKey(mt => mt.LanguageId)
+                .HasForeignKey(mt => mt.LanguageCode)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasIndex(mt => new { mt.MenuItemId, mt.LanguageId })
+            entity.HasIndex(mt => new { mt.MenuItemId, mt.LanguageCode })
                 .IsUnique();
         });
         
