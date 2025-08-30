@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Application.Dto.MenuItemVariant;
+using Domain.Common.Attributes;
 
 namespace Application.Dto.MenuItem;
 
