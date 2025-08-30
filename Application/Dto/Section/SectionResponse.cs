@@ -6,7 +6,7 @@ namespace Application.Dto.Section;
 
 public class SectionResponse
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     [Required]
     public string Title { get; set; }
     public ActivityPeriodResponse ActivityPeriod { get; set; }
