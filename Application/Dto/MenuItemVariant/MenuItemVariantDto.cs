@@ -2,7 +2,7 @@
 
 public class MenuItemVariantDto
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     
     public string Detail { get; set; }  = "";
 
