@@ -9,7 +9,7 @@ public class CreateCategoryRequestValidator : AbstractValidator<CreateCategoryRe
 {
     public CreateCategoryRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.Category);
+        var entityType = typeof(Domain.Entities.Categories.Category);
         
         RuleFor(c => c.Title)!
             .LengthValidationRule(dto => dto.Title!, entityType);
