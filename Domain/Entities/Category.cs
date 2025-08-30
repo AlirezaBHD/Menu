@@ -11,7 +11,7 @@ public class Category: BaseEntity
     public required string Title { get; set; }
     public ActivityPeriod ActivityPeriod { get; set; } = new();
     public int Order { get; set; }
-    public Guid RestaurantId { get; set; }
+    public int RestaurantId { get; set; }
 
     public Restaurant? Restaurant { get; set; }
     public ICollection<Section> Sections { get; set; } = new List<Section>();
