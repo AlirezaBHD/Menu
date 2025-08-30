@@ -5,7 +5,7 @@ namespace Application.Dto.Restaurant;
 public class CreateRestaurantRequest
 {
     public string Name { get; set; }
-    public Guid OwnerId { get; set; }
+    public int OwnerId { get; set; }
     public string Address { get; set; }
     public string? Description { get; set; }
     public IFormFile LogoFile { get; set; }
