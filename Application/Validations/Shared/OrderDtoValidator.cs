@@ -7,7 +7,7 @@ public class OrderDtoValidator : AbstractValidator<List<OrderDto>>
 {
     public OrderDtoValidator()
     {
-        var entityType = typeof(Domain.Entities.Section);
+        var entityType = typeof(Domain.Entities.Sections.Section);
         
         RuleFor(x => x)
             .Custom((list, context) =>
