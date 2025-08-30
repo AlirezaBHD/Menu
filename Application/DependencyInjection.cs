@@ -19,6 +19,8 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICurrentLanguage, CurrentLanguage>();
+
 
         return services;
     }
