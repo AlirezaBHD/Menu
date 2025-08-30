@@ -1,5 +1,9 @@
 ﻿using Domain.Entities;
-using Domain.Entities.MenuItem;
+using Domain.Entities.Categories;
+using Domain.Entities.MenuItems;
+using Domain.Entities.MenuItemVariants;
+using Domain.Entities.Restaurants;
+using Domain.Entities.Sections;
 using Domain.Localization;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -84,6 +88,71 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .IsUnique();
         });
         
+        
+        modelBuilder.Entity<CategoryTranslation>(entity =>
+        {
+            entity.HasOne(ct => ct.Category)
+                .WithMany(c => c.Translations)
+                .HasForeignKey(ct => ct.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(mt => mt.Language)
+                .WithMany()
+                .HasForeignKey(mt => mt.LanguageCode)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(ct => new { ct.CategoryId, ct.LanguageCode })
+                .IsUnique();
+        });
+        
+        modelBuilder.Entity<MenuItemVariantTranslation>(entity =>
+        {
+            entity.HasOne(vt => vt.MenuItemVariant)
+                .WithMany(v => v.Translations)
+                .HasForeignKey(ct => ct.MenuItemVariantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(vt => vt.Language)
+                .WithMany()
+                .HasForeignKey(vt => vt.LanguageCode)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(vt => new { vt.MenuItemVariantId, vt.LanguageCode })
+                .IsUnique();
+        });
+        
+        
+        modelBuilder.Entity<RestaurantTranslation>(entity =>
+        {
+            entity.HasOne(rt => rt.Restaurant)
+                .WithMany(r => r.Translations)
+                .HasForeignKey(rt => rt.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(rt => rt.Language)
+                .WithMany()
+                .HasForeignKey(rt => rt.LanguageCode)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(rt => new { rt.RestaurantId, rt.LanguageCode })
+                .IsUnique();
+        });
+        
+        modelBuilder.Entity<SectionTranslation>(entity =>
+        {
+            entity.HasOne(st => st.Section)
+                .WithMany(r => r.Translations)
+                .HasForeignKey(st => st.SectionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(st => st.Language)
+                .WithMany()
+                .HasForeignKey(st => st.LanguageCode)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(st => new { st.SectionId, st.LanguageCode })
+                .IsUnique();
+        });
         
         modelBuilder.Entity<User>(entity =>
         {
