@@ -5,6 +5,7 @@ using System.Threading.RateLimiting;
 using API.Middlewares;
 using API.Utilities;
 using Application;
+using Application.Exceptions;
 using Application.Services;
 using Application.Services.Interfaces;
 using Application.Validations.Category;
