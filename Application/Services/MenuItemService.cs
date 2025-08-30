@@ -47,7 +47,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
     #endregion
     
-    public async Task<MenuItemResponse> CreateMenuItemAsync(Guid sectionId, CreateMenuItemRequest createMenuItemRequest)
+    public async Task<MenuItemResponse> CreateMenuItemAsync(int sectionId, CreateMenuItemRequest createMenuItemRequest)
     {
         var entity = Mapper.Map<CreateMenuItemRequest, MenuItem>(createMenuItemRequest);
         
@@ -66,7 +66,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         return response;
     }
 
-    public async Task DeleteMenuItemAsync(Guid id)
+    public async Task DeleteMenuItemAsync(int id)
     {
         var section = await Repository.GetByIdAsync(id);
         Repository.Remove(section);
@@ -74,7 +74,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         Logger.LogInformation("Deleted menu item with ID: {Id}", id);
     }
 
-    public async Task UpdateMenuItemAsync(Guid id, UpdateMenuItemRequest dto)
+    public async Task UpdateMenuItemAsync(int id, UpdateMenuItemRequest dto)
     {
         var menuItem = await Repository.GetByIdAsync(id);
         menuItem = Mapper.Map(dto, menuItem);
