@@ -46,7 +46,7 @@ public class SectionService : Service<Section>, ISectionService
 
     #endregion
 
-    public async Task<SectionResponse> CreateSectionAsync(Guid categoryId, CreateSectionRequest createSectionRequest)
+    public async Task<SectionResponse> CreateSectionAsync(int categoryId, CreateSectionRequest createSectionRequest)
     {
         var entity = Mapper.Map<CreateSectionRequest, Section>(createSectionRequest);
         
@@ -63,14 +63,14 @@ public class SectionService : Service<Section>, ISectionService
         return response;
     }
 
-    public async Task<SectionResponse> GetSectionByIdAsync(Guid sectionId)
+    public async Task<SectionResponse> GetSectionByIdAsync(int sectionId)
     {
         var response =
             await GetByIdProjectedAsync<SectionResponse>(sectionId, trackingBehavior: TrackingBehavior.AsNoTracking);
         return response;
     }
 
-    public async Task DeleteSectionAsync(Guid id)
+    public async Task DeleteSectionAsync(int id)
     {
         var section = await Repository.GetByIdAsync(id);
         Repository.Remove(section);
@@ -78,7 +78,7 @@ public class SectionService : Service<Section>, ISectionService
         Logger.LogInformation("Deleted section with ID: {Id}", id);
     }
 
-    public async Task UpdateSectionAsync(Guid id, UpdateSectionRequest dto)
+    public async Task UpdateSectionAsync(int id, UpdateSectionRequest dto)
     {
         var section = await Repository.GetQueryable()
             .Include(s => s.MenuItems).FirstAsync(s => s.Id == id);
