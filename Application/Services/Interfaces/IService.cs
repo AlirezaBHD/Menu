@@ -13,7 +13,7 @@ public interface IService<T> where T : class
         IQueryable<T>? query = null);
 
     Task<TDto> GetByIdProjectedAsync<TDto>(
-        Guid id,
+        int id,
         Expression<Func<T, bool>>? predicate = null,
         Expression<Func<T, object>>[]? includes = null,
         TrackingBehavior trackingBehavior = TrackingBehavior.Default,
