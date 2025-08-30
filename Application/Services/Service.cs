@@ -86,7 +86,7 @@ public class Service<T> : IService<T> where T : class
     #region Get By Id Projecte dAsync
 
     public async Task<TDto> GetByIdProjectedAsync<TDto>(
-        Guid id,
+        int id,
         Expression<Func<T, bool>>? predicate = null,
         Expression<Func<T, object>>[]? includes = null,
         TrackingBehavior trackingBehavior = TrackingBehavior.Default,
@@ -119,7 +119,7 @@ public class Service<T> : IService<T> where T : class
         }
 
         var obj = await query.ProjectTo<TDto>(Mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(e => EF.Property<Guid>(e!, "Id") == id);
+            .FirstOrDefaultAsync(e => EF.Property<int>(e!, "Id") == id);
         
         if (obj == null)
             throw new NotFoundException(_displayName);
