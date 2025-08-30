@@ -1,6 +1,6 @@
 using Application.Dto.MenuItem;
+using Application.Exceptions;
 using AutoMapper;
-using Domain.Entities;
 using Domain.Entities.MenuItems;
 using Domain.Interfaces.Services;
 using Domain.Localization;
