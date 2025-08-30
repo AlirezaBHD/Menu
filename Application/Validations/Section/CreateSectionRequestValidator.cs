@@ -9,7 +9,7 @@ public class CreateSectionRequestValidator : AbstractValidator<CreateSectionRequ
 {
     public CreateSectionRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.Section);
+        var entityType = typeof(Domain.Entities.Sections.Section);
         
         RuleFor(c => c.Title)!
             .LengthValidationRule(dto => dto.Title!, entityType);
