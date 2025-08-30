@@ -1,4 +1,5 @@
 using Domain.Interfaces.Services;
+using Domain.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 
@@ -7,7 +8,7 @@ namespace Application.Services;
 public class CurrentLanguage : ICurrentLanguage
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly string _defaultLanguage = "en-US";
+    private readonly string _defaultLanguage = SupportedLanguages.All[0].Code;
 
     public CurrentLanguage(IHttpContextAccessor httpContextAccessor)
     {
