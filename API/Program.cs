@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.RateLimiting;
@@ -13,6 +14,7 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -22,10 +24,7 @@ using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options =>
-{
-    options.ModelValidatorProviders.Clear();
-});
+builder.Services.AddControllers(options => { options.ModelValidatorProviders.Clear(); });
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryRequestValidator>();
@@ -85,10 +84,12 @@ builder.Services.AddApplicationServices();
 builder.Services.AddApplicationRepositories();
 
 
-builder.Services.AddAuthentication(options => {
+builder.Services.AddAuthentication(options =>
+    {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;})
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(options =>
     {
         options.RequireHttpsMetadata = false;
@@ -164,6 +165,22 @@ builder.Services.AddSession(options =>
 
 #endregion
 
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] {"en-US","fa-IR", "fr" };
+    options.DefaultRequestCulture = new RequestCulture("en");
+    options.SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
+    options.SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
+
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+    options.RequestCultureProviders.Insert(1, new QueryStringRequestCultureProvider());
+});
+
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -179,7 +196,17 @@ if (app.Environment.IsDevelopment())
 }
 
 
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var currentLang = scope.ServiceProvider.GetRequiredService<ICurrentLanguage>();
+    MultiLanguageMappingExtensions.Configure(currentLang);
+}
+
 app.UseSession();
+
+app.UseRequestLocalization();
 
 app.UseHttpsRedirection();
 
