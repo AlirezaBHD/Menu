@@ -65,14 +65,14 @@ public class CategoryService : Service<Category>, ICategoryService
         return response;
     }
     
-    public async Task<CategoryResponse> GetCategoryByIdAsync(Guid categoryId)
+    public async Task<CategoryResponse> GetCategoryByIdAsync(int categoryId)
     {
         var response =
             await GetByIdProjectedAsync<CategoryResponse>(categoryId, trackingBehavior: TrackingBehavior.AsNoTracking);
         return response;
     }
 
-    public async Task DeleteCategoryAsync(Guid id)
+    public async Task DeleteCategoryAsync(int id)
     {
         var category = await Repository.GetByIdAsync(id);
         Repository.Remove(category);
@@ -80,7 +80,7 @@ public class CategoryService : Service<Category>, ICategoryService
         Logger.LogInformation("Deleting category: {@Category}", category);
     }
 
-    public async Task UpdateCategoryAsync(Guid id, UpdateCategoryRequest dto)
+    public async Task UpdateCategoryAsync(int id, UpdateCategoryRequest dto)
     {
         var category = await Repository.GetQueryable().Include(c => c.Sections)
             .FirstAsync(c => c.Id == id);
