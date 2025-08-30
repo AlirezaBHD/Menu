@@ -48,9 +48,9 @@ namespace Infrastructure.Repository;
 
         #region Get By Id Async
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            var obj = await LimitedQuery.FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
+            var obj = await LimitedQuery.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
             return obj!;
         }
 
