@@ -32,7 +32,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     }
 
 
-    public async Task UpdateRestaurantAsync(Guid id, UpdateRestaurantRequest dto)
+    public async Task UpdateRestaurantAsync(int id, UpdateRestaurantRequest dto)
     {
         var restaurant = await Repository.GetByIdAsync(id);
         restaurant = Mapper.Map(dto, restaurant);
@@ -48,7 +48,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         Logger.LogInformation("Updated restaurant with ID: {Id}. Data: {@UpdateData}", id, restaurant);
     }
 
-    public async Task<RestaurantResponse> GetRestaurantByIdAsync(Guid id)
+    public async Task<RestaurantResponse> GetRestaurantByIdAsync(int id)
     {
         var result =
             await GetByIdProjectedAsync<RestaurantResponse>(id, trackingBehavior: TrackingBehavior.AsNoTracking);
@@ -57,7 +57,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
     #region Get Restaurant Menu Async
 
-    public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(Guid restaurantId)
+    public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(int restaurantId)
     {
         var query = Repository.GetQueryable()
             .Include(r => r.Categories).ThenInclude(c => c.Sections)
