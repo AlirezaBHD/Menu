@@ -8,7 +8,7 @@ public class MenuItemVariantDtoValidator : AbstractValidator<MenuItemVariantDto>
 {
     public MenuItemVariantDtoValidator()
     {
-        var entityType = typeof(Domain.Entities.MenuItemVariant);
+        var entityType = typeof(Domain.Entities.MenuItemVariants.MenuItemVariant);
 
         RuleFor(x => x.Price)
             .GreaterThan(0).WithMessage("قیمت باید بیشتر از صفر باشد.")
