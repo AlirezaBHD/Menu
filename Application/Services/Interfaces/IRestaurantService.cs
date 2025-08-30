@@ -1,5 +1,5 @@
 using Application.Dto.Restaurant;
-using Domain.Entities;
+using Domain.Entities.Restaurants;
 
 namespace Application.Services.Interfaces;
 
