@@ -1,7 +1,7 @@
 using Application.Dto.MenuItem;
 using Application.Dto.Shared;
 using Domain.Entities;
-using Domain.Entities.MenuItem;
+using Domain.Entities.MenuItems;
 
 namespace Application.Services.Interfaces;
 
