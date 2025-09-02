@@ -27,6 +27,13 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     public async Task CreateRestaurantAsync(CreateRestaurantRequest createRestaurantRequest)
     {
         var entity = Mapper.Map<CreateRestaurantRequest, Restaurant>(createRestaurantRequest);
+        
+        // if (createRestaurantRequest.LogoFile != null)
+        // {
+        //     var imagePath = await _fileService.SaveFileAsync(createRestaurantRequest.LogoFile, "restaurant-logos");
+        //     entity.LogoPath = imagePath;
+        // }
+
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         Logger.LogInformation("Created new restaurant: {@Restaurant}", entity);
@@ -38,11 +45,11 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         var restaurant = await Repository.GetByIdAsync(id);
         restaurant = Mapper.Map(dto, restaurant);
 
-        if (dto.LogoFile != null)
-        {
-            var imagePath = await _fileService.SaveFileAsync(dto.LogoFile, "restaurant-logos");
-            restaurant.LogoPath = imagePath;
-        }
+        // if (dto.LogoFile != null)
+        // {
+        //     var imagePath = await _fileService.SaveFileAsync(dto.LogoFile, "restaurant-logos");
+        //     restaurant.LogoPath = imagePath;
+        // }
 
         Repository.Update(restaurant);
         await Repository.SaveAsync();
@@ -52,7 +59,8 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     public async Task<RestaurantResponse> GetRestaurantByIdAsync(int id)
     {
         var result =
-            await GetByIdProjectedAsync<RestaurantResponse>(id, trackingBehavior: TrackingBehavior.AsNoTracking);
+            await GetByIdProjectedAsync<RestaurantResponse>(id, includes: [r => r.Translations],
+                trackingBehavior: TrackingBehavior.AsNoTracking);
         return result;
     }
 
