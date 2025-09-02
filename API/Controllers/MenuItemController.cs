@@ -27,7 +27,7 @@ public class MenuItemController : ControllerBase
     [SwaggerResponse(200, "menu-item created successfully", typeof(MenuItemResponse))]
     [HttpPost("/api/section/{sectionId}/[controller]")]
     public async Task<IActionResult> CreateMenuItem([FromRoute] int sectionId,
-        [FromForm] CreateMenuItemRequest createMenuItemRequest)
+        [FromBody] CreateMenuItemRequest createMenuItemRequest)
     {
         var menuItem = await _menuItemService.CreateMenuItemAsync(sectionId: sectionId,
             createMenuItemRequest: createMenuItemRequest);
@@ -47,7 +47,7 @@ public class MenuItemController : ControllerBase
     [SwaggerResponse(201, "menu-item updated successfully")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMenuItem([FromRoute] int id,
-        [FromForm] UpdateMenuItemRequest updateMenuItemRequest)
+        [FromBody] UpdateMenuItemRequest updateMenuItemRequest)
     {
         await _menuItemService.UpdateMenuItemAsync(id: id, dto: updateMenuItemRequest);
         return NoContent();
