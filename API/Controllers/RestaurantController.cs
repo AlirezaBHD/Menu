@@ -28,7 +28,7 @@ public class RestaurantController : ControllerBase
     [Authorize]
     [SwaggerResponse(201, "Restaurant created successfully")]
     [HttpPost]
-    public async Task<IActionResult> CreateRestaurant([FromForm] CreateRestaurantRequest createRestaurantRequest)
+    public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantRequest createRestaurantRequest)
     {
         await _restaurantService.CreateRestaurantAsync(createRestaurantRequest: createRestaurantRequest);
         return NoContent();
@@ -39,7 +39,7 @@ public class RestaurantController : ControllerBase
     [SwaggerResponse(201, "Restaurant updated successfully")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRestaurant([FromRoute] int id,
-        [FromForm] UpdateRestaurantRequest updateRestaurantRequest)
+        [FromBody] UpdateRestaurantRequest updateRestaurantRequest)
     {
         await _restaurantService.UpdateRestaurantAsync(id: id, dto: updateRestaurantRequest);
         return NoContent();
