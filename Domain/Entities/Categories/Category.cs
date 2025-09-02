@@ -1,11 +1,12 @@
 using System.ComponentModel;
 using Domain.Entities.Restaurants;
 using Domain.Entities.Sections;
+using Domain.Interfaces;
 
 namespace Domain.Entities.Categories;
 
 [DisplayName("دسته بندی")]
-public class Category: BaseEntity
+public class Category: BaseEntity, ITranslation<CategoryTranslation>
 {
     public ActivityPeriod ActivityPeriod { get; set; } = new();
     public int Order { get; set; }
