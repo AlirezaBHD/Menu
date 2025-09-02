@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Entities.Sections;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -17,12 +18,14 @@ public class SectionService : Service<Section>, ISectionService
     #region Injection
 
     private readonly IMenuItemRepository _menuItemRepository;
+    private readonly ICurrentLanguage _currentLanguage;
 
     public SectionService(ISectionRepository sectionRepository, IMapper mapper, IMenuItemRepository menuItemRepository
-        , ILogger<Section> logger)
+        , ILogger<Section> logger, ICurrentLanguage currentLanguage)
         : base(mapper, sectionRepository, logger)
     {
         _menuItemRepository = menuItemRepository;
+        _currentLanguage = currentLanguage;
     }
 
     #endregion
@@ -66,8 +69,14 @@ public class SectionService : Service<Section>, ISectionService
 
     public async Task<SectionResponse> GetSectionByIdAsync(int sectionId)
     {
+        var query = Queryable.Include(s => s.Translations)
+            .Include(s => s.MenuItems).ThenInclude(m => m.Translations);
+        
         var response =
-            await GetByIdProjectedAsync<SectionResponse>(sectionId, trackingBehavior: TrackingBehavior.AsNoTracking);
+            await GetByIdProjectedAsync<SectionResponse>(sectionId,
+                query: query,
+                trackingBehavior: TrackingBehavior.AsNoTracking);
+        
         return response;
     }
 
@@ -81,8 +90,10 @@ public class SectionService : Service<Section>, ISectionService
 
     public async Task UpdateSectionAsync(int id, UpdateSectionRequest dto)
     {
-        var section = await Repository.GetQueryable()
-            .Include(s => s.MenuItems).FirstAsync(s => s.Id == id);
+        var section = await Queryable
+            .Include(s => s.MenuItems)
+            .Include(s => s.Translations)
+            .FirstAsync(s => s.Id == id);
 
         section = Mapper.Map(dto, section);
 
@@ -101,7 +112,23 @@ public class SectionService : Service<Section>, ISectionService
 
     public async Task<IEnumerable<SectionListResponse>> GetSectionListAsync()
     {
-        var result =await GetAllProjectedAsync<SectionListResponse>(trackingBehavior:TrackingBehavior.AsNoTracking);
+
+        var query =  Queryable.Include(s => s.Translations)
+            .Include(s => s.Category).ThenInclude(c => c.Translations);
+        var result =await GetAllProjectedAsync<SectionListResponse>( query:query,
+            // includes: [s => s.Translations],
+            trackingBehavior:TrackingBehavior.AsNoTracking);
+        
+        // var data = await Queryable
+        //     .Include(s => s.Category).ThenInclude(c => c.Translations)
+        //     .ToListAsync();
+        //
+        // var result = Mapper.Map<List<SectionListResponse>>(data, opt =>
+        // {
+        //     opt.Items["CurrentLanguage"] = _currentLanguage.GetLanguage();
+        // });
+
+        
         return  result.OrderBy(s => s.Order);
     }
 
