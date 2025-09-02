@@ -1,11 +1,12 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Domain.Entities.Categories;
+using Domain.Interfaces;
 
 namespace Domain.Entities.Restaurants;
 
 [DisplayName("رستوران")]
-public class Restaurant : BaseEntity
+public class Restaurant : BaseEntity, ITranslation<RestaurantTranslation>
 {
     public int OwnerId { get; set; }
     [Display(Name = "لوگو")] public string? LogoPath { get; set; }
