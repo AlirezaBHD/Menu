@@ -1,9 +1,10 @@
 using Application.Dto.ActivityPeriod;
+using Application.Dto.Shared;
 
 namespace Application.Dto.Category;
 
-public class CreateCategoryRequest
+public class CreateCategoryRequest : IHasTranslationsDto<CategoryTranslationDto>
 {
-    public string Title { get; set; }
     public ActivityPeriodRequest ActivityPeriod { get; set; }
+    public ICollection<CategoryTranslationDto> Translations { get; set; } = new List<CategoryTranslationDto>();
 }
