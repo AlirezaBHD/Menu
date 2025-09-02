@@ -1,11 +1,12 @@
 using System.ComponentModel;
 using Domain.Entities.Categories;
 using Domain.Entities.MenuItems;
+using Domain.Interfaces;
 
 namespace Domain.Entities.Sections;
 
 [DisplayName("بخش")]
-public class Section: BaseEntity
+public class Section: BaseEntity, ITranslation<SectionTranslation>
 {
     public ActivityPeriod ActivityPeriod { get; set; } = new();
     public int Order { get; set; }
