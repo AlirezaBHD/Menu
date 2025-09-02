@@ -2,11 +2,12 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Domain.Entities.MenuItemVariants;
 using Domain.Entities.Sections;
+using Domain.Interfaces;
 
 namespace Domain.Entities.MenuItems;
 
 [DisplayName("آیتم منو")]
-public class MenuItem: BaseEntity
+public class MenuItem: BaseEntity, ITranslation<MenuItemTranslation>
 {
     [Display(Name = "مسیر عکس")]
     public string? ImagePath { get; set; }
