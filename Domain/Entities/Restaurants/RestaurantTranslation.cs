@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities.Restaurants;
 
-public class RestaurantTranslation : BaseEntity
+public class RestaurantTranslation : BaseTranslationEntity<Restaurant>
 {
     [Display(Name = "نام")]
     [MaxLength(50)]
@@ -15,10 +15,4 @@ public class RestaurantTranslation : BaseEntity
     [Display(Name = "توضیحات")]
     [MaxLength(500)]
     public string? Description { get; set; }
-
-    public int RestaurantId { get; set; }
-    public Restaurant Restaurant { get; set; } = default!;
-
-    [MaxLength(10)] public string LanguageCode { get; set; } = default!;
-    public Language Language { get; set; } = default!;
 }
