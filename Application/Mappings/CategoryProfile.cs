@@ -1,7 +1,7 @@
 using Application.Dto.Category;
+using Application.Exceptions;
 using Application.Services;
 using AutoMapper;
-using Domain.Entities;
 using Domain.Entities.Categories;
 
 namespace Application.Mappings;
@@ -13,6 +13,7 @@ public class CategoryProfile : Profile
         var isAvailableExpr = SectionService.IsAvailable(DateTime.Now.TimeOfDay);
 
         CreateMap<Category, MenuCategoryDto>()
+            .ForAllMultiLanguageMembers()
             .ForMember(dest => dest.Sections, opt =>
                 opt.MapFrom(src =>
                     src.Sections.AsQueryable().Where(isAvailableExpr).OrderByDescending(s => s.CreatedOn)
@@ -20,8 +21,10 @@ public class CategoryProfile : Profile
             );
 
         CreateMap<CreateCategoryRequest, Category>();
-        CreateMap<Category, CategoryResponse>();
+        CreateMap<Category, CategoryResponse>().ForAllMultiLanguageMembers();
         CreateMap<UpdateCategoryRequest, Category>();
-        CreateMap<Category, CategoryListResponse>();
+        CreateMap<Category, CategoryListResponse>().ForAllMultiLanguageMembers();
+        CreateMap<CategoryTranslationDto, CategoryTranslation>();
+        CreateMap<CategoryTranslation, CategoryTranslationDto>();
     }
 }
