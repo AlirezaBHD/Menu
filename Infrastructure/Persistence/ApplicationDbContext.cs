@@ -74,9 +74,9 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
         
         modelBuilder.Entity<MenuItemTranslation>(entity =>
         {
-            entity.HasOne(mt => mt.MenuItem)
+            entity.HasOne(mt => mt.Core)
                 .WithMany(m => m.Translations)
-                .HasForeignKey(mt => mt.MenuItemId)
+                .HasForeignKey(mt => mt.CoreId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(mt => mt.Language)
@@ -84,16 +84,16 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .HasForeignKey(mt => mt.LanguageCode)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasIndex(mt => new { mt.MenuItemId, mt.LanguageCode })
+            entity.HasIndex(mt => new { mt.CoreId, mt.LanguageCode })
                 .IsUnique();
         });
         
         
         modelBuilder.Entity<CategoryTranslation>(entity =>
         {
-            entity.HasOne(ct => ct.Category)
+            entity.HasOne(ct => ct.Core)
                 .WithMany(c => c.Translations)
-                .HasForeignKey(ct => ct.CategoryId)
+                .HasForeignKey(ct => ct.CoreId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(mt => mt.Language)
@@ -101,15 +101,15 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .HasForeignKey(mt => mt.LanguageCode)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasIndex(ct => new { ct.CategoryId, ct.LanguageCode })
+            entity.HasIndex(ct => new { ct.CoreId, ct.LanguageCode })
                 .IsUnique();
         });
         
         modelBuilder.Entity<MenuItemVariantTranslation>(entity =>
         {
-            entity.HasOne(vt => vt.MenuItemVariant)
+            entity.HasOne(vt => vt.Core)
                 .WithMany(v => v.Translations)
-                .HasForeignKey(ct => ct.MenuItemVariantId)
+                .HasForeignKey(ct => ct.CoreId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(vt => vt.Language)
@@ -117,16 +117,16 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .HasForeignKey(vt => vt.LanguageCode)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasIndex(vt => new { vt.MenuItemVariantId, vt.LanguageCode })
+            entity.HasIndex(vt => new { vt.CoreId, vt.LanguageCode })
                 .IsUnique();
         });
         
         
         modelBuilder.Entity<RestaurantTranslation>(entity =>
         {
-            entity.HasOne(rt => rt.Restaurant)
+            entity.HasOne(rt => rt.Core)
                 .WithMany(r => r.Translations)
-                .HasForeignKey(rt => rt.RestaurantId)
+                .HasForeignKey(rt => rt.CoreId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(rt => rt.Language)
@@ -134,15 +134,15 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .HasForeignKey(rt => rt.LanguageCode)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasIndex(rt => new { rt.RestaurantId, rt.LanguageCode })
+            entity.HasIndex(rt => new { rt.CoreId, rt.LanguageCode })
                 .IsUnique();
         });
         
         modelBuilder.Entity<SectionTranslation>(entity =>
         {
-            entity.HasOne(st => st.Section)
+            entity.HasOne(st => st.Core)
                 .WithMany(r => r.Translations)
-                .HasForeignKey(st => st.SectionId)
+                .HasForeignKey(st => st.CoreId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(st => st.Language)
@@ -150,7 +150,7 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .HasForeignKey(st => st.LanguageCode)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasIndex(st => new { st.SectionId, st.LanguageCode })
+            entity.HasIndex(st => new { st.CoreId, st.LanguageCode })
                 .IsUnique();
         });
         
