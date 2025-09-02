@@ -1,9 +1,10 @@
 using Application.Dto.ActivityPeriod;
+using Application.Dto.Shared;
 
 namespace Application.Dto.Section;
 
-public class CreateSectionRequest
+public class CreateSectionRequest : IHasTranslationsDto<SectionTranslationDto>
 {
-    public string? Title { get; set; }
     public ActivityPeriodRequest ActivityPeriod { get; set; }
+    public ICollection<SectionTranslationDto> Translations { get; set; } = new List<SectionTranslationDto>();
 }
