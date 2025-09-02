@@ -1,9 +1,8 @@
 using Application.Dto.Section;
+using Application.Exceptions;
 using Application.Services;
 using AutoMapper;
 using Domain.Entities.Sections;
-using Domain.Interfaces.Services;
-using Domain.Localization;
 
 namespace Application.Mappings;
 
@@ -20,20 +19,16 @@ public class SectionProfile : Profile
                 )
             );
 
-        CreateMap<Section, SectionDto>();
+        CreateMap<Section, SectionDto>().ForAllMultiLanguageMembers();
         CreateMap<CreateSectionRequest, Section>();
-        CreateMap<Section, SectionResponse>();
+        CreateMap<Section, SectionResponse>().ForAllMultiLanguageMembers();
         CreateMap<UpdateSectionRequest, Section>();
-        CreateMap<Section, SectionListResponse>().ForMember(dest => dest.CategoryTitle, opt =>
-            opt.MapFrom((src, dest, destMember, context) =>
-            {
-                var currentLanguage = context.Items["CurrentLanguage"] as ICurrentLanguage;
-                var lang = currentLanguage?.GetLanguage() ?? SupportedLanguages.All[0].Code;
 
-                return src.Category?.Translations
-                           .FirstOrDefault(t => t.LanguageCode == lang)?.Title
-                       ?? src.Category?.Translations.FirstOrDefault()?.Title
-                       ?? string.Empty;
-            }));
+
+        CreateMap<Section, SectionListResponse>()
+            .ForAllMultiLanguageMembers();
+
+        CreateMap<SectionTranslationDto, SectionTranslation>();
+        CreateMap<SectionTranslation, SectionTranslationDto>();
     }
 }
