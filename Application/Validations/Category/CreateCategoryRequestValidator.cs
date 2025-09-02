@@ -9,13 +9,11 @@ public class CreateCategoryRequestValidator : AbstractValidator<CreateCategoryRe
 {
     public CreateCategoryRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.Categories.Category);
-        
-        RuleFor(c => c.Title)!
-            .LengthValidationRule(dto => dto.Title!, entityType);
-        
         RuleFor(x => x.ActivityPeriod)
             .NotNull().WithMessage("دوره دسترسی الزامی است")
             .SetValidator(new ActivityPeriodDtoValidator());
+        
+        RuleForEach(x => x.Translations)
+            .SetValidator(new CategoryTranslationValidator());
     }
 }
