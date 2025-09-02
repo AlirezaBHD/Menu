@@ -56,8 +56,8 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         var count = Queryable.Count();
         entity.Order = count + 1;
         
-        var imagePath = await _fileService.SaveFileAsync(createMenuItemRequest.ImageFile, "MenuItem");
-        entity.ImagePath = imagePath;
+        // var imagePath = await _fileService.SaveFileAsync(createMenuItemRequest.ImageFile, "MenuItem");
+        // entity.ImagePath = imagePath;
         
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
@@ -76,14 +76,18 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
     public async Task UpdateMenuItemAsync(int id, UpdateMenuItemRequest dto)
     {
-        var menuItem = await Repository.GetByIdAsync(id);
+        var menuItem = await Queryable
+            .Include(mi => mi.Translations)
+            .Include(mi => mi.Variants)
+            .FirstAsync(c => c.Id == id);
+        
         menuItem = Mapper.Map(dto, menuItem);
 
-        if (dto.ImageFile != null)
-        {
-            var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "menu-item");
-            menuItem.ImagePath = imagePath;
-        }
+        // if (dto.ImageFile != null)
+        // {
+        //     var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "menu-item");
+        //     menuItem.ImagePath = imagePath;
+        // }
 
         Repository.Update(menuItem);
         await Repository.SaveAsync();
@@ -92,7 +96,9 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     
     public async Task<IEnumerable<MenuItemListResponse>> GetMenuItemListAsync()
     {
-        var result =await GetAllProjectedAsync<MenuItemListResponse>(trackingBehavior:TrackingBehavior.AsNoTracking);
+        var result =await GetAllProjectedAsync<MenuItemListResponse>(
+            includes: [m => m.Translations],
+            trackingBehavior:TrackingBehavior.AsNoTrackingWithIdentityResolution);
         return  result.OrderBy(s => s.Order);
     }
 
