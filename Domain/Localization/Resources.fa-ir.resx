@@ -1,0 +1,92 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Identity" xml:space="preserve">
+        <value>شناسه</value>
+    </data>
+    <data name="CreateDate" xml:space="preserve">
+        <value>زمان ایجاد</value>
+    </data>
+    <data name="ModifyDate" xml:space="preserve">
+        <value>زمان آخرین تغییر</value>
+    </data>
+    <data name="IsActive" xml:space="preserve">
+        <value>فعال بودن</value>
+    </data>
+    <data name="ActivityType" xml:space="preserve">
+        <value>وضعیت فعال بودن</value>
+    </data>
+    <data name="FromTime" xml:space="preserve">
+        <value>ساعت شروع</value>
+    </data>
+    <data name="ToTime" xml:space="preserve">
+        <value>زمان پایان</value>
+    </data>
+    <data name="Unlimited" xml:space="preserve">
+        <value>بدون محدودیت</value>
+    </data>
+    <data name="ActivePeriod" xml:space="preserve">
+        <value>بازه فعال بودن</value>
+    </data>
+    <data name="InactivePeriod" xml:space="preserve">
+        <value>بازه غیرفعال بودن</value>
+    </data>
+    <data name="Title" xml:space="preserve">
+        <value>عنوان</value>
+    </data>
+    <data name="ImagePath" xml:space="preserve">
+        <value>مسیر عکس</value>
+    </data>
+    <data name="IsAvailable" xml:space="preserve">
+        <value>قابل ارائه بودن</value>
+    </data>
+    <data name="Description" xml:space="preserve">
+        <value>توضیحات</value>
+    </data>
+    <data name="Price" xml:space="preserve">
+        <value>مبلغ</value>
+    </data>
+    <data name="Detail" xml:space="preserve">
+        <value>جزئیات</value>
+    </data>
+    <data name="LogoPath" xml:space="preserve">
+        <value>مسیر لوگو</value>
+    </data>
+    <data name="OpeningHours" xml:space="preserve">
+        <value>ساعت های کاری مجموعه</value>
+    </data>
+    <data name="Address" xml:space="preserve">
+        <value>نشانی</value>
+    </data>
+    <data name="Name" xml:space="preserve">
+        <value>نام</value>
+    </data>
+    <data name="LanguageCode" xml:space="preserve">
+        <value>کد زبان</value>
+    </data>
+    <data name="DisplayName" xml:space="preserve">
+        <value>اسم نمایش</value>
+    </data>
+    <data name="Code" xml:space="preserve">
+        <value>کد</value>
+    </data>
+    <data name="Username" xml:space="preserve">
+        <value>نام کاربری</value>
+    </data>
+    <data name="Email" xml:space="preserve">
+        <value>ایمیل</value>
+    </data>
+    <data name="PhoneNumber" xml:space="preserve">
+        <value>شماره تماس</value>
+    </data>
+</root>

@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using Domain.Common.Attributes;
+using Domain.Localization;
 
 namespace Domain.Entities.Categories;
 
 public class CategoryTranslation : BaseTranslationEntity<Category>
 {
     [MaxLength(50)]
-    [Display(Name = "عنوان")]
+    [LocalizeDisplay(nameof(Resources.Title))]
     public required string Title { get; set; }
 }

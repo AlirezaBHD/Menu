@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="Localization\Resources.fa-IR.resx">
+      <EmbeddedResource Update="Localization\Resources.fa-ir.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Resources.fa.Designer.cs</LastGenOutput>
       </EmbeddedResource>
@@ -36,10 +36,10 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
-      <Compile Update="Localization\Resources.fa-IR.Designer.cs">
+      <Compile Update="Localization\Resources.fa-ir.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.fa-IR.resx</DependentUpon>
+        <DependentUpon>Resources.fa-ir.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

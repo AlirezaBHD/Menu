@@ -1,13 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+using Domain.Common.Attributes;
+using Domain.Localization;
 
 namespace Domain.Entities.MenuItemVariants;
 
 public class MenuItemVariantTranslation : BaseTranslationEntity<MenuItemVariant>
 {
     [MaxLength(150)]
-    [Display(Name = "جزئیات")]
+    [LocalizeDisplay(nameof(Resources.Detail))]
     public string Detail { get; set; }  = "";
 
-    [Display(Name = "مبلغ")]
+    [LocalizeDisplay(nameof(Resources.Price))]
     public decimal Price { get; set; }
 }
