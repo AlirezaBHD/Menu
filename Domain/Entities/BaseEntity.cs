@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Common.Attributes;
+using Domain.Localization;
 
 namespace Domain.Entities;
 
@@ -7,12 +9,12 @@ public abstract class BaseEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Display(Name = "شناسه")]
+    [LocalizeDisplay(nameof(Resources.Identity))]
     public int Id { get; set; }
     
-    [Display(Name = "زمان ایجاد")]
+    [LocalizeDisplay(nameof(Resources.CreateDate))]
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     
-    [Display(Name = "زمان آخرین تغییر")]
+    [LocalizeDisplay(nameof(Resources.ModifyDate))]
     public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
 }
