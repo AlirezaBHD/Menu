@@ -1,39 +1,41 @@
 ﻿using Application.Dto.ActivityPeriod;
+using Application.Localization;
 using Domain.Entities;
 using FluentValidation;
 
 namespace Application.Validations.ActivityPeriod;
 
-
 public class ActivityPeriodDtoValidator : AbstractValidator<ActivityPeriodRequest>
 {
     public ActivityPeriodDtoValidator()
     {
-        var entityType = typeof(Domain.Entities.ActivityPeriod);
         RuleFor(ap => ap.IsActive)
-            .NotNull().WithMessage("وضعیت فعال بودن الزامی است");
-        
-        RuleFor(ap => ap.ActivityEnum)!.IsInEnum().WithMessage("مقدار وارد شده برای (وضعیت فعالیت) اشتباه است");
-        
+            .NotNull()
+            .WithMessage(Resources.RequiredIsActive);
+
+        RuleFor(ap => ap.ActivityEnum)
+            .IsInEnum()
+            .WithMessage(Resources.InvalidActivityEnum);
+
         When(ap => ap.ActivityEnum != ActivityEnum.Unlimited, () =>
         {
             RuleFor(ap => ap.FromTime)
-                .NotNull().WithMessage("ساعت شروع بازه الزامی است")
-                .NotEmpty().WithMessage("ساعت شروع بازه نمیتواند خالی باشد")
+                .NotNull().WithMessage(Resources.RequiredFromTime)
+                .NotEmpty().WithMessage(Resources.EmptyFromTime)
                 .Must(time => TimeSpan.TryParse(time.ToString(), out _))
-                .WithMessage("فرمت زمان نادرست است (مثال: 08:30 یا 15:45:00)")
+                .WithMessage(Resources.InvalidTimeFormat)
                 .LessThan(ap => ap.ToTime)
-                .WithMessage("ساعت شروع باید کوچکتر از ساعت پایان باشد.");
+                .WithMessage(Resources.FromTimeLessThanToTime);
 
-            RuleFor(ap => ap.FromTime)
-                .NotNull().WithMessage("ساعت پایان بازه الزامی است")
-                .NotEmpty().WithMessage("ساعت پایان بازه نمیتواند خالی باشد")
+            RuleFor(ap => ap.ToTime)
+                .NotNull().WithMessage(Resources.RequiredToTime)
+                .NotEmpty().WithMessage(Resources.EmptyToTime)
                 .Must(time => TimeSpan.TryParse(time.ToString(), out _))
-                .WithMessage("فرمت زمان نادرست است (مثال: 08:30 یا 15:45:00)");
+                .WithMessage(Resources.InvalidTimeFormat);
 
             RuleFor(ap => ap)
                 .Must(ap => ap.FromTime != ap.ToTime)
-                .WithMessage("ساعت شروع و پایان نباید یکسان باشند.");
+                .WithMessage(Resources.FromTimeNotEqualToTime);
         });
     }
 }
