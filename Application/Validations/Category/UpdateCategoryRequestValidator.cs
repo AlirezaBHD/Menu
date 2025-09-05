@@ -1,5 +1,6 @@
 using Application.Dto.Category;
 using Application.Extensions;
+using Application.Localization;
 using Application.Validations.ActivityPeriod;
 using FluentValidation;
 
@@ -10,7 +11,7 @@ public class UpdateCategoryRequestValidator : AbstractValidator<UpdateCategoryRe
     public UpdateCategoryRequestValidator()
     {
         RuleFor(x => x.ActivityPeriod)
-            .NotNull().WithMessage("دوره دسترسی الزامی است")
+            .NotNull().WithMessage(Resources.RequiredActivityPeriod)
             .SetValidator(new ActivityPeriodDtoValidator());
         
         RuleForEach(x => x.Translations)
