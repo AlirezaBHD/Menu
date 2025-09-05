@@ -1,4 +1,5 @@
 ﻿using Application.Dto.Authentication;
+using Application.Localization;
 using FluentValidation;
 
 namespace Application.Validations.Authentication;
@@ -8,25 +9,25 @@ public class RegisterAdminRequestValidator : AbstractValidator<RegisterAdminRequ
     public RegisterAdminRequestValidator()
     {
         RuleFor(x => x.Username)
-            .NotEmpty().WithMessage("نام کاربری الزامی است.")
-            .MinimumLength(3).WithMessage("نام کاربری باید حداقل ۳ کاراکتر باشد.")
-            .MaximumLength(20).WithMessage("نام کاربری نباید بیش از ۲۰ کاراکتر باشد.")
-            .Matches("^[a-zA-Z0-9_]+$").WithMessage("نام کاربری فقط می‌تواند شامل حروف، عدد و _ باشد.");
+            .NotEmpty().WithMessage(Resources.RequiredUsername)
+            .MinimumLength(3).WithMessage(Resources.MinLengthUsername)
+            .MaximumLength(20).WithMessage(Resources.MaxLengthUsername)
+            .Matches("^[a-zA-Z0-9_]+$").WithMessage(Resources.UsernamePattern);
 
         RuleFor(x => x.Password)
-            .NotEmpty().WithMessage("رمز عبور الزامی است.")
-            .MinimumLength(6).WithMessage("رمز عبور باید حداقل ۶ کاراکتر باشد.")
-            .Matches("[A-Z]").WithMessage("رمز عبور باید حداقل یک حرف بزرگ داشته باشد.")
-            .Matches("[a-z]").WithMessage("رمز عبور باید حداقل یک حرف کوچک داشته باشد.")
-            .Matches("[0-9]").WithMessage("رمز عبور باید حداقل یک رقم داشته باشد.")
-            .Matches("[^a-zA-Z0-9]").WithMessage("رمز عبور باید حداقل یک کاراکتر خاص داشته باشد.");
+            .NotEmpty().WithMessage(Resources.RequiredPassword)
+            .MinimumLength(6).WithMessage(Resources.MinLengthPassword)
+            .Matches("[A-Z]").WithMessage(Resources.PasswordUppercase)
+            .Matches("[a-z]").WithMessage(Resources.PasswordLowercase)
+            .Matches("[0-9]").WithMessage(Resources.PasswordNumber)
+            .Matches("[^a-zA-Z0-9]").WithMessage(Resources.PasswordSpecial);
         
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("ایمیل الزامی است")
-            .EmailAddress().WithMessage("ایمیل معتبر نیست");
+            .NotEmpty().WithMessage(Resources.RequiredEmail)
+            .EmailAddress().WithMessage(Resources.InvalidEmail);
         
         RuleFor(x => x.PhoneNumber)
-            .NotEmpty().WithMessage("شماره موبایل الزامی است")
-            .Matches(@"^09\d{9}$").WithMessage("شماره موبایل باید با 09 شروع شود و 11 رقم باشد");
+            .NotEmpty().WithMessage(Resources.RequiredPhoneNumber)
+            .Matches(@"^09\d{9}$").WithMessage(Resources.PhoneNumberPattern);
     }
 }
