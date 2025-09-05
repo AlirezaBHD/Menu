@@ -1,18 +1,19 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using Domain.Common.Attributes;
 using Domain.Entities.MenuItemVariants;
 using Domain.Entities.Sections;
 using Domain.Interfaces;
+using Domain.Localization;
 
 namespace Domain.Entities.MenuItems;
 
 [DisplayName("آیتم منو")]
 public class MenuItem: BaseEntity, ITranslation<MenuItemTranslation>
 {
-    [Display(Name = "مسیر عکس")]
+    [LocalizeDisplay(nameof(Resources.ImagePath))]
     public string? ImagePath { get; set; }
 
-    [Display(Name = "قابل ارائه بودن")] 
+    [LocalizeDisplay(nameof(Resources.IsAvailable))]
     public bool IsAvailable { get; set; } = true;
     
     public ICollection<MenuItemTranslation> Translations { get; set; } = new List<MenuItemTranslation>();
