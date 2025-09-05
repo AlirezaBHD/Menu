@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using Domain.Common.Attributes;
 using Domain.Entities.MenuItems;
 using Domain.Interfaces;
+using Domain.Localization;
 
 namespace Domain.Entities.MenuItemVariants;
 
@@ -11,7 +12,7 @@ public class MenuItemVariant : BaseEntity, ITranslation<MenuItemVariantTranslati
     public int MenuItemId { get; set; }
     public MenuItem MenuItem { get; set; } = null!;
 
-    [Display(Name = "قابل ارائه بودن")]
+    [LocalizeDisplay(nameof(Resources.IsAvailable))]
     public bool IsAvailable { get; set; } = true;
     
     public ICollection<MenuItemVariantTranslation> Translations { get; set; } = new List<MenuItemVariantTranslation>();
