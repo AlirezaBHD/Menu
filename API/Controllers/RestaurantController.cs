@@ -28,7 +28,7 @@ public class RestaurantController : ControllerBase
     [Authorize]
     [SwaggerResponse(201, "Restaurant created successfully")]
     [HttpPost]
-    public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantRequest createRestaurantRequest)
+    public async Task<IActionResult> CreateRestaurant([FromForm] CreateRestaurantRequest createRestaurantRequest)
     {
         await _restaurantService.CreateRestaurantAsync(createRestaurantRequest: createRestaurantRequest);
         return NoContent();
