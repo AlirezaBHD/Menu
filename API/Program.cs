@@ -168,7 +168,6 @@ builder.Services.AddSession(options =>
 #endregion
 
 
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
