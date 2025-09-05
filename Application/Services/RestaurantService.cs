@@ -1,7 +1,6 @@
 using Application.Dto.Restaurant;
 using Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Entities;
 using Domain.Entities.Restaurants;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -42,11 +41,11 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         var restaurant = await Repository.GetByIdAsync(id);
         restaurant = Mapper.Map(dto, restaurant);
 
-        // if (dto.LogoFile != null)
-        // {
-        //     var imagePath = await _fileService.SaveFileAsync(dto.LogoFile, "restaurant-logos");
-        //     restaurant.LogoPath = imagePath;
-        // }
+        if (dto.LogoFile != null)
+        {
+            var imagePath = await _fileService.SaveFileAsync(dto.LogoFile, "restaurant-logos");
+            restaurant.LogoPath = imagePath;
+        }
 
         Repository.Update(restaurant);
         await Repository.SaveAsync();
@@ -69,7 +68,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
             .Include(r => r.Categories).ThenInclude(c => c.Sections)
             .ThenInclude(s => s.MenuItems).ThenInclude(m => m.Translations);
         var result = await GetAllProjectedAsync<RestaurantMenuDto>(
-            query:query,
+            query: query,
             predicate: r => r.Id == restaurantId);
         return result;
     }
