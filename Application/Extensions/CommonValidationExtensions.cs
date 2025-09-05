@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
 using Application.Localization;
+using Domain.Common.Attributes;
 
 namespace Application.Extensions;
 
@@ -96,8 +97,8 @@ public static class CommonValidationExtensions
     {
         var propertyName = GetPropertyName(expression);
         var prop = entityType.GetProperty(propertyName);
-        var displayAttr = prop?.GetCustomAttribute<DisplayAttribute>();
-        var displayName = displayAttr?.Name ?? propertyName;
+        var localizeAttr = prop?.GetCustomAttribute<LocalizeDisplayAttribute>();
+        var displayName = localizeAttr?.GetName() ?? propertyName;
 
         var maxLengthAttr = prop?.GetCustomAttribute<MaxLengthAttribute>();
 
@@ -105,8 +106,8 @@ public static class CommonValidationExtensions
         if (!blank)
         {
             rule = rule.NotEmpty()
-                .WithMessage( displayName + Resources.NotEmpty)
-                .NotNull().WithMessage( displayName + Resources.Rrequired);
+                .WithMessage( $"{displayName} {Resources.NotEmpty}")
+                .NotNull().WithMessage( $"{displayName} {Resources.Rrequired}");
         }
 
         if (maxLengthAttr != null)
