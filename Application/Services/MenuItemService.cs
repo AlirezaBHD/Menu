@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Application.Dto.MenuItem;
 using Application.Dto.Shared;
 using Application.Exceptions;
+using Application.Localization;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -106,7 +107,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     {
         var allMenuItemCount = Queryable.Count();
         if (allMenuItemCount != dto.Count)
-            throw new ValidationException("تعداد آبجکت های ورودی با تعداد آبجکت های موجود مغایرت دارد");
+            throw new ValidationException(Resources.WrongNumberOfObjects);
         
         var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
 
