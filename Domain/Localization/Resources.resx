@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Identity" xml:space="preserve">
+        <value>Id</value>
+    </data>
+    <data name="CreateDate" xml:space="preserve">
+        <value>Create date</value>
+    </data>
+    <data name="ModifyDate" xml:space="preserve">
+        <value>Modify date</value>
+    </data>
+    <data name="IsActive" xml:space="preserve">
+        <value>Activation</value>
+    </data>
+    <data name="ActivityType" xml:space="preserve">
+        <value>Activity type</value>
+    </data>
+    <data name="FromTime" xml:space="preserve">
+        <value>From time</value>
+    </data>
+    <data name="ToTime" xml:space="preserve">
+        <value>To Time</value>
+    </data>
+    <data name="Unlimited" xml:space="preserve">
+        <value>Unlimited</value>
+    </data>
+    <data name="ActivePeriod" xml:space="preserve">
+        <value>ActivePeriod</value>
+    </data>
+    <data name="InactivePeriod" xml:space="preserve">
+        <value>InactivePeriod</value>
+    </data>
+    <data name="Title" xml:space="preserve">
+        <value>Title</value>
+    </data>
+    <data name="ImagePath" xml:space="preserve">
+        <value>ImagePath</value>
+    </data>
+    <data name="IsAvailable" xml:space="preserve">
+        <value>IsAvailable</value>
+    </data>
+    <data name="Description" xml:space="preserve">
+        <value>Description</value>
+    </data>
+    <data name="Price" xml:space="preserve">
+        <value>Price</value>
+    </data>
+    <data name="Detail" xml:space="preserve">
+        <value>Detail</value>
+    </data>
+    <data name="LogoPath" xml:space="preserve">
+        <value>LogoPath</value>
+    </data>
+    <data name="OpeningHours" xml:space="preserve">
+        <value>OpeningHours</value>
+    </data>
+    <data name="Address" xml:space="preserve">
+        <value>Address</value>
+    </data>
+    <data name="Name" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="LanguageCode" xml:space="preserve">
+        <value>LanguageCode</value>
+    </data>
+    <data name="DisplayName" xml:space="preserve">
+        <value>DisplayName</value>
+    </data>
+    <data name="Code" xml:space="preserve">
+        <value>Code</value>
+    </data>
+    <data name="Username" xml:space="preserve">
+        <value>Username</value>
+    </data>
+    <data name="Email" xml:space="preserve">
+        <value>Email</value>
+    </data>
+    <data name="PhoneNumber" xml:space="preserve">
+        <value>PhoneNumber</value>
+    </data>
+</root>
