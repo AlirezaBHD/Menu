@@ -1,4 +1,5 @@
 using Application.Dto.MenuItem;
+using Application.Localization;
 using Application.Validations.ActivityPeriod;
 using Application.Validations.MenuItemVariant;
 using FluentValidation;
@@ -12,7 +13,7 @@ public class CreateMenuItemRequestValidator : AbstractValidator<CreateMenuItemRe
         // RuleFor(c => c.ImageFile)!.ImageFileRule(blank: true);
         
         RuleFor(x => x.ActivityPeriod)
-            .NotNull().WithMessage("دوره دسترسی الزامی است")
+            .NotNull().WithMessage(Resources.RequiredActivityPeriod)
             .SetValidator(new ActivityPeriodDtoValidator());
         
         RuleForEach(x => x.Variants)
@@ -25,15 +26,15 @@ public class CreateMenuItemRequestValidator : AbstractValidator<CreateMenuItemRe
                 {
                     if (model.Variants.Any(v => v.IsAvailable))
                     {
-                        context.AddFailure(
-                            "آیتمی که غیرقابل ارائه است، نمیتواند دارای نوعی باشد که در دسترس است");
+                        context.AddFailure(Resources.UnavailableItemType);
+
                     }
                 }
                 else
                 {
                     if (model.Variants.All(v => !v.IsAvailable))
                     {
-                        context.AddFailure("آیتم قابل ارائه نباید شامل نوع هایی باشد که هیچ کدام در دسترس نیستند");
+                        context.AddFailure(Resources.InvalidItemTypesCombination);
                     }
                 }
             });
