@@ -17,33 +17,44 @@ public class UserService : Service<User>, IUserService
     private readonly IUserRepository _userRepository;
     private readonly ICurrentUser _currentUser;
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly ICurrentLanguage _currentLanguage;
 
     public UserService(IMapper mapper, ILogger<User> logger, IUserRepository userRepository,
-        ICurrentUser currentUser, IHttpContextAccessor contextAccessor)
+        ICurrentUser currentUser, IHttpContextAccessor contextAccessor, ICurrentLanguage currentLanguage)
         : base(mapper, userRepository, logger)
     {
         _userRepository = userRepository;
         _currentUser = currentUser;
         _contextAccessor = contextAccessor;
+        _currentLanguage = currentLanguage;
     }
 
     #endregion
 
     public async Task<IEnumerable<UserRestaurantsDto>> Restaurants()
     {
+        var lang = _currentLanguage.GetLanguage();
+
         var result = await Queryable
             .Where(u => u.Id == _currentUser.UserId)
-            .SelectMany(u => u.Restaurants.Select(
-                r => new UserRestaurantsDto
-                {
-                    Name = r.Name,
-                    Id = r.Id
-                })).AsNoTracking().ToListAsync();
+            .SelectMany(u => u.Restaurants.Select(r => new UserRestaurantsDto
+            {
+                Id = r.Id,
+                Name = r.Translations
+                           .Where(t => t.LanguageCode == lang)
+                           .Select(t => t.Name)
+                           .FirstOrDefault() 
+                       ?? r.Translations.Select(t => t.Name).FirstOrDefault() 
+                       ?? string.Empty
+            }))
+            .AsNoTracking()
+            .ToListAsync();
 
         return result;
     }
 
-    public async Task SetRestaurantIdInSessionAsync(Guid restaurantId)
+
+    public async Task SetRestaurantIdInSessionAsync(int restaurantId)
     {
         var isOwnedByUser = await _userRepository.GetQueryable()
             .Where(u => u.Id == _currentUser.UserId)

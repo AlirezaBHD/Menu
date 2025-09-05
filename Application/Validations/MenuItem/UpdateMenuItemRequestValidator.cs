@@ -1,5 +1,6 @@
 using Application.Dto.MenuItem;
 using Application.Extensions;
+using Application.Localization;
 using Application.Validations.ActivityPeriod;
 using FluentValidation;
 
@@ -9,18 +10,13 @@ public class UpdateMenuItemRequestValidator : AbstractValidator<UpdateMenuItemRe
 {
     public UpdateMenuItemRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.MenuItem);
-
-        RuleFor(c => c.Title)!
-            .LengthValidationRule(dto => dto.Title, entityType);
-
-        RuleFor(c => c.Description)!
-            .LengthValidationRule(dto => dto.Description!, entityType, blank: true);
-
-        RuleFor(c => c.ImageFile)!.ImageFileRule(blank: true);
+        // RuleFor(c => c.ImageFile)!.ImageFileRule(blank: true);
         
         RuleFor(x => x.ActivityPeriod)
-            .NotNull().WithMessage("دوره دسترسی الزامی است")
+            .NotNull().WithMessage(Resources.RequiredActivityPeriod)
             .SetValidator(new ActivityPeriodDtoValidator());
+        
+        RuleForEach(x => x.Translations)
+            .SetValidator(new MenuItemTranslationValidator());
     }
 }

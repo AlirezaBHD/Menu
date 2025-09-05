@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Entities.Sections;
 
 namespace Domain.Interfaces.Repositories;
 

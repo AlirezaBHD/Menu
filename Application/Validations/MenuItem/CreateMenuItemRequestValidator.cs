@@ -1,5 +1,5 @@
 using Application.Dto.MenuItem;
-using Application.Extensions;
+using Application.Localization;
 using Application.Validations.ActivityPeriod;
 using Application.Validations.MenuItemVariant;
 using FluentValidation;
@@ -10,18 +10,10 @@ public class CreateMenuItemRequestValidator : AbstractValidator<CreateMenuItemRe
 {
     public CreateMenuItemRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.MenuItem);
-
-        RuleFor(c => c.Title)!
-            .LengthValidationRule(dto => dto.Title!, entityType);
-
-        RuleFor(c => c.Description)!
-            .LengthValidationRule(dto => dto.Description!, entityType, blank: true);
-
-        RuleFor(c => c.ImageFile).ImageFileRule();
+        // RuleFor(c => c.ImageFile)!.ImageFileRule(blank: true);
         
         RuleFor(x => x.ActivityPeriod)
-            .NotNull().WithMessage("دوره دسترسی الزامی است")
+            .NotNull().WithMessage(Resources.RequiredActivityPeriod)
             .SetValidator(new ActivityPeriodDtoValidator());
         
         RuleForEach(x => x.Variants)
@@ -34,17 +26,20 @@ public class CreateMenuItemRequestValidator : AbstractValidator<CreateMenuItemRe
                 {
                     if (model.Variants.Any(v => v.IsAvailable))
                     {
-                        context.AddFailure(
-                            "آیتمی که غیرقابل ارائه است، نمیتواند دارای نوعی باشد که در دسترس است");
+                        context.AddFailure(Resources.UnavailableItemType);
+
                     }
                 }
                 else
                 {
                     if (model.Variants.All(v => !v.IsAvailable))
                     {
-                        context.AddFailure("آیتم قابل ارائه نباید شامل نوع هایی باشد که هیچ کدام در دسترس نیستند");
+                        context.AddFailure(Resources.InvalidItemTypesCombination);
                     }
                 }
             });
+        
+        RuleForEach(x => x.Translations)
+            .SetValidator(new MenuItemTranslationValidator());
     }
 }

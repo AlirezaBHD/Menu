@@ -1,4 +1,5 @@
 ﻿using Application.Dto.Shared;
+using Application.Localization;
 using FluentValidation;
 
 namespace Application.Validations.Shared;
@@ -7,7 +8,7 @@ public class OrderDtoValidator : AbstractValidator<List<OrderDto>>
 {
     public OrderDtoValidator()
     {
-        var entityType = typeof(Domain.Entities.Section);
+        var entityType = typeof(Domain.Entities.Sections.Section);
         
         RuleFor(x => x)
             .Custom((list, context) =>
@@ -15,7 +16,7 @@ public class OrderDtoValidator : AbstractValidator<List<OrderDto>>
                 var invalidOrders = list.Where(d => d.Order < 1).ToList();
                 if (invalidOrders.Any())
                 {
-                    context.AddFailure("تمام جایگاه‌ها باید عددی مثبت و بزرگتر از صفر باشند.");
+                    context.AddFailure(Resources.AllSeatsPositive);
                 }
 
                 var duplicateOrders = list
@@ -26,7 +27,7 @@ public class OrderDtoValidator : AbstractValidator<List<OrderDto>>
 
                 if (duplicateOrders.Any())
                 {
-                    context.AddFailure("عدد تکراری به عنوان جایگاه غیرقابل قبول است");
+                    context.AddFailure(Resources.DuplicateSeatNotAllowed);
                 }
             });
     }

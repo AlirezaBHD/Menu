@@ -26,8 +26,8 @@ public class MenuItemController : ControllerBase
     [Authorize]
     [SwaggerResponse(200, "menu-item created successfully", typeof(MenuItemResponse))]
     [HttpPost("/api/section/{sectionId}/[controller]")]
-    public async Task<IActionResult> CreateMenuItem([FromRoute] Guid sectionId,
-        [FromForm] CreateMenuItemRequest createMenuItemRequest)
+    public async Task<IActionResult> CreateMenuItem([FromRoute] int sectionId,
+        [FromBody] CreateMenuItemRequest createMenuItemRequest)
     {
         var menuItem = await _menuItemService.CreateMenuItemAsync(sectionId: sectionId,
             createMenuItemRequest: createMenuItemRequest);
@@ -37,7 +37,7 @@ public class MenuItemController : ControllerBase
     [Authorize]
     [SwaggerResponse(201, "menu-item deleted successfully")]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteMenuItemById([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteMenuItemById([FromRoute] int id)
     {
         await _menuItemService.DeleteMenuItemAsync(id: id);
         return NoContent();
@@ -46,8 +46,8 @@ public class MenuItemController : ControllerBase
     [Authorize]
     [SwaggerResponse(201, "menu-item updated successfully")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMenuItem([FromRoute] Guid id,
-        [FromForm] UpdateMenuItemRequest updateMenuItemRequest)
+    public async Task<IActionResult> UpdateMenuItem([FromRoute] int id,
+        [FromBody] UpdateMenuItemRequest updateMenuItemRequest)
     {
         await _menuItemService.UpdateMenuItemAsync(id: id, dto: updateMenuItemRequest);
         return NoContent();

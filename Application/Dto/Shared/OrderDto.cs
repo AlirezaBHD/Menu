@@ -2,6 +2,6 @@
 
 public class OrderDto
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public int Order { get; set; }
 }

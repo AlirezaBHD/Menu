@@ -1,13 +1,15 @@
-using Microsoft.AspNetCore.Http;
+using Application.Dto.Shared;
+using Application.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Dto.Restaurant;
 
-public class CreateRestaurantRequest
+public class CreateRestaurantRequest : IHasTranslationsDto<RestaurantTranslationDto>
 {
-    public string Name { get; set; }
-    public Guid OwnerId { get; set; }
-    public string Address { get; set; }
-    public string? Description { get; set; }
-    public IFormFile LogoFile { get; set; }
+    public int OwnerId { get; set; }
+    // public IFormFile LogoFile { get; set; }
+    
     public Dictionary<string, string> OpeningHours { get; set; }
+    
+    public ICollection<RestaurantTranslationDto> Translations { get; set; } = new List<RestaurantTranslationDto>();
 }

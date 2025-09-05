@@ -1,4 +1,5 @@
 using System.Text.Json;
+using API.Localization;
 using Application.Exceptions;
 
 namespace API.Middlewares;
@@ -53,7 +54,7 @@ public class ExceptionHandlingMiddleware
 
             default:
                 statusCode = StatusCodes.Status500InternalServerError;
-                response.Message = "خطای داخلی سرور.";
+                response.Message = Resources.ServerError;
                 break;
         }
         

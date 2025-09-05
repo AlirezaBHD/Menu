@@ -2,9 +2,11 @@ using System.Linq.Expressions;
 using Application.Dto.MenuItem;
 using Application.Dto.Shared;
 using Application.Exceptions;
+using Application.Localization;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.MenuItems;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -46,7 +48,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
     #endregion
     
-    public async Task<MenuItemResponse> CreateMenuItemAsync(Guid sectionId, CreateMenuItemRequest createMenuItemRequest)
+    public async Task<MenuItemResponse> CreateMenuItemAsync(int sectionId, CreateMenuItemRequest createMenuItemRequest)
     {
         var entity = Mapper.Map<CreateMenuItemRequest, MenuItem>(createMenuItemRequest);
         
@@ -55,8 +57,8 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         var count = Queryable.Count();
         entity.Order = count + 1;
         
-        var imagePath = await _fileService.SaveFileAsync(createMenuItemRequest.ImageFile, "MenuItem");
-        entity.ImagePath = imagePath;
+        // var imagePath = await _fileService.SaveFileAsync(createMenuItemRequest.ImageFile, "MenuItem");
+        // entity.ImagePath = imagePath;
         
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
@@ -65,7 +67,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         return response;
     }
 
-    public async Task DeleteMenuItemAsync(Guid id)
+    public async Task DeleteMenuItemAsync(int id)
     {
         var section = await Repository.GetByIdAsync(id);
         Repository.Remove(section);
@@ -73,16 +75,20 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         Logger.LogInformation("Deleted menu item with ID: {Id}", id);
     }
 
-    public async Task UpdateMenuItemAsync(Guid id, UpdateMenuItemRequest dto)
+    public async Task UpdateMenuItemAsync(int id, UpdateMenuItemRequest dto)
     {
-        var menuItem = await Repository.GetByIdAsync(id);
+        var menuItem = await Queryable
+            .Include(mi => mi.Translations)
+            .Include(mi => mi.Variants)
+            .FirstAsync(c => c.Id == id);
+        
         menuItem = Mapper.Map(dto, menuItem);
 
-        if (dto.ImageFile != null)
-        {
-            var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "menu-item");
-            menuItem.ImagePath = imagePath;
-        }
+        // if (dto.ImageFile != null)
+        // {
+        //     var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "menu-item");
+        //     menuItem.ImagePath = imagePath;
+        // }
 
         Repository.Update(menuItem);
         await Repository.SaveAsync();
@@ -91,7 +97,9 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     
     public async Task<IEnumerable<MenuItemListResponse>> GetMenuItemListAsync()
     {
-        var result =await GetAllProjectedAsync<MenuItemListResponse>(trackingBehavior:TrackingBehavior.AsNoTracking);
+        var result =await GetAllProjectedAsync<MenuItemListResponse>(
+            includes: [m => m.Translations],
+            trackingBehavior:TrackingBehavior.AsNoTrackingWithIdentityResolution);
         return  result.OrderBy(s => s.Order);
     }
 
@@ -99,7 +107,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     {
         var allMenuItemCount = Queryable.Count();
         if (allMenuItemCount != dto.Count)
-            throw new ValidationException("تعداد آبجکت های ورودی با تعداد آبجکت های موجود مغایرت دارد");
+            throw new ValidationException(Resources.WrongNumberOfObjects);
         
         var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
 

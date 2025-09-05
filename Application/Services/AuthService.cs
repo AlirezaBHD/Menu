@@ -8,6 +8,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Application.Localization;
 using Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -42,19 +43,19 @@ public class AuthService: IAuthService
             var duplicateFields = new List<string>();
 
             if (existingUser.Email == request.Email)
-                duplicateFields.Add("ایمیل");
+                duplicateFields.Add(Resources.Email);
 
             if (existingUser.Username == request.Username)
-                duplicateFields.Add("نام کاربری");
+                duplicateFields.Add(Resources.Username);
 
             if (duplicateFields.Count != 0)
-                throw new ValidationException($"{string.Join(" و ", duplicateFields)} تکراری است");
+                throw new ValidationException($"{string.Join(Resources.And, duplicateFields)} {Resources.AlreadyTaken} ");
         }
         
         var isCreatedSuccessfully = await CreateUserAsync(request);
         if (!isCreatedSuccessfully)
         {
-            throw new ValidationException("در فرایند ثبت ادمین خطایی رخ داد");
+            throw new ValidationException(Resources.ErrorOccurredInRegisteration);
         }
         _logger.LogInformation("Admin created successfully. username: {Username}", request.Username);
     }
@@ -82,7 +83,7 @@ public class AuthService: IAuthService
         if (user == null)
         {
             _logger.LogWarning("Login failed. Username not found: {Username}", request.Username);
-            throw new ValidationException("نام کاربری یا رمز عبور اشتباه است");
+            throw new ValidationException(Resources.WrongUsernameOrPassword);
         }
 
         var passwordHasher = new PasswordHasher<User>();
@@ -90,7 +91,7 @@ public class AuthService: IAuthService
         if (result != PasswordVerificationResult.Success)
         {
             _logger.LogWarning("Login failed. Wrong password for username: {Username}", request.Username);
-            throw new ValidationException("نام کاربری یا رمز عبور اشتباه است");
+            throw new ValidationException(Resources.WrongUsernameOrPassword);
         }
 
         var token = await GenerateJwtToken(user);

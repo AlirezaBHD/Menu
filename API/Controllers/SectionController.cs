@@ -21,7 +21,7 @@ public class SectionController : ControllerBase
     [Authorize]
     [SwaggerResponse(200, "Section created successfully", typeof(SectionResponse))]
     [HttpPost("/api/category/{categoryId}/[controller]")]
-    public async Task<IActionResult> CreateSection([FromRoute] Guid categoryId,
+    public async Task<IActionResult> CreateSection([FromRoute] int categoryId,
         [FromBody] CreateSectionRequest createSectionRequest)
     {
         var section = await _sectionService.CreateSectionAsync(categoryId: categoryId,
@@ -32,7 +32,7 @@ public class SectionController : ControllerBase
     [Authorize]
     [SwaggerResponse(200, "Section information", typeof(SectionResponse))]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetSectionById([FromRoute] Guid id)
+    public async Task<IActionResult> GetSectionById([FromRoute] int id)
     {
         var section = await _sectionService.GetSectionByIdAsync(sectionId: id);
         return Ok(section);
@@ -41,7 +41,7 @@ public class SectionController : ControllerBase
     [Authorize]
     [SwaggerResponse(201, "Section deleted successfully")]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSectionById([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteSectionById([FromRoute] int id)
     {
         await _sectionService.DeleteSectionAsync(id: id);
         return NoContent();
@@ -50,7 +50,7 @@ public class SectionController : ControllerBase
     [Authorize]
     [SwaggerResponse(201, "Section updated successfully")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateSection([FromRoute] Guid id,
+    public async Task<IActionResult> UpdateSection([FromRoute] int id,
         [FromBody] UpdateSectionRequest updateSectionRequest)
     {
         await _sectionService.UpdateSectionAsync(id: id, dto: updateSectionRequest);

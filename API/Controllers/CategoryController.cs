@@ -20,7 +20,7 @@ public class CategoryController : ControllerBase
 
     [Authorize]
     [SwaggerResponse(200, "Category created Successfully", typeof(CategoryResponse))]
-    [HttpPost("[controller]")]
+    [HttpPost]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest createCategoryRequest)
     {
         var category = await _categoryService.CreateCategoryAsync(createCategoryRequest: createCategoryRequest);
@@ -29,7 +29,7 @@ public class CategoryController : ControllerBase
 
     [Authorize]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
+    public async Task<IActionResult> GetCategoryById([FromRoute] int id)
     {
         var category = await _categoryService.GetCategoryByIdAsync(categoryId: id);
         return Ok(category);
@@ -37,7 +37,7 @@ public class CategoryController : ControllerBase
 
     [Authorize]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategoryById([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteCategoryById([FromRoute] int id)
     {
         await _categoryService.DeleteCategoryAsync(id: id);
         return NoContent();
@@ -45,7 +45,7 @@ public class CategoryController : ControllerBase
 
     [Authorize]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCategory([FromRoute] Guid id,
+    public async Task<IActionResult> UpdateCategory([FromRoute] int id,
         [FromBody] UpdateCategoryRequest updateCategoryDto)
     {
         await _categoryService.UpdateCategoryAsync(id: id, dto: updateCategoryDto);

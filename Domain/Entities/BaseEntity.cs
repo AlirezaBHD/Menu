@@ -8,7 +8,7 @@ public abstract class BaseEntity
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Display(Name = "شناسه")]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public int Id { get; set; }
     
     [Display(Name = "زمان ایجاد")]
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;

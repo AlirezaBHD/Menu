@@ -1,3 +1,5 @@
+using Domain.Entities.Restaurants;
+
 namespace Domain.Entities;
 
 public class User : BaseEntity

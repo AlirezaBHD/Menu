@@ -1,12 +1,10 @@
-﻿namespace Application.Dto.MenuItemVariant;
+﻿using Application.Dto.Shared;
 
-public class MenuItemVariantDto
+namespace Application.Dto.MenuItemVariant;
+
+public class MenuItemVariantDto : IHasTranslationsDto<MenuItemVariantTranslationDto>
 {
-    public Guid Id { get; set; }
-    
-    public string Detail { get; set; }  = "";
-
-    public decimal Price { get; set; }
-
+    public int Id { get; set; }
     public bool IsAvailable { get; set; }
+    public ICollection<MenuItemVariantTranslationDto> Translations { get; set; } = new List<MenuItemVariantTranslationDto>();
 }

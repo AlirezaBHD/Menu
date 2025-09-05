@@ -8,17 +8,9 @@ public class CreateRestaurantRequestValidator : AbstractValidator<CreateRestaura
 {
     public CreateRestaurantRequestValidator()
     {
-        var entityType = typeof(Domain.Entities.MenuItem);
-
-        RuleFor(r => r.Name)!
-            .LengthValidationRule(dto => dto.Name, entityType);
-
-        RuleFor(r => r.Description)!
-            .LengthValidationRule(dto => dto.Description!, entityType, blank: true);
-
-        RuleFor(r => r.Address)!
-            .LengthValidationRule(dto => dto.Address, entityType);
-
-        RuleFor(r => r.LogoFile).ImageFileRule();
+        // RuleFor(r => r.LogoFile).ImageFileRule();
+        
+        RuleForEach(x => x.Translations)
+            .SetValidator(new RestaurantTranslationValidator());
     }
 }

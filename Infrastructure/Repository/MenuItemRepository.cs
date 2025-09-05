@@ -1,4 +1,4 @@
-using Domain.Entities;
+using Domain.Entities.MenuItems;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Infrastructure.Persistence;

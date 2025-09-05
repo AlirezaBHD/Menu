@@ -14,17 +14,17 @@ public class CurrentUser : ICurrentUser
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public Guid? UserId => 
-        TryParse(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier), out var id)
+    public int? UserId => 
+        int.TryParse(_httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier), out var id)
             ? id
             : null;
 
-    public Guid RestaurantId => GetCurrentRestaurantId();
-    private Guid GetCurrentRestaurantId()
+    public int RestaurantId => GetCurrentRestaurantId();
+    private int GetCurrentRestaurantId()
     {
         var value = _httpContextAccessor.HttpContext?.Session.GetString("CurrentRestaurantId");
-        if (TryParse(value, out var restaurantId))
+        if (int.TryParse(value, out var restaurantId))
             return restaurantId;
-        return Empty;
+        return 0;
     }
 }

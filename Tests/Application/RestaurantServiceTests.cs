@@ -2,7 +2,7 @@
 using Application.Services;
 using Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.Restaurants;
 using Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

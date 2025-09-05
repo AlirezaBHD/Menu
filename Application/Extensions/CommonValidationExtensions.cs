@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
+using Application.Localization;
 
 namespace Application.Extensions;
 
@@ -14,7 +15,6 @@ public static class CommonValidationExtensions
         this IRuleBuilder<T, IFormFile> ruleBuilder,
         int maxSize = 5,
         string[]? allowedExtensions = null,
-        string errorMessage = " فایل تصویر معتبر نیست.",
         bool blank = false)
     {
         allowedExtensions ??= new[] { ".webp", ".png", ".jpg", ".jpeg" };
@@ -23,8 +23,8 @@ public static class CommonValidationExtensions
         if (!blank)
         {
             ruleBuilder
-                .NotNull().WithMessage(".تصویر الزامی است")
-                .NotEmpty().WithMessage(".تصویر نمیتواند خالی باشد");
+                .NotNull().WithMessage(Resources.RequiredImage)
+                .NotEmpty().WithMessage(Resources.EmptyImage);
         }
 
         return ruleBuilder
@@ -37,7 +37,7 @@ public static class CommonValidationExtensions
                 }
 
                 return true;
-            }).WithMessage($"تصویر معتبر نیست. پسوندهای مجاز: {string.Join(", ", allowedExtensions)}")
+            }).WithMessage(Resources.InvalidImageExtension + string.Join(", ", allowedExtensions))
 
             .Must(file =>
             {
@@ -47,7 +47,7 @@ public static class CommonValidationExtensions
                 }
 
                 return true;
-            }).WithMessage($"حجم تصویر نمی‌تواند بیشتر از {maxSize} مگابایت باشد.")
+            }).WithMessage(Resources.MaxImageSizeExceeded + maxSize + "Mb")
 
             .Must(file =>
             {
@@ -80,7 +80,7 @@ public static class CommonValidationExtensions
                 }
 
                 return true;
-            }).WithMessage("محتوای فایل تصویر معتبر نیست.");
+            }).WithMessage(Resources.InvalidImageContent);
     }
 
     #endregion
@@ -105,14 +105,14 @@ public static class CommonValidationExtensions
         if (!blank)
         {
             rule = rule.NotEmpty()
-                .WithMessage($"{displayName} نباید خالی باشد")
-                .NotNull().WithMessage($"{displayName} الزامی است");
+                .WithMessage( displayName + Resources.NotEmpty)
+                .NotNull().WithMessage( displayName + Resources.Rrequired);
         }
 
         if (maxLengthAttr != null)
         {
             rule = rule.MaximumLength(maxLengthAttr.Length)
-                .WithMessage($"حداکثر طول {displayName} {maxLengthAttr.Length} کاراکتر است.");
+                .WithMessage($"{Resources.MaxLength} {displayName}: {maxLengthAttr.Length} {Resources.Characters}");
         }
 
         return rule;

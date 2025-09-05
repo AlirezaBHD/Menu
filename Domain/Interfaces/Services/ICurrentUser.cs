@@ -2,6 +2,6 @@ namespace Domain.Interfaces.Services;
 
 public interface ICurrentUser
 {
-    Guid? UserId { get; }
-    Guid RestaurantId { get; }
+    int? UserId { get; }
+    int RestaurantId { get; }
 }

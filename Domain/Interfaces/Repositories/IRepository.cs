@@ -35,7 +35,7 @@ public interface IRepository<T> where T : class
 
     #region Get By Id Async
 
-    Task<T> GetByIdAsync(Guid id);
+    Task<T> GetByIdAsync(int id);
 
     #endregion
 
