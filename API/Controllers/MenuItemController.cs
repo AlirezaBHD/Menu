@@ -27,7 +27,7 @@ public class MenuItemController : ControllerBase
     [SwaggerResponse(200, "menu-item created successfully", typeof(MenuItemResponse))]
     [HttpPost("/api/section/{sectionId}/[controller]")]
     public async Task<IActionResult> CreateMenuItem([FromRoute] int sectionId,
-        [FromBody] CreateMenuItemRequest createMenuItemRequest)
+        [FromForm] CreateMenuItemRequest createMenuItemRequest)
     {
         var menuItem = await _menuItemService.CreateMenuItemAsync(sectionId: sectionId,
             createMenuItemRequest: createMenuItemRequest);
