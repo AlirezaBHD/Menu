@@ -1,7 +1,8 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using Domain.Common.Attributes;
 using Domain.Entities.Categories;
 using Domain.Interfaces;
+using Domain.Localization;
 
 namespace Domain.Entities.Restaurants;
 
@@ -9,9 +10,11 @@ namespace Domain.Entities.Restaurants;
 public class Restaurant : BaseEntity, ITranslation<RestaurantTranslation>
 {
     public int OwnerId { get; set; }
-    [Display(Name = "لوگو")] public string? LogoPath { get; set; }
+    
+    [LocalizeDisplay(nameof(Resources.LogoPath))]
+    public string? LogoPath { get; set; }
 
-    [Display(Name = "ساعت های کاری مجموعه")]
+    [LocalizeDisplay(nameof(Resources.OpeningHours))]
     public Dictionary<string, string> OpeningHours { get; set; } = new();
 
     public User? Owner { get; set; }
