@@ -28,12 +28,9 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     {
         var entity = Mapper.Map<CreateRestaurantRequest, Restaurant>(createRestaurantRequest);
         
-        // if (createRestaurantRequest.LogoFile != null)
-        // {
-        //     var imagePath = await _fileService.SaveFileAsync(createRestaurantRequest.LogoFile, "restaurant-logos");
-        //     entity.LogoPath = imagePath;
-        // }
-
+        var imagePath = await _fileService.SaveFileAsync(createRestaurantRequest.LogoFile, "restaurant-logos");
+        entity.LogoPath = imagePath;
+        
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         Logger.LogInformation("Created new restaurant: {@Restaurant}", entity);
