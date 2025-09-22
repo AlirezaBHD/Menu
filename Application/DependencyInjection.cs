@@ -21,7 +21,12 @@ public static class DependencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICurrentLanguage, CurrentLanguage>();
 
-
+        
+        services.AddLocalization(options => options.ResourcesPath = "Resources");
+        services.AddControllersWithViews()
+            .AddViewLocalization()
+            .AddDataAnnotationsLocalization();
+        
         return services;
     }
 
