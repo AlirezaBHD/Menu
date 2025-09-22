@@ -13,11 +13,11 @@ public class ActivityPeriodDtoValidator : AbstractValidator<ActivityPeriodReques
             .NotNull()
             .WithMessage(Resources.RequiredIsActive);
 
-        RuleFor(ap => ap.ActivityEnum)
+        RuleFor(ap => ap.ActivityType)
             .IsInEnum()
             .WithMessage(Resources.InvalidActivityEnum);
 
-        When(ap => ap.ActivityEnum != ActivityEnum.Unlimited, () =>
+        When(ap => ap.ActivityType != ActivityEnum.Unlimited, () =>
         {
             RuleFor(ap => ap.FromTime)
                 .NotNull().WithMessage(Resources.RequiredFromTime)
