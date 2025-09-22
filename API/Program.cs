@@ -26,6 +26,20 @@ using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var frontServer = builder.Configuration["FrontEnd:Url"];
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .AllowCredentials()
+            .WithOrigins(frontServer!)
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers(options => { options.ModelValidatorProviders.Clear(); });
 
 builder.Services.AddFluentValidationAutoValidation();
@@ -214,6 +228,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowAll");
 
 app.MapControllers();
 
