@@ -49,11 +49,11 @@ public class SectionController : ControllerBase
     
     [Authorize]
     [SwaggerResponse(201, "Section updated successfully")]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateSection([FromRoute] int id,
+    [HttpPut("/api/category/{categoryId}/[controller]/{id}")]
+    public async Task<IActionResult> UpdateSection([FromRoute] int id, [FromRoute] int categoryId,
         [FromBody] UpdateSectionRequest updateSectionRequest)
     {
-        await _sectionService.UpdateSectionAsync(id: id, dto: updateSectionRequest);
+        await _sectionService.UpdateSectionAsync(id: id, categoryId: categoryId, dto: updateSectionRequest);
         return NoContent();
     }
     
