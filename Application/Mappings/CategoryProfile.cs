@@ -21,7 +21,7 @@ public class CategoryProfile : Profile
             );
 
         CreateMap<CreateCategoryRequest, Category>();
-        CreateMap<Category, CategoryResponse>().ForAllMultiLanguageMembers();
+        CreateMap<Category, CategoryResponse>();
         CreateMap<UpdateCategoryRequest, Category>();
         CreateMap<Category, CategoryListResponse>().ForAllMultiLanguageMembers();
         CreateMap<CategoryTranslationDto, CategoryTranslation>();
