@@ -9,7 +9,6 @@ namespace Application.Dto.MenuItem;
 
 public class UpdateMenuItemRequest: IHasTranslationsDto<MenuItemTranslationDto>
 {
-    public IFormFile? ImageFile { get; set; }
     public bool IsAvailable { get; set; }
     public ActivityPeriodRequest ActivityPeriod { get; set; }
     
