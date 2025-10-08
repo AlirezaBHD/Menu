@@ -54,12 +54,12 @@ public class SectionService : Service<Section>, ISectionService
     public async Task<SectionResponse> CreateSectionAsync(int categoryId, CreateSectionRequest createSectionRequest)
     {
         var entity = Mapper.Map<CreateSectionRequest, Section>(createSectionRequest);
-        
+
         entity.CategoryId = categoryId;
-        
+
         var count = Queryable.Count();
         entity.Order = count + 1;
-        
+
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         var response = Mapper.Map<Section, SectionResponse>(entity);
@@ -72,12 +72,12 @@ public class SectionService : Service<Section>, ISectionService
     {
         var query = Queryable.Include(s => s.Translations)
             .Include(s => s.MenuItems).ThenInclude(m => m.Translations);
-        
+
         var response =
             await GetByIdProjectedAsync<SectionResponse>(sectionId,
                 query: query,
                 trackingBehavior: TrackingBehavior.AsNoTracking);
-        
+
         return response;
     }
 
@@ -89,7 +89,7 @@ public class SectionService : Service<Section>, ISectionService
         Logger.LogInformation("Deleted section with ID: {Id}", id);
     }
 
-    public async Task UpdateSectionAsync(int id, UpdateSectionRequest dto)
+    public async Task UpdateSectionAsync(int id, int categoryId, UpdateSectionRequest dto)
     {
         var section = await Queryable
             .Include(s => s.MenuItems)
@@ -97,40 +97,24 @@ public class SectionService : Service<Section>, ISectionService
             .FirstAsync(s => s.Id == id);
 
         section = Mapper.Map(dto, section);
-
-        var sectionIds = dto.MenuItemIds?.Distinct().ToList() ?? [];
-
-        var menuItems = await _menuItemRepository.GetQueryable()
-            .Where(s => sectionIds.Contains(s.Id))
-            .ToListAsync();
-
-        section.MenuItems = menuItems;
+        section.CategoryId = categoryId;
 
         Repository.Update(section);
         await Repository.SaveAsync();
-        Logger.LogInformation("Updated section with ID {Id}. Data: {@UpdateData}", id, section);
+        Logger.LogInformation("Updated section with ID {Id}, CategoryI Id {CategoryId}. Data: {@UpdateData}",
+            id, categoryId, section);
     }
 
     public async Task<IEnumerable<SectionListResponse>> GetSectionListAsync()
     {
-
-        var query =  Queryable.Include(s => s.Translations)
+        var query = Queryable.Include(s => s.Translations)
             .Include(s => s.Category).ThenInclude(c => c.Translations);
-        var result =await GetAllProjectedAsync<SectionListResponse>( query:query,
+        var result = await GetAllProjectedAsync<SectionListResponse>(query: query,
             // includes: [s => s.Translations],
-            trackingBehavior:TrackingBehavior.AsNoTracking);
-        
-        // var data = await Queryable
-        //     .Include(s => s.Category).ThenInclude(c => c.Translations)
-        //     .ToListAsync();
-        //
-        // var result = Mapper.Map<List<SectionListResponse>>(data, opt =>
-        // {
-        //     opt.Items["CurrentLanguage"] = _currentLanguage.GetLanguage();
-        // });
+            trackingBehavior: TrackingBehavior.AsNoTracking);
 
-        
-        return  result.OrderBy(s => s.Order);
+
+        return result.OrderBy(s => s.Order);
     }
 
     public async Task UpdateSectionOrderAsync(List<OrderDto> dto)
@@ -138,14 +122,14 @@ public class SectionService : Service<Section>, ISectionService
         var allSectionsCount = Queryable.Count();
         if (allSectionsCount != dto.Count)
             throw new ValidationException(Resources.WrongNumberOfObjects);
-        
+
         var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
 
         var sectionIds = orderMap.Keys.ToList();
         var sections = await Queryable
             .Where(c => sectionIds.Contains(c.Id))
             .ToListAsync();
-        
+
         foreach (var section in sections)
         {
             if (!orderMap.TryGetValue(section.Id, out var newOrder)) continue;
