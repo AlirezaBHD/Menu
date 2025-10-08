@@ -8,9 +8,7 @@ namespace Application.Dto.Section;
 public class SectionResponse
 {
     public int Id { get; set; }
-    [Required]
-    [MultiLanguageProperty]
-    public string Title { get; set; }
+    public ICollection<SectionTranslationDto> Translations { get; set; } = new List<SectionTranslationDto>();
     public ActivityPeriodResponse ActivityPeriod { get; set; }
     public List<MenuItemResponse> MenuItems { get; set; }
 }
