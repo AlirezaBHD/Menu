@@ -27,12 +27,31 @@ public class MenuItemController : ControllerBase
     [SwaggerResponse(200, "menu-item created successfully", typeof(MenuItemResponse))]
     [HttpPost("/api/section/{sectionId}/[controller]")]
     public async Task<IActionResult> CreateMenuItem([FromRoute] int sectionId,
-        [FromForm] CreateMenuItemRequest createMenuItemRequest)
+        [FromBody] CreateMenuItemRequest createMenuItemRequest)
     {
         var menuItem = await _menuItemService.CreateMenuItemAsync(sectionId: sectionId,
             createMenuItemRequest: createMenuItemRequest);
         return Ok(menuItem);
     }
+    
+    [Authorize]
+    [SwaggerResponse(200, "menu-item image changed successfully", typeof(string))]
+    [HttpPatch("/api/[controller]/{id}/image")]
+    public async Task<IActionResult> PatchMenuItemImage([FromRoute] int id,
+        [FromForm] MenuItemImageDto image)
+    {
+        var path = await _menuItemService.EditImageAsync(id, image);
+        return Ok(path);
+    }
+    
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetMenuItemById([FromRoute] int id)
+    {
+        var menuItem = await _menuItemService.GetMenuItemByIdAsync(id);
+        return Ok(menuItem);
+    }
+    
     
     [Authorize]
     [SwaggerResponse(201, "menu-item deleted successfully")]
@@ -56,7 +75,7 @@ public class MenuItemController : ControllerBase
     [Authorize]
     [SwaggerResponse(200, "List of Sections", typeof(IEnumerable<MenuItemListResponse>))]
     [HttpGet]
-    public async Task<IActionResult> GetSections()
+    public async Task<IActionResult> GetMenuItems()
     {
         var categories = await _menuItemService.GetMenuItemListAsync();
         return Ok(categories);
