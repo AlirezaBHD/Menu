@@ -13,5 +13,6 @@ public class MenuItemVariantProfile : Profile
         CreateMap<MenuItemVariant,MenuItemVariantDto>();
         CreateMap<MenuItemVariantTranslationDto,MenuItemVariantTranslation>();
         CreateMap<MenuItemVariantTranslation,MenuItemVariantTranslationDto>();
+        CreateMap<CreateMenuItemVariantDto,MenuItemVariant>();
     }
 }
