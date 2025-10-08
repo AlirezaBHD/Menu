@@ -1,16 +1,13 @@
-using System.ComponentModel.DataAnnotations;
 using Application.Dto.ActivityPeriod;
 using Application.Dto.Section;
-using Domain.Common.Attributes;
+using Application.Dto.Shared;
 
 namespace Application.Dto.Category;
 
-public class CategoryResponse
+public class CategoryResponse: IHasTranslationsDto<CategoryTranslationDto>
 {
     public int Id { get; set; }
-    [Required]
-    [MultiLanguageProperty]
-    public string? Title { get; set; }
+    public ICollection<CategoryTranslationDto> Translations { get; set; } = new List<CategoryTranslationDto>();
     public ActivityPeriodResponse? ActivityPeriod { get; set; }
     public List<SectionDto> Sections { get; set; } = [];
 }
