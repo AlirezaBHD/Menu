@@ -21,7 +21,7 @@ public class SectionProfile : Profile
 
         CreateMap<Section, SectionDto>().ForAllMultiLanguageMembers();
         CreateMap<CreateSectionRequest, Section>();
-        CreateMap<Section, SectionResponse>().ForAllMultiLanguageMembers();
+        CreateMap<Section, SectionResponse>();
         CreateMap<UpdateSectionRequest, Section>();
 
 
