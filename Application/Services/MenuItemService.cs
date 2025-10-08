@@ -27,7 +27,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     }
 
     #endregion
-    
+
     #region Activity Expression
 
     public static Expression<Func<MenuItem, bool>> IsAvailable(TimeSpan nowTime)
@@ -47,18 +47,15 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
     }
 
     #endregion
-    
+
     public async Task<MenuItemResponse> CreateMenuItemAsync(int sectionId, CreateMenuItemRequest createMenuItemRequest)
     {
         var entity = Mapper.Map<CreateMenuItemRequest, MenuItem>(createMenuItemRequest);
-        
+
         entity.SectionId = sectionId;
-        
+
         var count = Queryable.Count();
         entity.Order = count + 1;
-        
-        // var imagePath = await _fileService.SaveFileAsync(createMenuItemRequest.ImageFile, "MenuItem");
-        // entity.ImagePath = imagePath;
         
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
@@ -81,26 +78,20 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
             .Include(mi => mi.Translations)
             .Include(mi => mi.Variants)
             .FirstAsync(c => c.Id == id);
-        
-        menuItem = Mapper.Map(dto, menuItem);
 
-        // if (dto.ImageFile != null)
-        // {
-        //     var imagePath = await _fileService.SaveFileAsync(dto.ImageFile, "menu-item");
-        //     menuItem.ImagePath = imagePath;
-        // }
+        menuItem = Mapper.Map(dto, menuItem);
 
         Repository.Update(menuItem);
         await Repository.SaveAsync();
         Logger.LogInformation("Updated menu item with ID {Id}. Data: {@UpdateData}", id, menuItem);
     }
-    
+
     public async Task<IEnumerable<MenuItemListResponse>> GetMenuItemListAsync()
     {
-        var result =await GetAllProjectedAsync<MenuItemListResponse>(
+        var result = await GetAllProjectedAsync<MenuItemListResponse>(
             includes: [m => m.Translations],
-            trackingBehavior:TrackingBehavior.AsNoTrackingWithIdentityResolution);
-        return  result.OrderBy(s => s.Order);
+            trackingBehavior: TrackingBehavior.AsNoTrackingWithIdentityResolution);
+        return result.OrderBy(s => s.Order);
     }
 
     public async Task UpdateMenuItemOrderAsync(List<OrderDto> dto)
@@ -108,14 +99,14 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         var allMenuItemCount = Queryable.Count();
         if (allMenuItemCount != dto.Count)
             throw new ValidationException(Resources.WrongNumberOfObjects);
-        
+
         var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
 
         var menuItemIds = orderMap.Keys.ToList();
         var menuItems = await Queryable
             .Where(c => menuItemIds.Contains(c.Id))
             .ToListAsync();
-        
+
         foreach (var section in menuItems)
         {
             if (!orderMap.TryGetValue(section.Id, out var newOrder)) continue;
@@ -126,5 +117,34 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         }
 
         await Repository.SaveAsync();
+    }
+
+    public async Task<MenuItemDto> GetMenuItemByIdAsync(int id)
+    {
+
+        var query = Queryable.Include(s => s.Translations)
+            .Include(s => s.Variants).ThenInclude(m => m.Translations);
+
+        var response =
+            await GetByIdProjectedAsync<MenuItemDto>(id,
+                query: query,
+                trackingBehavior: TrackingBehavior.AsNoTracking);
+
+        return response;
+    }
+
+    public async Task<string> EditImageAsync(int menuItemId, MenuItemImageDto image)
+    {
+        var menuItem = await Queryable.FirstOrDefaultAsync(i => i.Id == menuItemId);
+        
+        if (menuItem == null)
+            throw new ValidationException(Resources.NotFound);
+        
+        var imagePath = await _fileService.SaveFileAsync(image.File, "menu-item");
+        
+        menuItem.ImagePath = imagePath;
+        await Repository.SaveAsync();
+        
+        return imagePath;
     }
 }
