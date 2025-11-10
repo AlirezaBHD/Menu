@@ -20,7 +20,7 @@ public class AuthController : ControllerBase
 
     [Authorize(Roles = "SuperAdmin, Moderator")]
     [SwaggerResponse(201, "admin created successfully")]
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> CreateAdmin(RegisterAdminRequest request)
     {
         await _authService.CreateAdminAsync(request);
