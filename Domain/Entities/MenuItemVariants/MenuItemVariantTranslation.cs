@@ -11,5 +11,5 @@ public class MenuItemVariantTranslation : BaseTranslationEntity<MenuItemVariant>
     public string Detail { get; set; }  = "";
 
     [LocalizeDisplay(nameof(Resources.Price))]
-    public decimal Price { get; set; }
+    public string Price { get; set; }  = "0";
 }
