@@ -13,5 +13,5 @@ public interface IMenuItemService: IService<MenuItem>
     Task<IEnumerable<MenuItemListResponse>> GetMenuItemListAsync();
     Task UpdateMenuItemOrderAsync(List<OrderDto> dto);
     Task<MenuItemDto> GetMenuItemByIdAsync(int id);
-    Task<string> EditImageAsync(int menuItemId, MenuItemImageDto image);
+    Task<string> EditImageAsync(int menuItemId, ImageDto image);
 }
