@@ -20,6 +20,16 @@ public class CurrentUser : ICurrentUser
             : null;
 
     public int RestaurantId => GetCurrentRestaurantId();
+    public List<string> Roles => GetCurrentUserRoles();
+
+    private List<string> GetCurrentUserRoles()
+    {
+        var user = _httpContextAccessor.HttpContext?.User;
+        var roles = user?.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
+
+        return roles;
+    }
+
     private int GetCurrentRestaurantId()
     {
         var value = _httpContextAccessor.HttpContext?.Session.GetString("CurrentRestaurantId");
