@@ -30,9 +30,16 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         var imagePath = await _fileService.SaveFileAsync(createRestaurantRequest.LogoFile, "restaurant-logos");
         entity.LogoPath = imagePath;
         
+
+        entity.OwnerId = _currentUser.UserId!.Value;
+
+        var count = Queryable.Count();
+        entity.Order = count + 1;
+
         await Repository.AddAsync(entity);
         await Repository.SaveAsync();
         Logger.LogInformation("Created new restaurant: {@Restaurant}", entity);
+        return new ResponseDto { Id = entity.Id };
     }
 
 
