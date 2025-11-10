@@ -3,6 +3,7 @@ using Domain.Common.Attributes;
 using Domain.Entities.MenuItemVariants;
 using Domain.Entities.Sections;
 using Domain.Interfaces;
+using Domain.Interfaces.Specifications;
 using Domain.Localization;
 
 namespace Domain.Entities.MenuItems;
