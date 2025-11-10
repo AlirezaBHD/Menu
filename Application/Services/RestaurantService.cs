@@ -114,7 +114,32 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
         return imagePath;
     }
+
     public async Task UpdateRestaurantOrderAsync(List<OrderDto> dto)
+    {
+        var allCategoriesCount = Queryable.Count();
+        if (allCategoriesCount != dto.Count)
+            throw new ValidationException(Resources.WrongNumberOfObjects);
+
+        var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
+
+        var restaurantIds = orderMap.Keys.ToList();
+        var restaurants = await Queryable
+            .Where(c => restaurantIds.Contains(c.Id))
+            .ToListAsync();
+
+        foreach (var restaurant in restaurants)
+        {
+            if (!orderMap.TryGetValue(restaurant.Id, out var newOrder)) continue;
+            if (restaurant.Order != newOrder)
+            {
+                restaurant.Order = newOrder;
+            }
+        }
+
+        await Repository.SaveAsync();
+    }
+
     public async Task<IEnumerable<RestaurantDto>> RestaurantDetailList()
     public async Task<RestaurantDetailDto> RestaurantDetail(int id)
 }
