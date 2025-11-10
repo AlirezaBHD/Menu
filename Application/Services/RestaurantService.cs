@@ -1,8 +1,12 @@
 using Application.Dto.Restaurant;
+using Application.Dto.Shared;
+using Application.Exceptions;
+using Application.Localization;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities.Restaurants;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -13,17 +17,19 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     #region Injection
 
     private readonly IFileService _fileService;
+    private readonly ICurrentUser _currentUser;
 
     public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper, IFileService fileService
-        , ILogger<Restaurant> logger)
+        , ILogger<Restaurant> logger, ICurrentUser currentUser)
         : base(mapper, restaurantRepository, logger)
     {
         _fileService = fileService;
+        _currentUser = currentUser;
     }
 
     #endregion
 
-    public async Task CreateRestaurantAsync(CreateRestaurantRequest createRestaurantRequest)
+    public async Task<ResponseDto> CreateRestaurantAsync(CreateRestaurantRequest createRestaurantRequest)
     {
         var entity = Mapper.Map<CreateRestaurantRequest, Restaurant>(createRestaurantRequest);
 
@@ -65,7 +71,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
     #region Get Restaurant Menu Async
 
-    public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(int restaurantId)
+    public async Task<RestaurantMenuDto> GetRestaurantMenuAsync(int restaurantId)
     {
         var query = Repository.GetQueryable()
                 .Include(r => r.Translations)
@@ -95,7 +101,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         var result = await GetAllProjectedAsync<RestaurantMenuDto>(
             query: query,
             predicate: r => r.Id == restaurantId);
-        return result;
+        return result.First();
     }
 
     #endregion
@@ -151,4 +157,12 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     }
 
     public async Task<RestaurantDetailDto> RestaurantDetail(int id)
+    {
+        var query = Repository.GetQueryable();
+        var result = await GetByIdProjectedAsync<RestaurantDetailDto>
+        (id, query: query, predicate: r => r.ActivityPeriod.IsActive, includes: [r => r.Translations],
+            trackingBehavior: TrackingBehavior.AsNoTracking);
+
+        return result;
+    }
 }
