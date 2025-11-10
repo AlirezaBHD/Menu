@@ -42,6 +42,10 @@ public override Task<int> SaveChangesAsync(CancellationToken cancellationToken =
                 .ValueGeneratedOnAdd();
         }
         
+        modelBuilder.Entity<Restaurant>()
+            .OwnsOne(r => r.ActivityPeriod)
+            .ConfigureActivityPeriod();
+        
         modelBuilder.Entity<Category>()
             .OwnsOne(c => c.ActivityPeriod)
             .ConfigureActivityPeriod();
