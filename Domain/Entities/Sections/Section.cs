@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Domain.Entities.Categories;
 using Domain.Entities.MenuItems;
-using Domain.Interfaces;
+using Domain.Interfaces.Specifications;
 
 namespace Domain.Entities.Sections;
 
