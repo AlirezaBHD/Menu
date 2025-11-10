@@ -99,4 +99,22 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     }
 
     #endregion
+
+    public async Task<string> EditImageAsync(int id, ImageDto image)
+    {
+        var restaurant = await Queryable.FirstOrDefaultAsync(i => i.Id == id);
+
+        if (restaurant == null)
+            throw new ValidationException(Resources.NotFound);
+
+        var imagePath = await _fileService.SaveFileAsync(image.File, "restaurant");
+
+        restaurant.LogoPath = imagePath;
+        await Repository.SaveAsync();
+
+        return imagePath;
+    }
+    public async Task UpdateRestaurantOrderAsync(List<OrderDto> dto)
+    public async Task<IEnumerable<RestaurantDto>> RestaurantDetailList()
+    public async Task<RestaurantDetailDto> RestaurantDetail(int id)
 }
