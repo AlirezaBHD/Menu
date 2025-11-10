@@ -6,5 +6,7 @@ public class LoginResponse
 {
     [Required]
     public string Token { get; set; }
-    public DateTime Expires { get; set; }
+    
+    [Required]
+    public string Username { get; set; }
 }
