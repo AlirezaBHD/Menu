@@ -13,6 +13,7 @@ public class SectionProfile : Profile
         var isAvailableExpr = MenuItemService.IsAvailable(DateTime.Now.TimeOfDay);
 
         CreateMap<Section, MenuSectionDto>()
+            .ForAllMultiLanguageMembers()
             .ForMember(dest => dest.MenuItems, opt =>
                 opt.MapFrom(src =>
                     src.MenuItems.AsQueryable().Where(isAvailableExpr)
