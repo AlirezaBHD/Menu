@@ -95,16 +95,22 @@ public class AuthService: IAuthService
         }
 
         var token = await GenerateJwtToken(user);
-        return token;
+        
+        var response =  new LoginResponse
+        {
+            Token = token,
+            Username = user.Username
+        };
+        return response;
     }
     
-    private async Task<LoginResponse> GenerateJwtToken(User user)
+    private async Task<string> GenerateJwtToken(User user)
     {
         var userRoles = user.Roles.Select(r => r.Role.Name);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Username!)
+            new Claim(ClaimTypes.Name, user.Username)
         };
         
         claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
@@ -121,10 +127,6 @@ public class AuthService: IAuthService
             expires: expires,
             signingCredentials: credentials);
 
-        return new LoginResponse
-        {
-            Token = new JwtSecurityTokenHandler().WriteToken(token),
-            Expires = expires
-        };
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
