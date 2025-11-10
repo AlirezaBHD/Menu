@@ -141,5 +141,14 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     }
 
     public async Task<IEnumerable<RestaurantDto>> RestaurantDetailList()
+    {
+        var query = Repository.GetQueryable();
+        var result = await GetAllProjectedAsync<RestaurantDto>
+        (query: query, predicate: r => r.ActivityPeriod.IsActive, includes: [r => r.Translations],
+            trackingBehavior: TrackingBehavior.AsNoTracking);
+
+        return result;
+    }
+
     public async Task<RestaurantDetailDto> RestaurantDetail(int id)
 }
