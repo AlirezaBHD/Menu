@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Domain.Entities.Restaurants;
 using Domain.Entities.Sections;
-using Domain.Interfaces;
+using Domain.Interfaces.Specifications;
 
 namespace Domain.Entities.Categories;
 
