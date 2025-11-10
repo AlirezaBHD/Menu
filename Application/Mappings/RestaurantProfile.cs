@@ -23,7 +23,8 @@ public class RestaurantProfile : Profile
         CreateMap<CreateRestaurantRequest, Restaurant>();
         CreateMap<UpdateRestaurantRequest, Restaurant>();
         CreateMap<Restaurant, RestaurantResponse>().ForAllMultiLanguageMembers();
-
+        CreateMap<Restaurant, RestaurantDto>().ForAllMultiLanguageMembers();
+        CreateMap<Restaurant, RestaurantDetailDto>().ForAllMultiLanguageMembers();
         CreateMap<RestaurantTranslationDto, RestaurantTranslation>();
         CreateMap<RestaurantTranslation, RestaurantTranslationDto>();
     }
