@@ -45,8 +45,11 @@ public class UserService : Service<User>, IUserService
                            .Select(t => t.Name)
                            .FirstOrDefault() 
                        ?? r.Translations.Select(t => t.Name).FirstOrDefault() 
-                       ?? string.Empty
+                       ?? string.Empty,
+                Order = r.Order,
+                LogoPath = r.LogoPath
             }))
+            .OrderBy(r => r.Order)
             .AsNoTracking()
             .ToListAsync();
 
