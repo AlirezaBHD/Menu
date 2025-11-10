@@ -1,4 +1,4 @@
-namespace Domain.Interfaces;
+namespace Domain.Interfaces.Specifications;
 
 public interface ITranslation<T>
 {
