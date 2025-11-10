@@ -14,6 +14,9 @@ public class MenuItemProfile : Profile
         CreateMap<MenuItem, MenuItemDto>()
             .ForAllMultiLanguageMembers();
         
+        CreateMap<MenuItem, ItemMenuDto>()
+            .ForAllMultiLanguageMembers();
+        
         CreateMap<MenuItem, MenuItemResponse>().ForAllMultiLanguageMembers();
         CreateMap<CreateMenuItemRequest, MenuItem>();
         CreateMap<UpdateMenuItemRequest, MenuItem>();
