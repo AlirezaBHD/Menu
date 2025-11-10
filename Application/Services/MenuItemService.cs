@@ -133,7 +133,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         return response;
     }
 
-    public async Task<string> EditImageAsync(int menuItemId, MenuItemImageDto image)
+    public async Task<string> EditImageAsync(int menuItemId, ImageDto image)
     {
         var menuItem = await Queryable.FirstOrDefaultAsync(i => i.Id == menuItemId);
         
