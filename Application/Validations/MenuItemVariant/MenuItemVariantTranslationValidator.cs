@@ -13,12 +13,23 @@ public class MenuItemVariantTranslationValidator : AbstractValidator<MenuItemVar
         var entityType = typeof(MenuItemVariantTranslation);
 
         RuleFor(x => x.Price)
-            .GreaterThan(0).WithMessage(Resources.PriceGreaterThanZero)
-            .LessThan(1_000_000_000).WithMessage(Resources.PriceLessThanOneBillion)
-            .PrecisionScale(18, 0, true).WithMessage(Resources.PriceMustBeInteger);
+            .NotEmpty().WithMessage(Resources.PriceMustBeInteger)
+            .Must(BeValidIntegerPrice).WithMessage(Resources.PriceMustBeInteger);
 
+        
         
         RuleFor(c => c.Detail)!
             .LengthValidationRule(dto => dto.Detail!, entityType, blank: true);
+    }
+    private bool BeValidIntegerPrice(string price)
+    {
+        if (string.IsNullOrWhiteSpace(price) || !decimal.TryParse(price, out decimal value))
+        {
+            return false;
+        }
+    
+        return value > 0 && 
+               value < 1_000_000_000 && 
+               value % 1 == 0;
     }
 }
