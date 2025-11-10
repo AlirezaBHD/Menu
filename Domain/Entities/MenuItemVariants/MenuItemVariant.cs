@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Domain.Common.Attributes;
 using Domain.Entities.MenuItems;
-using Domain.Interfaces;
+using Domain.Interfaces.Specifications;
 using Domain.Localization;
 
 namespace Domain.Entities.MenuItemVariants;
