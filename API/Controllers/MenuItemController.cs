@@ -38,7 +38,7 @@ public class MenuItemController : ControllerBase
     [SwaggerResponse(200, "menu-item image changed successfully", typeof(string))]
     [HttpPatch("/api/[controller]/{id}/image")]
     public async Task<IActionResult> PatchMenuItemImage([FromRoute] int id,
-        [FromForm] MenuItemImageDto image)
+        [FromForm] ImageDto image)
     {
         var path = await _menuItemService.EditImageAsync(id, image);
         return Ok(path);
