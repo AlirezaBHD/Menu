@@ -26,10 +26,6 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     public async Task CreateRestaurantAsync(CreateRestaurantRequest createRestaurantRequest)
     {
         var entity = Mapper.Map<CreateRestaurantRequest, Restaurant>(createRestaurantRequest);
-        
-        var imagePath = await _fileService.SaveFileAsync(createRestaurantRequest.LogoFile, "restaurant-logos");
-        entity.LogoPath = imagePath;
-        
 
         entity.OwnerId = _currentUser.UserId!.Value;
 
@@ -72,8 +68,30 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
     public async Task<IEnumerable<RestaurantMenuDto>> GetRestaurantMenuAsync(int restaurantId)
     {
         var query = Repository.GetQueryable()
-            .Include(r => r.Categories).ThenInclude(c => c.Sections)
-            .ThenInclude(s => s.MenuItems).ThenInclude(m => m.Translations);
+                .Include(r => r.Translations)
+                .Include(r => r.Categories)
+                .ThenInclude(c => c.Translations)
+
+                .Include(r => r.Categories)
+                .ThenInclude(c => c.Sections)
+                .ThenInclude(s => s.Translations)
+
+                .Include(r => r.Categories)
+                .ThenInclude(c => c.Sections)
+                .ThenInclude(s => s.MenuItems)
+
+                .Include(r => r.Categories)
+                .ThenInclude(c => c.Sections)
+                .ThenInclude(s => s.MenuItems)
+                .ThenInclude(m => m.Translations)
+                
+                .Include(r => r.Categories)
+                .ThenInclude(c => c.Sections)
+                .ThenInclude(s => s.MenuItems)
+                .ThenInclude(m => m.Variants)
+                .ThenInclude(v => v.Translations)
+            ;
+
         var result = await GetAllProjectedAsync<RestaurantMenuDto>(
             query: query,
             predicate: r => r.Id == restaurantId);
