@@ -1,9 +1,7 @@
-using Domain.Entities;
 using Domain.Entities.Restaurants;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
@@ -19,8 +17,17 @@ public class RestaurantRepository : Repository<Restaurant>, IRestaurantRepositor
         get
         {
             IQueryable<Restaurant> query = base.LimitedQuery;
-
-            query = query.Where(r => r.Id == _currentUser.RestaurantId);
+            
+            var roles = _currentUser.Roles;
+            
+            if (roles.Any(r => r is "SuperAdmin" or "Moderator"))
+            {
+                query = query.Where(r => r.OwnerId == _currentUser.UserId);
+            }
+            else
+            {
+                query = query.Where(r => r.Id == _currentUser.RestaurantId);
+            }
 
             return query;
         }
