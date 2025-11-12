@@ -1,7 +1,6 @@
 using System.Globalization;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.RateLimiting;
+using API.Configurations;
 using API.Middlewares;
 using API.Utilities;
 using Application;
@@ -19,8 +18,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Formatting.Compact;
 
@@ -50,33 +47,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.EnableAnnotations();
-    var securitySchema = new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        Reference = new OpenApiReference
-        {
-            Type = ReferenceType.SecurityScheme,
-            Id = "Bearer"
-        }
-    };
-
-    c.AddSecurityDefinition("Bearer", securitySchema);
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            securitySchema,
-            new[] { "Bearer" }
-        }
-    });
-});
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddFluentValidationRulesToSwagger();
@@ -99,32 +69,6 @@ builder.Services.AddAutoMapper(typeof(IMenuItemService).Assembly);
 builder.Services.AddApplicationServices();
 builder.Services.AddApplicationRepositories();
 
-
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            RoleClaimType = ClaimTypes.Role,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
-        };
-    });
-
-builder.Services.AddAuthorization();
 
 #region Logging
 
@@ -183,7 +127,8 @@ builder.Services.AddSession(options =>
 
 #endregion
 
-
+builder.Services.AddSwaggerDocumentation(builder.Configuration);
+builder.Services.AddAuthorization();
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -204,13 +149,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.UseSwagger();
     app.UseStaticFiles();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Menu");
-        c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-    });
+    app.UseSwaggerDocumentation();
 }
 
 
