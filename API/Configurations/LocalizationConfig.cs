@@ -1,4 +1,6 @@
 using System.Globalization;
+using Application.Exceptions;
+using Domain.Interfaces.Services;
 using Domain.Localization;
 using Microsoft.AspNetCore.Localization;
 
@@ -21,5 +23,14 @@ public static class LocalizationConfig
         });
 
         return services;
+    }
+
+    public static IApplicationBuilder ConfigureApplicationLanguage(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var currentLang = scope.ServiceProvider.GetRequiredService<ICurrentLanguage>();
+        MultiLanguageMappingExtensions.Configure(currentLang);
+
+        return app;
     }
 }
