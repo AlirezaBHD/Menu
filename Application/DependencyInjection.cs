@@ -20,7 +20,9 @@ public static class DependencyInjection
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICurrentLanguage, CurrentLanguage>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
 
+        services.AddAutoMapper(typeof(IMenuItemService).Assembly);
         
         services.AddLocalization(options => options.ResourcesPath = "Resources");
         services.AddControllersWithViews()
