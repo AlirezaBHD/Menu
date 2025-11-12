@@ -28,6 +28,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerDocumentation();
 }
 
+app.MapGet("/health", () => Results.Ok("I'm alive"));
+
 app.ConfigureApplicationLanguage();
 app.MapControllers();
 app.UseAppMiddlewares();
