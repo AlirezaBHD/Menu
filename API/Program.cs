@@ -22,9 +22,10 @@ services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
+app.UseStaticFiles();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseStaticFiles();
     app.UseSwaggerDocumentation();
 }
 
