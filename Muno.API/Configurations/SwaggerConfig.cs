@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class SwaggerConfig
 {
@@ -70,7 +70,7 @@ public static class SwaggerConfig
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "MUNO API",
+                Title = "MUNO Muno.API",
                 Description = "Scalable multi-restaurant menu system with ASP.NET Core.",
                 Contact = new OpenApiContact
                 {

@@ -1,7 +1,7 @@
 using Serilog;
 using Serilog.Formatting.Compact;
 
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class LoggingConfig
 {

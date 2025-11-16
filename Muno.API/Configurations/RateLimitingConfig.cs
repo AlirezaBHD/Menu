@@ -1,6 +1,6 @@
 using System.Threading.RateLimiting;
 
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class RateLimitingConfig
 {

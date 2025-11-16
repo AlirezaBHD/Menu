@@ -1,10 +1,10 @@
-using API.Utilities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Muno.API.Utilities;
 
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class ControllersConfig
 {

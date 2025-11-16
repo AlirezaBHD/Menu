@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace API.Utilities;
+namespace Muno.API.Utilities;
 
 public class KebabCaseParameterTransformer : IOutboundParameterTransformer
 {

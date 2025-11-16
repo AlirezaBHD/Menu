@@ -1,6 +1,6 @@
-using API.Middlewares;
+using Muno.API.Middlewares;
 
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class MiddlewareConfig
 {

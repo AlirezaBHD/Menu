@@ -1,4 +1,4 @@
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class CorsConfig
 {

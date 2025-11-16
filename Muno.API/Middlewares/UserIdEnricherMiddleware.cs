@@ -1,6 +1,6 @@
 using Domain.Interfaces.Services;
 
-namespace API.Middlewares;
+namespace Muno.API.Middlewares;
 
 public class UserIdEnricherMiddleware
 {

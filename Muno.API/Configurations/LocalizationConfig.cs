@@ -4,7 +4,7 @@ using Domain.Interfaces.Services;
 using Domain.Localization;
 using Microsoft.AspNetCore.Localization;
 
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class LocalizationConfig
 {

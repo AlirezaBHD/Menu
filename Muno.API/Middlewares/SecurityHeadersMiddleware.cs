@@ -1,4 +1,4 @@
-namespace API.Middlewares;
+namespace Muno.API.Middlewares;
 
 public class SecurityHeadersMiddleware
 {

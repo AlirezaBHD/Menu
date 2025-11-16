@@ -1,8 +1,8 @@
 using System.Text.Json;
-using API.Localization;
 using Application.Exceptions;
+using Muno.API.Localization;
 
-namespace API.Middlewares;
+namespace Muno.API.Middlewares;
 
 public class ExceptionHandlingMiddleware
 {

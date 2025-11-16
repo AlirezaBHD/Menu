@@ -1,4 +1,4 @@
-using API.Configurations;
+using Muno.API.Configurations;
 using Application;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace API.Controllers;
+namespace Muno.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

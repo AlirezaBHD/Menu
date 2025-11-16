@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace API.Controllers;
+namespace Muno.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

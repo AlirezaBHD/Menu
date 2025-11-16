@@ -1,7 +1,7 @@
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Configurations;
+namespace Muno.API.Configurations;
 
 public static class DatabaseConfig
 {

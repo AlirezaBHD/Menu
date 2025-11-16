@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{67DFF723-69A4-4B7D-8EEE-285C5041AE1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muno.API", "Muno.API\Muno.API.csproj", "{67DFF723-69A4-4B7D-8EEE-285C5041AE1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{F1DA6F33-5871-4B22-9DE8-B31F3F6A6E28}"
 EndProject

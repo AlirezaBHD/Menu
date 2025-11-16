@@ -8,7 +8,7 @@ namespace Infrastructure.Persistence
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            var configPath = Path.Combine("..", "API", "appsettings.json");
+            var configPath = Path.Combine("..", "Muno.API", "appsettings.json");
             var fullPath = Path.GetFullPath(configPath);
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
