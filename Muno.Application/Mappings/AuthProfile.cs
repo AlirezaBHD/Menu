@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Entities;
+using Muno.Domain.Entities;
 using Muno.Application.Dto.Authentication;
 
 namespace Muno.Application.Mappings;

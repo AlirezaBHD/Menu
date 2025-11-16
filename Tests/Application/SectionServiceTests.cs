@@ -1,9 +1,9 @@
 ﻿using Muno.Application.Dto.Section;
 using Muno.Application.Services;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Entities.MenuItem;
-using Domain.Interfaces.Repositories;
+using Muno.Domain.Entities;
+using Muno.Domain.Entities.MenuItem;
+using Muno.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using MockQueryable;

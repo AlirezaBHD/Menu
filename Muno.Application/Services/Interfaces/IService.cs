@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Repositories;
 
 namespace Muno.Application.Services.Interfaces;
 

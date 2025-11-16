@@ -1,6 +1,6 @@
 using Muno.Application.Exceptions;
 using AutoMapper;
-using Domain.Entities.Restaurants;
+using Muno.Domain.Entities.Restaurants;
 using Muno.Application.Dto.Restaurant;
 using Muno.Application.Services;
 

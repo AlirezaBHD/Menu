@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Muno.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -9,7 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Muno.API\Muno.API.csproj" />
       <ProjectReference Include="..\Muno.Application\Muno.Application.csproj" />
-      <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Muno.Domain\Muno.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>

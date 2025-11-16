@@ -1,5 +1,5 @@
 using Muno.Application.Extensions;
-using Domain.Entities.MenuItems;
+using Muno.Domain.Entities.MenuItems;
 using FluentValidation;
 using Muno.Application.Dto.MenuItem;
 

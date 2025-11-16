@@ -1,7 +1,7 @@
-using Domain.Entities;
-using Domain.Entities.Sections;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
+using Muno.Domain.Entities;
+using Muno.Domain.Entities.Sections;
+using Muno.Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Services;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 

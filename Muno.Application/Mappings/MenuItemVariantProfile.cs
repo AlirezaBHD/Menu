@@ -1,6 +1,6 @@
 ﻿using Muno.Application.Exceptions;
 using AutoMapper;
-using Domain.Entities.MenuItemVariants;
+using Muno.Domain.Entities.MenuItemVariants;
 using Muno.Application.Dto.MenuItemVariant;
 
 namespace Muno.Application.Mappings;

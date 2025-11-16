@@ -1,9 +1,9 @@
 ﻿using Muno.Application.Dto.Category;
 using Muno.Application.Services;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
+using Muno.Domain.Entities;
+using Muno.Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using MockQueryable;
@@ -17,7 +17,7 @@ public class CategoryServiceTests
     private readonly Mock<ICategoryRepository> _repoMock;
     private readonly Mock<ISectionRepository> _sectionRepoMock;
     private readonly Mock<IMapper> _mapperMock;
-    private readonly Mock<ILogger<Domain.Entities.Category>> _loggerMock;
+    private readonly Mock<ILogger<Muno.Domain.Entities.Category>> _loggerMock;
     private readonly CategoryService _service;
     private readonly Mock<ICurrentUser> _user;
 
@@ -26,7 +26,7 @@ public class CategoryServiceTests
         _repoMock = new Mock<ICategoryRepository>();
         _sectionRepoMock = new Mock<ISectionRepository>();
         _mapperMock = new Mock<IMapper>();
-        _loggerMock = new Mock<ILogger<Domain.Entities.Category>>();
+        _loggerMock = new Mock<ILogger<Muno.Domain.Entities.Category>>();
         _user = new Mock<ICurrentUser>();
 
         _service = new CategoryService(
@@ -44,7 +44,7 @@ public class CategoryServiceTests
         var restaurantId = Guid.NewGuid();
         var request = new CreateCategoryRequest { Title = "Main Dishes" };
 
-        var categoryEntity = new Domain.Entities.Category
+        var categoryEntity = new Muno.Domain.Entities.Category
         {
             Id = Guid.NewGuid(),
             Title = request.Title,
@@ -57,13 +57,13 @@ public class CategoryServiceTests
             Title = categoryEntity.Title
         };
 
-        _mapperMock.Setup(m => m.Map<CreateCategoryRequest, Domain.Entities.Category>(request))
+        _mapperMock.Setup(m => m.Map<CreateCategoryRequest, Muno.Domain.Entities.Category>(request))
                    .Returns(categoryEntity);
 
-        _mapperMock.Setup(m => m.Map<Domain.Entities.Category, CategoryResponse>(categoryEntity))
+        _mapperMock.Setup(m => m.Map<Muno.Domain.Entities.Category, CategoryResponse>(categoryEntity))
                    .Returns(responseDto);
 
-        _repoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.Category>())).Returns(Task.CompletedTask);
+        _repoMock.Setup(r => r.AddAsync(It.IsAny<Muno.Domain.Entities.Category>())).Returns(Task.CompletedTask);
         _repoMock.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
 
         var result = await _service.CreateCategoryAsync(restaurantId, request);
@@ -72,7 +72,7 @@ public class CategoryServiceTests
         result.Id.Should().Be(categoryEntity.Id);
         result.Title.Should().Be("Main Dishes");
 
-        _repoMock.Verify(r => r.AddAsync(It.Is<Domain.Entities.Category>(c => c.RestaurantId == restaurantId)), Times.Once);
+        _repoMock.Verify(r => r.AddAsync(It.Is<Muno.Domain.Entities.Category>(c => c.RestaurantId == restaurantId)), Times.Once);
         _repoMock.Verify(r => r.SaveAsync(), Times.Once);
     }
 
@@ -80,7 +80,7 @@ public class CategoryServiceTests
     public async Task DeleteCategoryAsync_ShouldRemoveCategory_WhenExists()
     {
         var categoryId = Guid.NewGuid();
-        var category = new Domain.Entities.Category { Id = categoryId, Title = "Starters" };
+        var category = new Muno.Domain.Entities.Category { Id = categoryId, Title = "Starters" };
 
         _repoMock.Setup(r => r.GetByIdAsync(categoryId))
             .ReturnsAsync(category);
@@ -113,7 +113,7 @@ public class CategoryServiceTests
             new Section { Id = newSectionId, Title = "New Section" }
         };
         
-        var existingCategory = new Domain.Entities.Category
+        var existingCategory = new Muno.Domain.Entities.Category
         {
             Id = categoryId,
             Title = "Old Name",
@@ -129,7 +129,7 @@ public class CategoryServiceTests
 
         var allSections = oldSections.Union(newSections).ToList();
         
-        var queryableCategory = new List<Domain.Entities.Category> { existingCategory }.AsQueryable().BuildMock();
+        var queryableCategory = new List<Muno.Domain.Entities.Category> { existingCategory }.AsQueryable().BuildMock();
         var queryableSections = allSections.AsQueryable().BuildMock();
 
         _repoMock.Setup(r => r.GetQueryable())
@@ -142,14 +142,14 @@ public class CategoryServiceTests
         _mapperMock.Setup(m => m.Map(updateRequest, existingCategory))
             .Returns(existingCategory);
 
-        _repoMock.Setup(r => r.Update(It.IsAny<Domain.Entities.Category>()));
+        _repoMock.Setup(r => r.Update(It.IsAny<Muno.Domain.Entities.Category>()));
         _repoMock.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
 
         await _service.UpdateCategoryAsync(categoryId, updateRequest);
 
         var expectedIds = new[] { fixedSectionId, newSectionId };
         
-        _repoMock.Verify(r => r.Update(It.Is<Domain.Entities.Category>(c =>
+        _repoMock.Verify(r => r.Update(It.Is<Muno.Domain.Entities.Category>(c =>
             c.Title == "New Name" &&
             c.Sections.Count == 2 &&
             expectedIds.All(id => c.Sections.Any(s => s.Id == id))

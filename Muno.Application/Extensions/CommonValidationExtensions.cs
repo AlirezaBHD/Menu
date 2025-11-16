@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
-using Domain.Common.Attributes;
+using Muno.Domain.Common.Attributes;
 using Muno.Application.Localization;
 
 namespace Muno.Application.Extensions;

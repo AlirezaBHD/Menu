@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Domain.Common.Attributes;
+using Muno.Domain.Common.Attributes;
 
 namespace Muno.Application.Dto.Section;
 

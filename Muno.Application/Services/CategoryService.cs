@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Entities.Categories;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
+using Muno.Domain.Entities;
+using Muno.Domain.Entities.Categories;
+using Muno.Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Muno.Application.Dto.Category;

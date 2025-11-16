@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Muno.Domain.Entities;
 
 namespace Muno.Application.Dto.ActivityPeriod;
 

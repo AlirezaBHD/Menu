@@ -2,9 +2,9 @@
 using Muno.Application.Services;
 using Muno.Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Entities.MenuItem;
-using Domain.Interfaces.Repositories;
+using Muno.Domain.Entities;
+using Muno.Domain.Entities.MenuItem;
+using Muno.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

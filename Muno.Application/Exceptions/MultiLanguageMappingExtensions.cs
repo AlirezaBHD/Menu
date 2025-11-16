@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Reflection;
 using AutoMapper;
-using Domain.Common.Attributes;
-using Domain.Interfaces.Services;
+using Muno.Domain.Common.Attributes;
+using Muno.Domain.Interfaces.Services;
 
 namespace Muno.Application.Exceptions;
 

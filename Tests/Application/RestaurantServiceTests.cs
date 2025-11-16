@@ -2,8 +2,8 @@
 using Muno.Application.Services;
 using Muno.Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Entities.Restaurants;
-using Domain.Interfaces.Repositories;
+using Muno.Domain.Entities.Restaurants;
+using Muno.Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Moq;

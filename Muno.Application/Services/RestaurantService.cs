@@ -1,7 +1,7 @@
 using AutoMapper;
-using Domain.Entities.Restaurants;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
+using Muno.Domain.Entities.Restaurants;
+using Muno.Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Muno.Application.Dto.Restaurant;

@@ -1,5 +1,5 @@
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
+using Muno.Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Services;
 using Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using Muno.Application.Services;

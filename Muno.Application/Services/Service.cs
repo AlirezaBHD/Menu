@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Repositories;
 using Infrastructure.QueryHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

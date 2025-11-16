@@ -1,10 +1,10 @@
-﻿using Domain.Entities;
-using Domain.Entities.Categories;
-using Domain.Entities.MenuItems;
-using Domain.Entities.MenuItemVariants;
-using Domain.Entities.Restaurants;
-using Domain.Entities.Sections;
-using Domain.Localization;
+﻿using Muno.Domain.Entities;
+using Muno.Domain.Entities.Categories;
+using Muno.Domain.Entities.MenuItems;
+using Muno.Domain.Entities.MenuItemVariants;
+using Muno.Domain.Entities.Restaurants;
+using Muno.Domain.Entities.Sections;
+using Muno.Domain.Localization;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 

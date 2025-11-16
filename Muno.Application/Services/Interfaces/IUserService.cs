@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Muno.Domain.Entities;
 using Muno.Application.Dto.User;
 
 namespace Muno.Application.Services.Interfaces;

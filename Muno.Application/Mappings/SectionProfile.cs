@@ -1,6 +1,6 @@
 using Muno.Application.Exceptions;
 using AutoMapper;
-using Domain.Entities.Sections;
+using Muno.Domain.Entities.Sections;
 using Muno.Application.Dto.Section;
 using Muno.Application.Services;
 

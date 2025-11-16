@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Entities.MenuItems;
-using Domain.Interfaces.Repositories;
+using Muno.Domain.Entities;
+using Muno.Domain.Entities.MenuItems;
+using Muno.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Muno.Application.Dto.MenuItem;

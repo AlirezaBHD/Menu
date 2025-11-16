@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Domain.Common.Attributes;
+using Muno.Domain.Common.Attributes;
 using Muno.Application.Dto.Category;
 
 namespace Muno.Application.Dto.Restaurant;

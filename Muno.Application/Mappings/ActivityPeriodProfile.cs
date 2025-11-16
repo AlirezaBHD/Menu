@@ -1,6 +1,6 @@
 ﻿using Muno.Application.Extensions;
 using AutoMapper;
-using Domain.Entities;
+using Muno.Domain.Entities;
 using Muno.Application.Dto.ActivityPeriod;
 
 namespace Muno.Application.Mappings;

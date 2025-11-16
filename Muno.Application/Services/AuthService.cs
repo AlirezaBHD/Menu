@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
 using System.Text;
 using AutoMapper;
-using Domain.Entities;
+using Muno.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Muno.Application.Dto.Authentication;

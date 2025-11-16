@@ -1,5 +1,5 @@
-using Domain.Entities;
-using Domain.Entities.Categories;
+using Muno.Domain.Entities;
+using Muno.Domain.Entities.Categories;
 using Muno.Application.Dto.Category;
 using Muno.Application.Dto.Shared;
 

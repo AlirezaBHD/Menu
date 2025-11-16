@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Muno.Domain.Entities;
 using FluentValidation;
 using Muno.Application.Dto.ActivityPeriod;
 using Muno.Application.Localization;

@@ -1,6 +1,6 @@
-using Domain.Entities.Restaurants;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
+using Muno.Domain.Entities.Restaurants;
+using Muno.Domain.Interfaces.Repositories;
+using Muno.Domain.Interfaces.Services;
 using Infrastructure.Persistence;
 
 namespace Infrastructure.Repository;

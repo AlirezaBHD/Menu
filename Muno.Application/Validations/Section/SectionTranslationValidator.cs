@@ -1,5 +1,5 @@
 using Muno.Application.Extensions;
-using Domain.Entities.Sections;
+using Muno.Domain.Entities.Sections;
 using FluentValidation;
 using Muno.Application.Dto.Section;
 

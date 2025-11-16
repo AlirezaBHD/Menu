@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Repositories;
+﻿using Muno.Domain.Interfaces.Repositories;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 

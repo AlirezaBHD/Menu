@@ -1,5 +1,5 @@
 using Muno.Application.Extensions;
-using Domain.Entities.Restaurants;
+using Muno.Domain.Entities.Restaurants;
 using FluentValidation;
 using Muno.Application.Dto.Restaurant;
 

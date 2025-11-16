@@ -1,8 +1,8 @@
 using Muno.Application.Exceptions;
 using AutoMapper;
-using Domain.Entities.MenuItems;
-using Domain.Interfaces.Services;
-using Domain.Localization;
+using Muno.Domain.Entities.MenuItems;
+using Muno.Domain.Interfaces.Services;
+using Muno.Domain.Localization;
 using Muno.Application.Dto.MenuItem;
 
 namespace Muno.Application.Mappings;

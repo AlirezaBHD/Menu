@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muno.API", "Muno.API\Muno.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muno.Application", "Muno.Application\Muno.Application.csproj", "{F1DA6F33-5871-4B22-9DE8-B31F3F6A6E28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{AD7760E4-E561-4080-975F-9641A9097B43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muno.Domain", "Muno.Domain\Muno.Domain.csproj", "{AD7760E4-E561-4080-975F-9641A9097B43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{BE27CAA2-C054-44FA-8160-892B07EF5E2D}"
 EndProject
