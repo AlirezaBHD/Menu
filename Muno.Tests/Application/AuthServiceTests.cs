@@ -10,7 +10,7 @@ using FluentAssertions;
 using Muno.Application.Exceptions;
 using Muno.Application.Services;
 
-namespace Tests.Application;
+namespace Muno.Tests.Application;
 
 public class AuthServiceTests
 {

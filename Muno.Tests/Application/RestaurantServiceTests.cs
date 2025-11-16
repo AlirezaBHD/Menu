@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace Tests.Application;
+namespace Muno.Tests.Application;
 
 public class RestaurantServiceTests
 {

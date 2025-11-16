@@ -10,7 +10,7 @@ using MockQueryable;
 using Moq;
 using Xunit;
 
-namespace Tests.Application;
+namespace Muno.Tests.Application;
 
 public class CategoryServiceTests
 {
