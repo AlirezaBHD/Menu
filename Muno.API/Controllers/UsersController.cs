@@ -7,31 +7,24 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Muno.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class UsersController(IUserService userService) : ControllerBase
 {
-    private readonly IUserService _userService;
 
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
-    
-    [Authorize]
     [SwaggerResponse(200, "User's restaurants", typeof(IEnumerable<UserRestaurantsDto>))]
     [HttpGet("restaurant")]
     public async Task<IActionResult> GetUsersRestaurants()
     {
-        var result = await _userService.Restaurants();
+        var result = await userService.Restaurants();
         return Ok(result);
     }
     
-    [Authorize]
-    [SwaggerResponse(204, "Restaurant Id have been set in session")]
-    [HttpPost("restaurant/{Id}")]
-    public async Task<IActionResult> SetRestaurantIdInSession([FromRoute] int Id)
+    [SwaggerResponse(204, "Restaurant ID have been set in session")]
+    [HttpPost("restaurant/{id:int}")]
+    public async Task<IActionResult> SetRestaurantIdInSession([FromRoute] int id)
     {
-        await _userService.SetRestaurantIdInSessionAsync(Id);
+        await userService.SetRestaurantIdInSessionAsync(id);
         return NoContent();
     }
 }
