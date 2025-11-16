@@ -8,65 +8,59 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Muno.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
-public class CategoryController : ControllerBase
+public class CategoriesController(ICategoryService categoryService) : ControllerBase
 {
-    private readonly ICategoryService _categoryService;
-
-    public CategoryController(ICategoryService categoryService)
-    {
-        _categoryService = categoryService;
-    }
-
-    [Authorize]
+    
     [SwaggerResponse(200, "Category created Successfully", typeof(CategoryResponse))]
     [HttpPost]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest createCategoryRequest)
     {
-        var category = await _categoryService.CreateCategoryAsync(createCategoryRequest: createCategoryRequest);
+        var category = await categoryService.CreateCategoryAsync(createCategoryRequest: createCategoryRequest);
         return Ok(category);
     }
 
-    [Authorize]
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCategoryById([FromRoute] int id)
     {
-        var category = await _categoryService.GetCategoryByIdAsync(categoryId: id);
+        var category = await categoryService.GetCategoryByIdAsync(categoryId: id);
         return Ok(category);
     }
 
-    [Authorize]
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCategoryById([FromRoute] int id)
     {
-        await _categoryService.DeleteCategoryAsync(id: id);
+        await categoryService.DeleteCategoryAsync(id: id);
         return NoContent();
     }
 
-    [Authorize]
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCategory([FromRoute] int id,
         [FromBody] UpdateCategoryRequest updateCategoryDto)
     {
-        await _categoryService.UpdateCategoryAsync(id: id, dto: updateCategoryDto);
+        await categoryService.UpdateCategoryAsync(id: id, dto: updateCategoryDto);
         return NoContent();
     }
 
-    [Authorize]
+
     [SwaggerResponse(200, "List of Categories", typeof(IEnumerable<CategoryListResponse>))]
     [HttpGet]
     public async Task<IActionResult> GetCategories()
     {
-        var categories = await _categoryService.GetCategoryListAsync();
+        var categories = await categoryService.GetCategoryListAsync();
         return Ok(categories);
     }
 
-    [Authorize]
+
     [SwaggerResponse(204, "Category order updated successfully")]
     [HttpPatch("order")]
     public async Task<IActionResult> UpdateCategoryOrder([FromBody] List<OrderDto> dto)
     {
-        await _categoryService.UpdateCategoryOrderAsync(dto);
+        await categoryService.UpdateCategoryOrderAsync(dto);
         return NoContent();
     }
 }
