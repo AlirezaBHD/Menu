@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muno.Application", "Muno.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muno.Domain", "Muno.Domain\Muno.Domain.csproj", "{AD7760E4-E561-4080-975F-9641A9097B43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{BE27CAA2-C054-44FA-8160-892B07EF5E2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muno.Infrastructure", "Muno.Infrastructure\Muno.Infrastructure.csproj", "{BE27CAA2-C054-44FA-8160-892B07EF5E2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{88EEB78E-5C9C-4FF2-99F7-251E1D4ED36C}"
 EndProject

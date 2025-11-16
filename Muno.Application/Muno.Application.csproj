@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Muno.Domain\Muno.Domain.csproj" />
-      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\Muno.Infrastructure\Muno.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
