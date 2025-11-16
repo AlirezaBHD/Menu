@@ -1,11 +1,7 @@
-using Muno.Application.Dto.Authentication;
-using Muno.Application.Dto.Category;
 using Muno.Application.Dto.MenuItem;
 using Muno.Application.Dto.Shared;
 using Muno.Application.Services.Interfaces;
-using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 

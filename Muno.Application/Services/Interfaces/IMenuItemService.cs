@@ -1,4 +1,3 @@
-using Muno.Domain.Entities;
 using Muno.Domain.Entities.MenuItems;
 using Muno.Application.Dto.MenuItem;
 using Muno.Application.Dto.Shared;

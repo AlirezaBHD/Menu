@@ -1,7 +1,6 @@
 ﻿using Muno.Application.Dto.Category;
 using Muno.Application.Services;
 using AutoMapper;
-using Muno.Domain.Entities;
 using Muno.Domain.Interfaces.Repositories;
 using Muno.Domain.Interfaces.Services;
 using FluentAssertions;

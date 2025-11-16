@@ -1,6 +1,5 @@
 ﻿using Muno.Application.Dto.Authentication;
 using AutoMapper;
-using Muno.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

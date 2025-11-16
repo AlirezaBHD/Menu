@@ -1,4 +1,3 @@
-using Muno.Domain.Entities;
 using Muno.Domain.Entities.Categories;
 using Muno.Domain.Interfaces.Repositories;
 using Muno.Domain.Interfaces.Services;

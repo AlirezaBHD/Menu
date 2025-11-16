@@ -1,5 +1,4 @@
 using Muno.Application.Extensions;
-using Muno.Application.Validations.ActivityPeriod;
 using Muno.Domain.Entities.Categories;
 using FluentValidation;
 using Muno.Application.Dto.Category;

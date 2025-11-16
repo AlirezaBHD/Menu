@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Muno.Domain.Common.Attributes;
 using Muno.Application.Dto.ActivityPeriod;
 
 namespace Muno.Application.Dto.Restaurant;

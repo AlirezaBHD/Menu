@@ -1,8 +1,6 @@
 ﻿using Muno.Application.Dto.Section;
 using Muno.Application.Services;
 using AutoMapper;
-using Muno.Domain.Entities;
-using Muno.Domain.Entities.MenuItem;
 using Muno.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;

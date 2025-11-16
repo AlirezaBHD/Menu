@@ -1,4 +1,4 @@
-using Domain.Interfaces.Services;
+using Muno.Domain.Interfaces.Services;
 
 namespace Muno.API.Middlewares;
 

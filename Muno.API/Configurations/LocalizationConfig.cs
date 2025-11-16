@@ -1,8 +1,8 @@
 using System.Globalization;
 using Muno.Application.Exceptions;
-using Domain.Interfaces.Services;
-using Domain.Localization;
 using Microsoft.AspNetCore.Localization;
+using Muno.Domain.Interfaces.Services;
+using Muno.Domain.Localization;
 
 namespace Muno.API.Configurations;
 

@@ -1,4 +1,3 @@
-using Muno.Application.Extensions;
 using FluentValidation;
 using Muno.Application.Dto.Restaurant;
 

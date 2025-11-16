@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using Muno.Domain.Interfaces;
 using Muno.Domain.Common.Attributes;
 using Muno.Domain.Entities.MenuItemVariants;
 using Muno.Domain.Entities.Sections;
