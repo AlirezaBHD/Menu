@@ -1,4 +1,4 @@
-﻿using Application.Dto.Authentication;
+﻿using Muno.Application.Dto.Authentication;
 using AutoMapper;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 using FluentAssertions;
-using Application.Exceptions;
-using Application.Services;
+using Muno.Application.Exceptions;
+using Muno.Application.Services;
 
 namespace Tests.Application;
 

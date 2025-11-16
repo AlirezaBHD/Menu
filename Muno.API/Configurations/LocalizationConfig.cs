@@ -1,5 +1,5 @@
 using System.Globalization;
-using Application.Exceptions;
+using Muno.Application.Exceptions;
 using Domain.Interfaces.Services;
 using Domain.Localization;
 using Microsoft.AspNetCore.Localization;

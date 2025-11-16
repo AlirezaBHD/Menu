@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Application.Exceptions;
+using Muno.Application.Exceptions;
 using Muno.API.Localization;
 
 namespace Muno.API.Middlewares;

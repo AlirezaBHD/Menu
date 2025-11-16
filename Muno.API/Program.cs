@@ -1,5 +1,5 @@
 using Muno.API.Configurations;
-using Application;
+using Muno.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

@@ -1,0 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace Muno.Application.Dto.Authentication;
+
+public class LoginResponse
+{
+    [Required]
+    public string Token { get; set; }
+    
+    [Required]
+    public string Username { get; set; }
+}

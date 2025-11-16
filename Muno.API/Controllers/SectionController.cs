@@ -1,6 +1,6 @@
-using Application.Dto.Section;
-using Application.Dto.Shared;
-using Application.Services.Interfaces;
+using Muno.Application.Dto.Section;
+using Muno.Application.Dto.Shared;
+using Muno.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

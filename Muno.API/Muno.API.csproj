@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Application\Application.csproj" />
+      <ProjectReference Include="..\Muno.Application\Muno.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,8 +1,8 @@
-using Application.Dto.Authentication;
-using Application.Dto.Category;
-using Application.Dto.MenuItem;
-using Application.Dto.Shared;
-using Application.Services.Interfaces;
+using Muno.Application.Dto.Authentication;
+using Muno.Application.Dto.Category;
+using Muno.Application.Dto.MenuItem;
+using Muno.Application.Dto.Shared;
+using Muno.Application.Services.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

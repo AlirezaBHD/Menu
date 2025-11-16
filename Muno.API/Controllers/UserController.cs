@@ -1,5 +1,5 @@
-﻿using Application.Dto.User;
-using Application.Services.Interfaces;
+﻿using Muno.Application.Dto.User;
+using Muno.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

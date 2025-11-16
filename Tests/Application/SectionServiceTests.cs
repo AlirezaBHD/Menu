@@ -1,5 +1,5 @@
-﻿using Application.Dto.Section;
-using Application.Services;
+﻿using Muno.Application.Dto.Section;
+using Muno.Application.Services;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Entities.MenuItem;
