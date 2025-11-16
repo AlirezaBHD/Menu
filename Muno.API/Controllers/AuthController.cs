@@ -8,30 +8,23 @@ namespace Muno.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(IAuthService authService) : ControllerBase
 {
-    private readonly IAuthService _authService;
-
-    public AuthController(IAuthService authService)
-    {
-        _authService = authService;
-    }
-
-
     [Authorize(Roles = "SuperAdmin, Moderator")]
     [SwaggerResponse(201, "admin created successfully")]
     [HttpPost("register")]
     public async Task<IActionResult> CreateAdmin(RegisterAdminRequest request)
     {
-        await _authService.CreateAdminAsync(request);
+        await authService.CreateAdminAsync(request);
         return NoContent();
     }
+    
     
     [SwaggerResponse(200, "Successful Login", typeof(LoginResponse))]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var token = await _authService.LoginAsync(request);
+        var token = await authService.LoginAsync(request);
         return Ok(token);
     }
 }
