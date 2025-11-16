@@ -47,7 +47,10 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
     public async Task UpdateRestaurantAsync(int id, UpdateRestaurantRequest dto)
     {
-        var restaurant = await Repository.GetByIdAsync(id);
+        var restaurant = await Queryable
+            .Include(r => r.Translations)
+            .FirstAsync(r => r.Id == id);
+        
         restaurant = Mapper.Map(dto, restaurant);
 
         if (dto.LogoFile != null)
