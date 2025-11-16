@@ -8,8 +8,6 @@ namespace Infrastructure.Repository;
 
 public class SectionRepository : Repository<Section>, ISectionRepository
 {
-    #region Injection
-
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
 
@@ -33,6 +31,4 @@ public class SectionRepository : Repository<Section>, ISectionRepository
         _context = context;
         _currentUser = currentUser;
     }
-
-    #endregion
 }

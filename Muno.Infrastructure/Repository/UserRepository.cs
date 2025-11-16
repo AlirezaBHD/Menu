@@ -9,8 +9,6 @@ namespace Infrastructure.Repository;
 
 public class UserRepository : Repository<User>, IUserRepository
 {
-    #region Injection
-
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
     private readonly ILogger<UserRepository> _logger;
@@ -22,9 +20,7 @@ public class UserRepository : Repository<User>, IUserRepository
         _currentUser = currentUser;
         _logger = logger;
     }
-
-    #endregion
-
+    
     public async Task<User?> FindByUsernameAsync(string requestUsername)
     {
         var queryable = GetQueryable();
@@ -32,7 +28,7 @@ public class UserRepository : Repository<User>, IUserRepository
         var user = await queryable
             .Include(u => u.Roles)
             .ThenInclude(ur => ur.Role)
-            .FirstOrDefaultAsync(u => u.NormalizedUsername == requestUsername.ToUpper());
+            .FirstOrDefaultAsync(u => u.NormalizedUsername.Equals(requestUsername, StringComparison.CurrentCultureIgnoreCase));
         return user;
     }
 

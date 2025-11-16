@@ -8,8 +8,6 @@ namespace Infrastructure.Repository;
 
 public class MenuItemRepository : Repository<MenuItem>, IMenuItemRepository
 {
-    #region Injection
-
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
 
@@ -34,6 +32,4 @@ public class MenuItemRepository : Repository<MenuItem>, IMenuItemRepository
         _context = context;
         _currentUser = currentUser;
     }
-
-    #endregion
 }

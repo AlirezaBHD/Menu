@@ -8,8 +8,6 @@ namespace Infrastructure.Repository;
 
 public class CategoryRepository : Repository<Category>, ICategoryRepository
 {
-    #region Injection
-
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
 
@@ -32,6 +30,4 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
         _context = context;
         _currentUser = currentUser;
     }
-
-    #endregion
 }

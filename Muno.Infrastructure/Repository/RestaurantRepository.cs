@@ -7,8 +7,6 @@ namespace Infrastructure.Repository;
 
 public class RestaurantRepository : Repository<Restaurant>, IRestaurantRepository
 {
-    #region Injection
-
     private readonly ApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
 
@@ -38,6 +36,4 @@ public class RestaurantRepository : Repository<Restaurant>, IRestaurantRepositor
         _context = context;
         _currentUser = currentUser;
     }
-
-    #endregion
 }
