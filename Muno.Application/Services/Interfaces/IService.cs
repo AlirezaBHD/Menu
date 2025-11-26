@@ -12,6 +12,7 @@ public interface IService<T> where T : class
         bool orderByNewest = true,
         IQueryable<T>? query = null);
 
+    
     Task<TDto> GetByIdProjectedAsync<TDto>(
         int id,
         Expression<Func<T, bool>>? predicate = null,
@@ -19,6 +20,7 @@ public interface IService<T> where T : class
         TrackingBehavior trackingBehavior = TrackingBehavior.Default,
         IQueryable<T>? query = null);
 
+    
     Task<IEnumerable<T>> GetAllAsync(
         Expression<Func<T, bool>>? predicate = null,
         Expression<Func<T, object>>[]? includes = null,

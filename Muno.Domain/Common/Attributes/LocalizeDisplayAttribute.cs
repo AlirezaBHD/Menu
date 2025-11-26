@@ -2,19 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Muno.Domain.Common.Attributes;
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public class LocalizeDisplayAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class LocalizeDisplayAttribute(string name) : Attribute
     {
-        private readonly DisplayAttribute _inner;
-
-        public LocalizeDisplayAttribute(string name)
+        private readonly DisplayAttribute _inner = new()
         {
-            _inner = new DisplayAttribute
-            {
-                Name = name,
-                ResourceType = typeof(Domain.Localization.Resources)
-            };
-        }
+            Name = name,
+            ResourceType = typeof(Localization.Resources)
+        };
 
         public string? GetName() => _inner.GetName();
     }

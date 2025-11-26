@@ -6,28 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class CategoryRepository : Repository<Category>, ICategoryRepository
+public class CategoryRepository(ApplicationDbContext context, ICurrentUser currentUser)
+    : Repository<Category>(context), ICategoryRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly ICurrentUser _currentUser;
-
     protected override IQueryable<Category> LimitedQuery
     {
         get
         {
-            IQueryable<Category> query = base.LimitedQuery;
+            var query = base.LimitedQuery;
 
             query = query
-                .Include(c => c!.Restaurant)
-                .Where(c => c.RestaurantId == _currentUser.RestaurantId);
+                .Include(c => c.Restaurant)
+                .Where(c => c.RestaurantId == currentUser.RestaurantId);
 
             return query;
         }
-    }
-
-    public CategoryRepository(ApplicationDbContext context, ICurrentUser currentUser) : base(context)
-    {
-        _context = context;
-        _currentUser = currentUser;
     }
 }

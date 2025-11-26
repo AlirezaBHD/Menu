@@ -19,17 +19,16 @@ public class MenuItemVariantTranslationValidator : AbstractValidator<MenuItemVar
         
         
         RuleFor(c => c.Detail)!
-            .LengthValidationRule(dto => dto.Detail!, entityType, blank: true);
+            .LengthValidationRule(dto => dto.Detail, entityType, blank: true);
     }
-    private bool BeValidIntegerPrice(string price)
+    private static bool BeValidIntegerPrice(string price)
     {
         if (string.IsNullOrWhiteSpace(price) || !decimal.TryParse(price, out decimal value))
         {
             return false;
         }
     
-        return value > 0 && 
-               value < 1_000_000_000 && 
+        return value is > 0 and < 1_000_000_000 && 
                value % 1 == 0;
     }
 }

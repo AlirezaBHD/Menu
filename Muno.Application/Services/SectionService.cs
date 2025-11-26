@@ -3,7 +3,6 @@ using AutoMapper;
 using Muno.Domain.Entities;
 using Muno.Domain.Entities.Sections;
 using Muno.Domain.Interfaces.Repositories;
-using Muno.Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Muno.Application.Dto.Section;
@@ -14,24 +13,12 @@ using Muno.Application.Services.Interfaces;
 
 namespace Muno.Application.Services;
 
-public class SectionService : Service<Section>, ISectionService
+public class SectionService(
+    ISectionRepository sectionRepository,
+    IMapper mapper,
+    ILogger<Section> logger)
+    : Service<Section>(mapper, sectionRepository, logger), ISectionService
 {
-    #region Injection
-
-    private readonly IMenuItemRepository _menuItemRepository;
-    private readonly ICurrentLanguage _currentLanguage;
-
-    public SectionService(ISectionRepository sectionRepository, IMapper mapper, IMenuItemRepository menuItemRepository
-        , ILogger<Section> logger, ICurrentLanguage currentLanguage)
-        : base(mapper, sectionRepository, logger)
-    {
-        _menuItemRepository = menuItemRepository;
-        _currentLanguage = currentLanguage;
-    }
-
-    #endregion
-
-    #region Activity Expression
 
     public static Expression<Func<Section, bool>> IsAvailable(TimeSpan nowTime)
     {
@@ -49,7 +36,6 @@ public class SectionService : Service<Section>, ISectionService
                 ));
     }
 
-    #endregion
 
     public async Task<SectionResponse> CreateSectionAsync(int categoryId, CreateSectionRequest createSectionRequest)
     {
@@ -68,6 +54,7 @@ public class SectionService : Service<Section>, ISectionService
         return response;
     }
 
+
     public async Task<SectionResponse> GetSectionByIdAsync(int sectionId)
     {
         var query = Queryable.Include(s => s.Translations)
@@ -81,6 +68,7 @@ public class SectionService : Service<Section>, ISectionService
         return response;
     }
 
+
     public async Task DeleteSectionAsync(int id)
     {
         var section = await Repository.GetByIdAsync(id);
@@ -88,6 +76,7 @@ public class SectionService : Service<Section>, ISectionService
         await Repository.SaveAsync();
         Logger.LogInformation("Deleted section with ID: {Id}", id);
     }
+
 
     public async Task UpdateSectionAsync(int id, int categoryId, UpdateSectionRequest dto)
     {
@@ -105,17 +94,18 @@ public class SectionService : Service<Section>, ISectionService
             id, categoryId, section);
     }
 
+
     public async Task<IEnumerable<SectionListResponse>> GetSectionListAsync()
     {
         var query = Queryable.Include(s => s.Translations)
-            .Include(s => s.Category).ThenInclude(c => c.Translations);
+            .Include(s => s.Category).ThenInclude(c => c!.Translations);
         var result = await GetAllProjectedAsync<SectionListResponse>(query: query,
-            // includes: [s => s.Translations],
+            includes: [s => s.Translations],
             trackingBehavior: TrackingBehavior.AsNoTracking);
-
-
+        
         return result.OrderBy(s => s.Order);
     }
+
 
     public async Task UpdateSectionOrderAsync(List<OrderDto> dto)
     {

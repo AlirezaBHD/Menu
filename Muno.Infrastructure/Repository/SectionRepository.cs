@@ -6,29 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class SectionRepository : Repository<Section>, ISectionRepository
+public class SectionRepository(ApplicationDbContext context, ICurrentUser currentUser)
+    : Repository<Section>(context), ISectionRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly ICurrentUser _currentUser;
-
     protected override IQueryable<Section> LimitedQuery
     {
         get
         {
-            IQueryable<Section> query = base.LimitedQuery;
+            var query = base.LimitedQuery;
             
             query = query
                 .Include(s => s.Category)
                 .ThenInclude(c => c!.Restaurant)
-                .Where(s => s.Category!.RestaurantId == _currentUser.RestaurantId);
+                .Where(s => s.Category!.RestaurantId == currentUser.RestaurantId);
             
             return query;
         }
-    }
-
-    public SectionRepository(ApplicationDbContext context, ICurrentUser currentUser) : base(context)
-    {
-        _context = context;
-        _currentUser = currentUser;
     }
 }

@@ -13,22 +13,13 @@ using Muno.Application.Services.Interfaces;
 
 namespace Muno.Application.Services;
 
-public class MenuItemService : Service<MenuItem>, IMenuItemService
+public class MenuItemService(
+    IMapper mapper,
+    IMenuItemRepository menuItemRepository,
+    IFileService fileService,
+    ILogger<MenuItem> logger)
+    : Service<MenuItem>(mapper, menuItemRepository, logger), IMenuItemService
 {
-    #region Injection
-
-    private readonly IFileService _fileService;
-
-    public MenuItemService(IMapper mapper, IMenuItemRepository menuItemRepository,
-        IFileService fileService, ILogger<MenuItem> logger)
-        : base(mapper, menuItemRepository, logger)
-    {
-        _fileService = fileService;
-    }
-
-    #endregion
-
-    #region Activity Expression
 
     public static Expression<Func<MenuItem, bool>> IsAvailable(TimeSpan nowTime)
     {
@@ -46,7 +37,6 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
                 ));
     }
 
-    #endregion
 
     public async Task<MenuItemResponse> CreateMenuItemAsync(int sectionId, CreateMenuItemRequest createMenuItemRequest)
     {
@@ -64,6 +54,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         return response;
     }
 
+
     public async Task DeleteMenuItemAsync(int id)
     {
         var section = await Repository.GetByIdAsync(id);
@@ -71,6 +62,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         await Repository.SaveAsync();
         Logger.LogInformation("Deleted menu item with ID: {Id}", id);
     }
+
 
     public async Task UpdateMenuItemAsync(int id, UpdateMenuItemRequest dto)
     {
@@ -86,6 +78,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         Logger.LogInformation("Updated menu item with ID {Id}. Data: {@UpdateData}", id, menuItem);
     }
 
+
     public async Task<IEnumerable<MenuItemListResponse>> GetMenuItemListAsync()
     {
         var result = await GetAllProjectedAsync<MenuItemListResponse>(
@@ -93,6 +86,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
             trackingBehavior: TrackingBehavior.AsNoTrackingWithIdentityResolution);
         return result.OrderBy(s => s.Order);
     }
+    
 
     public async Task UpdateMenuItemOrderAsync(List<OrderDto> dto)
     {
@@ -119,6 +113,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         await Repository.SaveAsync();
     }
 
+
     public async Task<MenuItemDto> GetMenuItemByIdAsync(int id)
     {
 
@@ -132,6 +127,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
 
         return response;
     }
+    
 
     public async Task<string> EditImageAsync(int menuItemId, ImageDto image)
     {
@@ -140,7 +136,7 @@ public class MenuItemService : Service<MenuItem>, IMenuItemService
         if (menuItem == null)
             throw new ValidationException(Resources.NotFound);
         
-        var imagePath = await _fileService.SaveFileAsync(image.File, "menu-item");
+        var imagePath = await fileService.SaveFileAsync(image.File, "menu-item");
         
         menuItem.ImagePath = imagePath;
         await Repository.SaveAsync();

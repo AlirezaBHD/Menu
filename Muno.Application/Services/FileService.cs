@@ -5,11 +5,13 @@ namespace Muno.Application.Services;
 
 public class FileService : IFileService
 {
+    private readonly string _uploadPath;
     private readonly string _basePath;
 
     public FileService()
     {
-        _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "uploads");
+        _uploadPath = "uploads";
+        _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", _uploadPath);
         if (!Directory.Exists(_basePath))
             Directory.CreateDirectory(_basePath);
     }
@@ -27,12 +29,12 @@ public class FileService : IFileService
         var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
         var filePath = Path.Combine(categoryPath, fileName);
 
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        await using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
 
-        return Path.Combine(directory, fileName);
+        return Path.Combine(_uploadPath, directory, fileName);
     }
 
     public void DeleteFile(string relativePath)

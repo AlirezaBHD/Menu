@@ -14,24 +14,14 @@ using Muno.Application.Services.Interfaces;
 
 namespace Muno.Application.Services;
 
-public class CategoryService : Service<Category>, ICategoryService
+public class CategoryService(
+    ICategoryRepository categoryRepository,
+    IMapper mapper,
+    ISectionRepository sectionRepository,
+    ILogger<Category> logger,
+    ICurrentUser user)
+    : Service<Category>(mapper, categoryRepository, logger), ICategoryService
 {
-    #region Injection
-
-    private readonly ISectionRepository _sectionRepository;
-    private readonly ICurrentUser _user;
-
-    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ISectionRepository sectionRepository, ILogger<Category> logger, ICurrentUser user)
-        : base(mapper, categoryRepository, logger)
-    {
-        _sectionRepository = sectionRepository;
-        _user = user;
-    }
-
-    #endregion
-
-    #region Activity Expression
-
     public static Expression<Func<Category, bool>> IsAvailable(TimeSpan nowTime)
     {
         return c =>
@@ -47,15 +37,14 @@ public class CategoryService : Service<Category>, ICategoryService
                       nowTime > c.ActivityPeriod.ToTime))
                 ));
     }
-
-    #endregion
+    
     
     public async Task<CategoryResponse> CreateCategoryAsync(CreateCategoryRequest createCategoryRequest)
     {
         
         var entity = Mapper.Map<CreateCategoryRequest, Category>(createCategoryRequest);
         
-        entity.RestaurantId = _user.RestaurantId;
+        entity.RestaurantId = user.RestaurantId;
         
         var count = Queryable.Count();
         entity.Order = count + 1;
@@ -66,7 +55,8 @@ public class CategoryService : Service<Category>, ICategoryService
         Logger.LogInformation("Created new category: {@Category}", response);
         return response;
     }
-    
+
+
     public async Task<CategoryResponse> GetCategoryByIdAsync(int categoryId)
     {
         
@@ -82,6 +72,7 @@ public class CategoryService : Service<Category>, ICategoryService
         return response;
     }
 
+
     public async Task DeleteCategoryAsync(int id)
     {
         var category = await Repository.GetByIdAsync(id);
@@ -89,6 +80,7 @@ public class CategoryService : Service<Category>, ICategoryService
         await Repository.SaveAsync();
         Logger.LogInformation("Deleting category: {@Category}", category);
     }
+
 
     public async Task UpdateCategoryAsync(int id, UpdateCategoryRequest dto)
     {
@@ -98,9 +90,9 @@ public class CategoryService : Service<Category>, ICategoryService
         
         category = Mapper.Map(dto, category);
         
-        var sectionIds = dto.SectionIds?.Distinct().ToList() ?? [];
+        var sectionIds = dto.SectionIds.Distinct().ToList();
 
-        var sections = await _sectionRepository.GetQueryable()
+        var sections = await sectionRepository.GetQueryable()
             .Where(s => sectionIds.Contains(s.Id))
             .ToListAsync();
         
@@ -112,14 +104,16 @@ public class CategoryService : Service<Category>, ICategoryService
         Logger.LogInformation("Updated category with ID: {Id}. Data: {@UpdateData}", id, category);
     }
 
+
     public async Task<IEnumerable<CategoryListResponse>> GetCategoryListAsync()
     {
         var result =await GetAllProjectedAsync<CategoryListResponse>
-            (predicate:c => c.RestaurantId == _user.RestaurantId,
+            (predicate:c => c.RestaurantId == user.RestaurantId,
                 includes: [c => c.Translations],
                 trackingBehavior: TrackingBehavior.AsNoTracking);
         return result.OrderBy(c => c.Order);
     }
+
 
     public async Task UpdateCategoryOrderAsync(List<OrderDto> dto)
     {
@@ -128,7 +122,7 @@ public class CategoryService : Service<Category>, ICategoryService
             throw new ValidationException(Resources.WrongNumberOfObjects);
         
         var orderMap = dto.ToDictionary(d => d.Id, d => d.Order);
-
+        
         var categoryIds = orderMap.Keys.ToList();
         var categories = await Queryable
             .Where(c => categoryIds.Contains(c.Id))

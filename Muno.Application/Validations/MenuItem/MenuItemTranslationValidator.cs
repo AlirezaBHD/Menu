@@ -12,7 +12,7 @@ public class MenuItemTranslationValidator : AbstractValidator<MenuItemTranslatio
         var entityType = typeof(MenuItemTranslation);
 
         RuleFor(c => c.Title)!
-            .LengthValidationRule(dto => dto.Title!, entityType);
+            .LengthValidationRule(dto => dto.Title, entityType);
         
         RuleFor(c => c.Description)!
             .LengthValidationRule(dto => dto.Description!, entityType, blank: true);

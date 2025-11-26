@@ -11,32 +11,20 @@ using Muno.Application.Services.Interfaces;
 
 namespace Muno.Application.Services;
 
-public class Service<T> : IService<T> where T : class
+public class Service<T>(IMapper mapper, IRepository<T> repository, ILogger<T> logger) 
+    : IService<T>
+    where T : class
 {
-    #region Injections
-
-    protected readonly IMapper Mapper;
-    protected readonly IRepository<T> Repository;
-    protected readonly IQueryable<T> Queryable;
-    protected readonly ILogger<T> Logger;
-    private readonly string _displayName;
-
-    public Service(IMapper mapper, IRepository<T> repository, ILogger<T> logger)
-    {
-        Mapper = mapper;
-        Repository = repository;
-        Logger = logger;
-        Queryable = repository.GetLimitedQueryable();
-        _displayName = typeof(T)
-            .GetCustomAttributes(typeof(DisplayNameAttribute), true)
-            .OfType<DisplayNameAttribute>()
-            .FirstOrDefault()?.DisplayName ?? typeof(T).Name;
-    }
-
-    #endregion
-
-    #region Get All Projected Async
-
+    protected readonly IMapper Mapper = mapper;
+    protected readonly IRepository<T> Repository = repository;
+    protected readonly IQueryable<T> Queryable = repository.GetLimitedQueryable();
+    protected readonly ILogger<T> Logger = logger;
+    private readonly string _displayName = typeof(T)
+        .GetCustomAttributes(typeof(DisplayNameAttribute), true)
+        .OfType<DisplayNameAttribute>()
+        .FirstOrDefault()?.DisplayName ?? typeof(T).Name;
+    
+    
     public async Task<IEnumerable<TDto>> GetAllProjectedAsync<TDto>(
         Expression<Func<T, bool>>? predicate = null,
         Expression<Func<T, object>>[]? includes = null,
@@ -81,9 +69,6 @@ public class Service<T> : IService<T> where T : class
         return result;
     }
 
-    #endregion
-
-    #region Get By Id Projecte dAsync
 
     public async Task<TDto> GetByIdProjectedAsync<TDto>(
         int id,
@@ -127,9 +112,6 @@ public class Service<T> : IService<T> where T : class
         return obj;
     }
 
-    #endregion
-    
-    #region Get All Async
 
     public async Task<IEnumerable<T>> GetAllAsync(
         Expression<Func<T, bool>>? predicate = null,
@@ -155,6 +137,4 @@ public class Service<T> : IService<T> where T : class
         var result = await query.ToListAsync();
         return result;
     }
-
-    #endregion
 }

@@ -19,6 +19,6 @@ public class RestaurantTranslationValidator : AbstractValidator<RestaurantTransl
             .LengthValidationRule(dto => dto.Description!, entityType, blank: true);
         
         RuleFor(r => r.Address)!
-            .LengthValidationRule(dto => dto.Address, entityType); //TODO
+            .LengthValidationRule(dto => dto.Address, entityType);
     }
 }

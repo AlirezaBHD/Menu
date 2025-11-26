@@ -10,15 +10,13 @@ namespace Muno.Application.Extensions;
 
 public static class CommonValidationExtensions
 {
-    #region Image File Rule
-
     public static IRuleBuilderOptions<T, IFormFile> ImageFileRule<T>(
         this IRuleBuilder<T, IFormFile> ruleBuilder,
         int maxSize = 5,
         string[]? allowedExtensions = null,
         bool blank = false)
     {
-        allowedExtensions ??= new[] { ".webp", ".png", ".jpg", ".jpeg" };
+        allowedExtensions ??= [".webp", ".png", ".jpg", ".jpeg"];
         var maxSizeBytes = maxSize * 1024 * 1024;
 
         if (!blank)
@@ -31,13 +29,11 @@ public static class CommonValidationExtensions
         return ruleBuilder
             .Must(file =>
             {
-                if (file != null)
-                {
-                    var extension = Path.GetExtension(file.FileName)?.ToLower();
-                    return extension != null && allowedExtensions.Contains(extension);
-                }
+                if (file == null) return true;
+                
+                var extension = Path.GetExtension(file.FileName).ToLower();
+                return allowedExtensions.Contains(extension);
 
-                return true;
             }).WithMessage(Resources.InvalidImageExtension + string.Join(", ", allowedExtensions))
 
             .Must(file =>
@@ -58,7 +54,7 @@ public static class CommonValidationExtensions
                     {
                         using var stream = file.OpenReadStream();
                         Span<byte> header = stackalloc byte[8];
-                        stream.Read(header);
+                        stream.ReadExactly(header);
 
                         // jpg
                         if (header[0] == 0xFF && header[1] == 0xD8)
@@ -83,11 +79,7 @@ public static class CommonValidationExtensions
                 return true;
             }).WithMessage(Resources.InvalidImageContent);
     }
-
-    #endregion
-
-    #region Length Validation Rule
-
+    
     public static IRuleBuilderOptions<T, string> LengthValidationRule<T>(
         this IRuleBuilder<T, string> ruleBuilder,
         Expression<Func<T, string>> expression,
@@ -102,7 +94,7 @@ public static class CommonValidationExtensions
 
         var maxLengthAttr = prop?.GetCustomAttribute<MaxLengthAttribute>();
 
-        var rule = ruleBuilder.NotEmpty().When(x => false); //just a placeholder
+        var rule = ruleBuilder.NotEmpty().When(_ => false); //just a placeholder
         if (!blank)
         {
             rule = rule.NotEmpty()
@@ -129,6 +121,4 @@ public static class CommonValidationExtensions
 
         throw new ArgumentException("Expression must be a member expression");
     }
-
-    #endregion
 }

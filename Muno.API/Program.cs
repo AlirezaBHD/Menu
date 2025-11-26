@@ -8,7 +8,7 @@ builder.Host.UseAppLogging(builder.Configuration);
 
 services
     .AddAppCors(configuration)
-    .AddAppControllers()
+    .AddAppControllers() 
     .AddAppDbContext(configuration)
     .AddAppRateLimiting()
     .AddAppSession()

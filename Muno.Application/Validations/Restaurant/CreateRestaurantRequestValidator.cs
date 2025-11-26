@@ -7,8 +7,6 @@ public class CreateRestaurantRequestValidator : AbstractValidator<CreateRestaura
 {
     public CreateRestaurantRequestValidator()
     {
-        // RuleFor(r => r.LogoFile).ImageFileRule();
-        
         RuleForEach(x => x.Translations)
             .SetValidator(new RestaurantTranslationValidator());
     }

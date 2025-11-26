@@ -9,8 +9,6 @@ public class UpdateMenuItemRequestValidator : AbstractValidator<UpdateMenuItemRe
 {
     public UpdateMenuItemRequestValidator()
     {
-        // RuleFor(c => c.ImageFile)!.ImageFileRule(blank: true);
-        
         RuleFor(x => x.ActivityPeriod)
             .NotNull().WithMessage(Resources.RequiredActivityPeriod)
             .SetValidator(new ActivityPeriodDtoValidator());

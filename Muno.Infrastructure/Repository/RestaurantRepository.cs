@@ -5,35 +5,27 @@ using Infrastructure.Persistence;
 
 namespace Infrastructure.Repository;
 
-public class RestaurantRepository : Repository<Restaurant>, IRestaurantRepository
+public class RestaurantRepository(ApplicationDbContext context, ICurrentUser currentUser)
+    : Repository<Restaurant>(context), IRestaurantRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly ICurrentUser _currentUser;
-
     protected override IQueryable<Restaurant> LimitedQuery
     {
         get
         {
-            IQueryable<Restaurant> query = base.LimitedQuery;
+            var query = base.LimitedQuery;
             
-            var roles = _currentUser.Roles;
+            var roles = currentUser.Roles;
             
             if (roles.Any(r => r is "SuperAdmin" or "Moderator"))
             {
-                query = query.Where(r => r.OwnerId == _currentUser.UserId);
+                query = query.Where(r => r.OwnerId == currentUser.UserId);
             }
             else
             {
-                query = query.Where(r => r.Id == _currentUser.RestaurantId);
+                query = query.Where(r => r.Id == currentUser.RestaurantId);
             }
 
             return query;
         }
-    }
-
-    public RestaurantRepository(ApplicationDbContext context, ICurrentUser currentUser) : base(context)
-    {
-        _context = context;
-        _currentUser = currentUser;
     }
 }

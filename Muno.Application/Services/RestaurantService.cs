@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Muno.Domain.Entities.Restaurants;
 using Muno.Domain.Interfaces.Repositories;
@@ -9,31 +10,38 @@ using Muno.Application.Dto.Shared;
 using Muno.Application.Exceptions;
 using Muno.Application.Localization;
 using Muno.Application.Services.Interfaces;
+using Muno.Domain.Entities;
 
 namespace Muno.Application.Services;
 
-public class RestaurantService : Service<Restaurant>, IRestaurantService
+public class RestaurantService(
+    IRestaurantRepository restaurantRepository,
+    IMapper mapper,
+    IFileService fileService,
+    ILogger<Restaurant> logger,
+    ICurrentUser currentUser)
+    : Service<Restaurant>(mapper, restaurantRepository, logger), IRestaurantService
 {
-    #region Injection
-
-    private readonly IFileService _fileService;
-    private readonly ICurrentUser _currentUser;
-
-    public RestaurantService(IRestaurantRepository restaurantRepository, IMapper mapper, IFileService fileService
-        , ILogger<Restaurant> logger, ICurrentUser currentUser)
-        : base(mapper, restaurantRepository, logger)
+    private static Expression<Func<Restaurant, bool>> IsAvailable(TimeSpan nowTime)
     {
-        _fileService = fileService;
-        _currentUser = currentUser;
+        return r =>
+            r.ActivityPeriod.IsActive && (
+                r.ActivityPeriod.ActivityType == ActivityEnum.Unlimited ||
+                (
+                    (r.ActivityPeriod.ActivityType == ActivityEnum.ActivePeriod &&
+                     nowTime >= r.ActivityPeriod.FromTime &&
+                     nowTime <= r.ActivityPeriod.ToTime)
+                    ||
+                    (r.ActivityPeriod.ActivityType == ActivityEnum.InactivePeriod &&
+                     (nowTime < r.ActivityPeriod.FromTime ||
+                      nowTime > r.ActivityPeriod.ToTime))
+                ));
     }
-
-    #endregion
-
     public async Task<ResponseDto> CreateRestaurantAsync(CreateRestaurantRequest createRestaurantRequest)
     {
         var entity = Mapper.Map<CreateRestaurantRequest, Restaurant>(createRestaurantRequest);
 
-        entity.OwnerId = _currentUser.UserId!.Value;
+        entity.OwnerId = currentUser.UserId!.Value;
 
         var count = Queryable.Count();
         entity.Order = count + 1;
@@ -55,7 +63,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
         if (dto.LogoFile != null)
         {
-            var imagePath = await _fileService.SaveFileAsync(dto.LogoFile, "restaurant-logos");
+            var imagePath = await fileService.SaveFileAsync(dto.LogoFile, "restaurant-logos");
             restaurant.LogoPath = imagePath;
         }
 
@@ -63,6 +71,7 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         await Repository.SaveAsync();
         Logger.LogInformation("Updated restaurant with ID: {Id}. Data: {@UpdateData}", id, restaurant);
     }
+
 
     public async Task<RestaurantResponse> GetRestaurantByIdAsync(int id)
     {
@@ -72,7 +81,6 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         return result;
     }
 
-    #region Get Restaurant Menu Async
 
     public async Task<RestaurantMenuDto> GetRestaurantMenuAsync(int restaurantId)
     {
@@ -107,7 +115,6 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         return result.First();
     }
 
-    #endregion
 
     public async Task<string> EditImageAsync(int id, ImageDto image)
     {
@@ -116,13 +123,14 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
         if (restaurant == null)
             throw new ValidationException(Resources.NotFound);
 
-        var imagePath = await _fileService.SaveFileAsync(image.File, "restaurant");
+        var imagePath = await fileService.SaveFileAsync(image.File, "restaurant");
 
         restaurant.LogoPath = imagePath;
         await Repository.SaveAsync();
 
         return imagePath;
     }
+
 
     public async Task UpdateRestaurantOrderAsync(List<OrderDto> dto)
     {
@@ -148,20 +156,29 @@ public class RestaurantService : Service<Restaurant>, IRestaurantService
 
         await Repository.SaveAsync();
     }
+
+
     public async Task<IEnumerable<RestaurantDto>> RestaurantDetailList()
     {
+        var nowTime = DateTime.Now.TimeOfDay;
+        var predicate = IsAvailable(nowTime);
+
         var result = await GetAllProjectedAsync<RestaurantDto>
-        (predicate: r => r.ActivityPeriod.IsActive, includes: [r => r.Translations],
+        (predicate: predicate, includes: [r => r.Translations],
             trackingBehavior: TrackingBehavior.AsNoTracking);
 
         return result;
     }
 
+
     public async Task<RestaurantDetailDto> RestaurantDetail(int id)
     {
+        var nowTime = DateTime.Now.TimeOfDay;
+        var predicate = IsAvailable(nowTime);
+        
         var query = Repository.GetQueryable();
         var result = await GetByIdProjectedAsync<RestaurantDetailDto>
-        (id, query: query, predicate: r => r.ActivityPeriod.IsActive, includes: [r => r.Translations],
+        (id, query: query, predicate: predicate, includes: [r => r.Translations],
             trackingBehavior: TrackingBehavior.AsNoTracking);
 
         return result;

@@ -5,19 +5,13 @@ using Microsoft.AspNetCore.Localization;
 
 namespace Muno.Application.Services;
 
-public class CurrentLanguage : ICurrentLanguage
+public class CurrentLanguage(IHttpContextAccessor httpContextAccessor) : ICurrentLanguage
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly string _defaultLanguage = SupportedLanguages.All[0].Code;
-
-    public CurrentLanguage(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
 
     public string GetLanguage()
     {
-        var context = _httpContextAccessor.HttpContext;
+        var context = httpContextAccessor.HttpContext;
         if (context == null)
             return _defaultLanguage;
 

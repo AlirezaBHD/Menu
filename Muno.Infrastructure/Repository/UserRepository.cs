@@ -1,26 +1,15 @@
 ﻿using Muno.Domain.Entities;
 using Muno.Domain.Interfaces.Repositories;
-using Muno.Domain.Interfaces.Services;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Repository;
 
-public class UserRepository : Repository<User>, IUserRepository
+public class UserRepository(ApplicationDbContext context, ILogger<UserRepository> logger)
+    : Repository<User>(context), IUserRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly ICurrentUser _currentUser;
-    private readonly ILogger<UserRepository> _logger;
 
-    public UserRepository(ApplicationDbContext context, ICurrentUser currentUser, ILogger<UserRepository> logger) :
-        base(context)
-    {
-        _context = context;
-        _currentUser = currentUser;
-        _logger = logger;
-    }
-    
     public async Task<User?> FindByUsernameAsync(string requestUsername)
     {
         var queryable = GetQueryable();
@@ -42,7 +31,7 @@ public class UserRepository : Repository<User>, IUserRepository
         }
         catch (Exception e)
         {
-            _logger.LogError(e, e.Message);
+            logger.LogError(e, e.Message);
             return false;
         }
     }

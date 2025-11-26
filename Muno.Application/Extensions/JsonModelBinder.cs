@@ -20,7 +20,7 @@ public class JsonModelBinder : IModelBinder
             var result = JsonConvert.DeserializeObject(value, bindingContext.ModelType);
             bindingContext.Result = ModelBindingResult.Success(result);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             bindingContext.ModelState.AddModelError(bindingContext.ModelName, "Invalid JSON.");
         }

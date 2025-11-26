@@ -8,8 +8,6 @@ public class OrderDtoValidator : AbstractValidator<List<OrderDto>>
 {
     public OrderDtoValidator()
     {
-        var entityType = typeof(Domain.Entities.Sections.Section);
-        
         RuleFor(x => x)
             .Custom((list, context) =>
             {
@@ -25,7 +23,7 @@ public class OrderDtoValidator : AbstractValidator<List<OrderDto>>
                     .Select(g => g.Key)
                     .ToList();
 
-                if (duplicateOrders.Any())
+                if (duplicateOrders.Count != 0)
                 {
                     context.AddFailure(Resources.DuplicateSeatNotAllowed);
                 }
